@@ -15,6 +15,7 @@ class FundCheckoutController extends Controller
 {
     public function portofolio(Request $request){
         $portofolios = FundCheckout::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
+        return $portofolios;
         return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
     }
 
