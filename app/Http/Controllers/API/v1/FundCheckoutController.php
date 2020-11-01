@@ -22,7 +22,7 @@ class FundCheckoutController extends Controller
             $portofolios = $portofolios->skip($request->page * $this->perpage)
                 ->take($this->perpage)->get();
         }
-        return response()->json(new FundCheckoutCollection($portofolios), 200);
+        return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
     }
 
     public function new_portofolio(Request $request){
@@ -55,6 +55,6 @@ class FundCheckoutController extends Controller
         // mengurangi stock product
         $product->stock = $product->stock - $request->qty;
         $product->save();
-        return response()->json(['status' => 'success'], 200);
+        return $this->respondWithToken(['status' => 'success'], 200);
     }
 }

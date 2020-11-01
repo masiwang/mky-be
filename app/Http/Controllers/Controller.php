@@ -15,7 +15,7 @@ class Controller extends BaseController
 
     public function respondWithToken($data, $status){
         return response()->json([
-            'token' => auth()->setTTL(60*24*7)->refresh(),
+            // 'token' => auth()->setTTL(60*24*7)->refresh(),
             'data' => $data
         ], $status);
     }
