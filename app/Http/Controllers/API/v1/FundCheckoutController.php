@@ -14,8 +14,7 @@ use Carbon\Carbon;
 class FundCheckoutController extends Controller
 {
     public function portofolio(Request $request){
-        $portofolios = FundCheckout::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
-        return new FundCheckoutCollection($portofolios);
+        $portofolios = FundCheckout::where('user_id', Auth::id())->whereNotNull('pay_at')->get();
         return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
     }
 
