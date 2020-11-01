@@ -29,7 +29,7 @@ class FundController extends Controller
         // }else{
             $funds = $funds->orderBy('id', 'desc')->skip($request->page * $this->perpage)->take($this->perpage)->get();
         // }
-        $funds = new FundCollection($funds);
+        // $funds = new FundCollection($funds);
         return $this->respondWithToken($funds, 200);
     }
 
