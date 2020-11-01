@@ -18,6 +18,7 @@ use App\Http\Controllers\API\v1\FileController;
 use App\Http\Controllers\API\v1\FundController;
 use App\Http\Controllers\API\v1\FundCheckoutController;
 use App\Http\Controllers\API\v1\TransactionController;
+use App\Http\Controllers\API\v1\UpdaterController;
 use App\Http\Controllers\API\v1\UserController;
 Route::group(['prefix' => 'v1'], function () {
     Route::post('login', [UserController::class, 'login']);
@@ -29,6 +30,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('kelurahan', [AddressController::class, 'kelurahan']);
     Route::get('kodepos', [AddressController::class, 'kodepos']);
     Route::get('bank', [TransactionController::class, 'bank']);
+    Route::get('update', [UpdaterController::class, 'check_update']);
     Route::group(['middleware' => 'auth:api'], function () {
         // user
         Route::get('user', [UserController::class, 'user']);
