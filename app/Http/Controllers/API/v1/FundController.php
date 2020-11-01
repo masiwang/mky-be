@@ -20,15 +20,15 @@ class FundController extends Controller
             $funds = $funds->where('category_id', $category->id);
         }
 
-        if( $request->container ){
-            if( $request->container == 'front_page' ){
-                $funds = $funds->orderBy('id', 'desc')->limit(6)->get();
-            }else{
-                $funds = $funds->orderBy('id', 'desc')->skip($request->page * $this->perpage)->take($this->perpage)->get();
-            }
-        }else{
+        // if( $request->container ){
+        //     if( $request->container == 'front_page' ){
+        //         $funds = $funds->orderBy('id', 'desc')->limit(6)->get();
+        //     }else{
+        //         $funds = $funds->orderBy('id', 'desc')->skip($request->page * $this->perpage)->take($this->perpage)->get();
+        //     }
+        // }else{
             $funds = $funds->orderBy('id', 'desc')->skip($request->page * $this->perpage)->take($this->perpage)->get();
-        }
+        // }
         $funds = new FundCollection($funds);
         return $this->respondWithToken($funds, 200);
     }
