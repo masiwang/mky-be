@@ -17,11 +17,11 @@ class FundCheckoutController extends Controller
         $portofolios = FundCheckout::where('user_id', Auth::id());
         if($request->container == 'profile_page'){
             $portofolios = $portofolios->whereNotNull('pay_at')
-                ->limit(2)->get();
+                ->limit(2);
         }else{
-            $portofolios = $portofolios->skip($request->page * $this->perpage)
-                ->take($this->perpage)->get();
+            $portofolios = $portofolios->skip($request->page * 10)->take(10);
         }
+        $portofolios = $portofolios->get();
         return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
     }
 
