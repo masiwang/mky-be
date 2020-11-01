@@ -18,8 +18,6 @@ class FundCheckoutController extends Controller
         if($request->container){
             $portofolios = $portofolios->whereNotNull('pay_at')
                 ->limit(2);
-        }else{
-            $portofolios = $portofolios->skip($request->page * 10)->take(10);
         }
         $portofolios = $portofolios->get();
         return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
