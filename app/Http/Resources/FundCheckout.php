@@ -15,7 +15,7 @@ class FundCheckout extends JsonResource
     public function toArray($request)
     {
         return [
-            'product_image' => $this->product,
+            'product_image' => $this->product->image,
             'product_name' => $this->product->name,
             'product_price' => $this->product->price,
             'qty' => $this->qty,
