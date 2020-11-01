@@ -13,6 +13,7 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Auth;
 use Hash;
 use JWTAuth;
+use Mail;
 use Str;
 use Validator;
 
@@ -52,16 +53,22 @@ class UserController extends Controller
             return response()->json(['status' => 'Bad request', 'message' => 'Email telah terdaftar.'], 400);
         }
         // inisiasi user baru
+        $token = rand(1000, 9999);
         $user = new User;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->email_token = rand(1000, 9999);
+        $user->email_token = $token;
         $user->remember_token = Str::random(32);
         $user->getting_started_level = 0;
         // jika berhasil menambahkan user baru
         if($user->save()){
-            $credentials = $request->only('email', 'password');
+            // kirim token ke email
+            Mail::send('templates.email_verification', ['token' => $token], function ($m) use ($request) {
+                $m->from('no-reply@makarya.in', 'Makarya - PT. Inspira Karya Teknologi Nusantara');
+                $m->to($request->email)->subject('Email verification @makarya.in');
+            });
             // mencoba login dengan email dan password
+            $credentials = $request->only('email', 'password');
             try{
                 if( !$token = JWTAuth::attempt($credentials) ){
                     return response()->json(['error' => 'invalid_credentials'], 400);
