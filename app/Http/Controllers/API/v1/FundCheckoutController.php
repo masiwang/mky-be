@@ -16,8 +16,7 @@ class FundCheckoutController extends Controller
     public function portofolio(Request $request){
         $portofolios = FundCheckout::where('user_id', Auth::id());
         if($request->container){
-            $portofolios = $portofolios->whereNotNull('pay_at')
-                ->limit(2);
+            $portofolios = $portofolios->whereNotNull('pay_at')->limit(2);
         }
         $portofolios = $portofolios->get();
         return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
