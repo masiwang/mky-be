@@ -50,4 +50,25 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(){
         return [];
     }
+
+    public function portofolio(){
+        return $this->hasMany('App\Models\FundCheckout', 'user_id');
+    }
+
+    public function transaction(){
+        return $this->hasMany('App\Models\Transaction', 'user_id');
+    }
+    public function saldo(){
+      return $this->hasMany('App\Models\Transaction', 'user_id')->select(DB::raw('sum(transactions.amount) as amount'));
+  }
+
+  public function getSaldoAttribute()
+  {
+      return $this->attributes['saldo'] = Transaction::where('user_id', $this->id)->whereNotNull('approved_at')->sum('nominal');
+  }
+  public function getNotificationAttribute(){
+    return $this->attributes['notification'] = Notification::where('user_id', $this->id)->where('status', 'unread')->count();
+  }
+  public $appends = ['saldo', 'notification'];
+
 }

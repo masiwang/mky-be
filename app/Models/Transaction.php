@@ -8,5 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    protected $table = 'transactions';
+    
+    public function user(){
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function status(){
+      return $this->belongsTo('App\Models\TransactionStatus', 'status_id');
+    }
+
 }
