@@ -96,7 +96,7 @@ class UserController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
         // $user = new UserResources($user);
-        return $this->respondWithToken(compact('user'), 200);
+        return response()->json(compact('user'), 200);
     }
 
     public function user_edit(Request $request){
@@ -221,5 +221,19 @@ class UserController extends Controller
             $user->save();
             return $this->respondWithToken(Auth::user(), 200);
         }
+    }
+
+    public function refresh(){
+        $refreshed = JWTAuth::refresh(JWTAuth::getToken());
+        $user = JWTAuth::setToken($refreshed)->toUser();
+        return response()->json(['token' => $refreshed]);
+    }
+
+    protected function tokenizer($token){
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 }

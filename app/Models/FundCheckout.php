@@ -12,6 +12,9 @@ class FundCheckout extends Model
 
     public function product()
     {
-        return $this->belongsTo('App\Models\Fund', 'product_id');
+      return $this->belongsTo('App\Models\FundProduct', 'product_id');
+    }
+    public function user(){
+      return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

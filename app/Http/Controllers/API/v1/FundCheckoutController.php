@@ -22,7 +22,8 @@ class FundCheckoutController extends Controller
             $portofolios = $portofolios->skip($request->page * 10)->take(10);
         }
         $portofolios = $portofolios->get();
-        return $this->respondWithToken(new FundCheckoutCollection($portofolios), 200);
+        $portofolios = new FundCheckoutCollection($portofolios);
+        return response()->json(compact('portofolios'), 200);
     }
 
     public function new_portofolio(Request $request){

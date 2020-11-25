@@ -30,14 +30,14 @@ class FundController extends Controller
             $funds = $funds->orderBy('id', 'desc')->skip($request->page * $this->perpage)->take($this->perpage)->get();
         }
         $funds = new FundCollection($funds);
-        return $this->respondWithToken($funds, 200);
+        return response()->json(compact('funds'), 200);
     }
 
 
     public function product_detail($id){
         $fund = Fund::find($id);
         $fund = new FundResource($fund);
-        return $this->respondWithToken($fund, 200);
+        return response()->json(compact('fund'), 200);
     }
 
     public function product_guest(){

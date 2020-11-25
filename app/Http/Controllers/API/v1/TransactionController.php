@@ -14,7 +14,7 @@ class TransactionController extends Controller
 {
     public function saldo(){
         $saldo = Transaction::where(['user_id' => Auth::id(), 'status_id' => 2])->sum('nominal');
-        return $this->respondWithToken($saldo, 200);
+        return response()->json(compact('saldo'), 200);
     }
 
     public function transaction(Request $request){
@@ -33,7 +33,7 @@ class TransactionController extends Controller
                 ->take($this->perpage)
                 ->get();
         }
-        return $this->respondWithToken($transactions, 200);
+        return response()->json(compact('transactions'), 200);
     }
 
     public function topup(Request $request){
