@@ -55,7 +55,7 @@
                         {{ $user->kabupaten }}, {{ $user->kodepos }}</p>
                 </div>
                 <div class="mb-4">
-                    <small class="text-muted"><span class="text-uppercase mr-3">Saldo Makarya Anda</span>
+                    <small class="text-muted"><span class="text-uppercase mr-3">Saldo Makarya Anda ok</span>
                     </small>
                     <h4>Rp.{{ $saldo }}</h4>
 
