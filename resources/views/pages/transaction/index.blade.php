@@ -49,6 +49,11 @@
               <td>Rp {{ number_format($transaction->nominal, 0, ',', '.') }},00</td>
               <td>{{ $transaction->status->name }}</td>
               <td>{{ ($transaction->approved_at) ? date('d M Y - H:m:s', strtotime($transaction->approved_at)) : 'Menunggu' }}</td>
+              @if ($transaction->status_id == 3)
+                <td class="text-danger">{{ $transaction->comment }}</td>
+              @else
+                <td>{{ $transaction->comment }}</td>
+              @endif
             </tr>
           @endforeach
         </tbody>

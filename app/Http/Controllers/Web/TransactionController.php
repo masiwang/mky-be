@@ -43,6 +43,11 @@ class TransactionController extends Controller
       $transaction->status_id = 1;
       $transaction->comment = 'topup';
       if($transaction->save()){
+        $this->setNotification(
+          1,
+          'Pending Topup',
+          'Topup dilakukan oleh : '.$user->name.'<br/>Dari : '.$request->bank_type.' '.$request->bank_acc.'<br/>Sebanyak : Rp '.number_format($request->nominal, 2, ',', '.').'<br/>Pada : '.date('d F Y - H:m:s', Carbon::now()->timestamp).'<br/><br/>Masuk ke menu transaksi untuk melakukan verifikasi.'
+        );
         return redirect('/transaction')->with('success', 'Sukses! Mohon tunggu konfirmasi topup.');
       }else{
         return back();
@@ -84,6 +89,11 @@ class TransactionController extends Controller
       $transaction->status_id = 1;
       $transaction->comment = 'withdraw';
       if($transaction->save()){
+        $this->setNotification(
+          1,
+          'Pending Withdraw',
+          'Permintaan withdraw dilakukan oleh : '.$user->name.'<br/>Ke : '.$request->bank_type.' '.$request->bank_acc.'<br/>Sebanyak : Rp '.number_format($request->nominal, 2, ',', '.').'<br/>Pada : '.date('d F Y - H:m:s', Carbon::now()->timestamp).'<br/><br/>Masuk ke menu transaksi untuk melakukan verifikasi.'
+        );
         return redirect('/transaction')->with('success', 'Sukses! Mohon tunggu konfirmasi topup.');
       }else{
         return back();

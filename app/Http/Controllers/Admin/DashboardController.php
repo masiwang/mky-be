@@ -20,7 +20,7 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        $notifications = Notification::where('status', 'unread')->orderBy('id', 'desc')->get();
+        $notifications = Notification::where('user_id', 1)->where('status', 'unread')->orderBy('id', 'desc')->get();
 
         $fund = $this->_stats(new FundProduct);
         $user = $this->_stats(new User);

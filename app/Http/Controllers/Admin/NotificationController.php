@@ -25,7 +25,8 @@ class NotificationController extends Controller
           'avatar' => $this->_createAvatarChar(explode(' ', $username)),
           'username' => $username,
           'title' => $notification->title,
-          'body' => substr($notification->body, 0, 500).(Str::length($notification->body) > 50 ? '...' : '')
+          'body' => substr($notification->body, 0, 500).(Str::length($notification->body) > 50 ? '...' : ''),
+          'status' => $notification->status
         ];
         array_push($response, $data);
       }
@@ -47,7 +48,10 @@ class NotificationController extends Controller
       return $response;
     }
     public function detail($id){
-      $notification = $this->_resourceNotificationDetail( Notification::find($id) );
-      return response()->json($notification, 200);
+      $notification = Notification::find($id);
+      $notification_res = $this->_resourceNotificationDetail( $notification );
+      $notification->status = 'read';
+      $notification->save();
+      return response()->json($notification_res, 200);
     }
 }

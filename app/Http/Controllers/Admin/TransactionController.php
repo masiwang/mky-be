@@ -15,10 +15,11 @@ class TransactionController extends Controller
       $data = [
         'code' => $transaction->code,
         'time' => $transaction->created_at,
-        'type' => substr($transaction->code, 4, 1),
+        'type' => substr($transaction->code, 6, 1),
         'bank' => $transaction->bank_type.' '.$transaction->bank_acc,
         'nominal' => $transaction->nominal,
-        'status' => $transaction->approved_at
+        'status_id' => $transaction->status_id,
+        'status' => $transaction->approved_at,
       ];
       array_push($response, $data);
     }
@@ -31,7 +32,7 @@ class TransactionController extends Controller
       $data = [
         'code' => $transaction->code,
         'time' => $transaction->created_at,
-        'type' => substr($transaction->code, 4, 1),
+        'type' => substr($transaction->code, 6, 1),
         'bank' => $transaction->bank_type.' '.$transaction->bank_acc,
         'image' => $transaction->image,
         'nominal' => $transaction->nominal,
@@ -44,7 +45,7 @@ class TransactionController extends Controller
 
   public function index(){
     $transactions = new Transaction;
-    $all_transactions = $this->_resourceTransaction( $transactions->whereNotNull('approved_by')->get() );
+    $all_transactions = $this->_resourceTransaction( $transactions->whereNotNull('approved_by')->orderBy('id', 'desc')->get() );
     $topup = $this->_resourceTransaction( $transactions->whereNotNull('approved_by')->where('type', 'in')->get() );
     $withdraw = $this->_resourceTransaction( $transactions->whereNotNull('approved_by')->where('type', 'out')->get());
     $pending_topup = $this->_resourceConfirmation( $transactions->whereNull('approved_by')->where('type', 'in')->get() );
@@ -58,6 +59,19 @@ class TransactionController extends Controller
     $transaction->approved_by = 1;
     $transaction->approved_at = Carbon::now();
     
+    if( $transaction->save() ){
+      return response()->json(['status' => 200, 'message' => 'success']);
+    }else{
+      return response()->json(['status' => 400, 'message' => 'bad request']);
+    }
+  }
+
+  public function reject(Request $request){
+    $transaction = Transaction::where('code', $request->code)->first();
+    $transaction->status_id = 3;
+    $transaction->comment = $request->comment;
+    $transaction->approved_by = 1;
+    $transaction->approved_at = Carbon::now();
     if( $transaction->save() ){
       return response()->json(['status' => 200, 'message' => 'success']);
     }else{

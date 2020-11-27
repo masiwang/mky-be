@@ -71,12 +71,16 @@ use App\Http\Controllers\Admin\DashboardController as Dashboard_;
 use App\Http\Controllers\Admin\FileController as File_;
 use App\Http\Controllers\Admin\FundCheckoutController as FundCheckout_;
 use App\Http\Controllers\Admin\FundProductController as FundProduct_;
+use App\Http\Controllers\Admin\InvestorController as Investor_;
 use App\Http\Controllers\Admin\NotificationController as Notification_;
 use App\Http\Controllers\Admin\TransactionController as Transaction_;
 use App\Http\Controllers\Admin\UserController as User_;
 use App\Http\Controllers\Admin\VendorController as Vendor_;
+
 Route::post('/admin/login', [Auth_::class, 'loginSave']);
 Route::post('/admin/refresh', [Auth_::class, 'refreshToken'])->middleware('auth:api');
+Route::post('/admin/logout', [Auth_::class, 'logout'])->middleware('auth:api');
+
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
   // per page
   Route::get('dashboard', [Dashboard_::class, 'index']);
@@ -89,15 +93,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     // fund checkout (portofolio)
     Route::post('fund-checkout/send-invoice', [FundCheckout_::class, 'sendInvoice']);
     Route::post('fund-checkout/send-return', [FundCheckout_::class, 'sendReturn']);
+    // investor (user)
+    Route::get('investor', [Investor_::class, 'index']);
+    Route::get('investor/{id}', [Investor_::class, 'detail']);
     // notifikasi
     Route::get('notification', [Notification_::class, 'index']);
     Route::get('notification/{id}', [Notification_::class, 'detail']);
     // transaksi
     Route::get('transaction', [Transaction_::class, 'index']);
     Route::post('transaction/confirm', [Transaction_::class, 'confirm']);
-    // user (investor)
-    Route::get('user', [User_::class, 'index']);
-    Route::get('user/{id}', [User_::class, 'detail']);
+    Route::post('transaction/reject', [Transaction_::class, 'reject']);
+    // user (admin)
+    Route::get('user', [User_::class, 'getUser']);
     // vendor (mitra)
     Route::get('vendor', [Vendor_::class, 'index']);
     Route::get('vendor/{id}', [Vendor_::class, 'detail']);

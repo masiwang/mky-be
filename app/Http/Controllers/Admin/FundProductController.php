@@ -21,8 +21,8 @@ class FundProductController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'vendor' => $product->vendor->name,
-                'roi' => $product->return_per_periode,
-                'actual_roi' => $product->actual_return_per_periode,
+                'estimated_return' => $product->estimated_return,
+                'actual_return' => $product->actual_return,
                 'started_at' => $product->started_at,
                 'ended_at' => $product->ended_at
             ];
