@@ -117,7 +117,7 @@ class GettingStartedController extends Controller
         $user->ttd = $image_name;
         $user->level = 5;
         $user->save();
-        $this->setNotification(
+        $this->setNotification( 
           $user->id,
           'Pendaftaran Berhasil',
           '<p>Selamat, registrasi Anda telah berhasil.</p>

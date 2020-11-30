@@ -202,14 +202,20 @@
               <button type="button" class="btn-close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-              <div class="mb-3">
-                <label for="formFileSm" class="form-label">unggah foto</label>
-                <input class="form-control form-control-sm" id="formFileSm" type="file">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">tutup</button>
-              <button type="button" class="btn btn-primary">simpan</button>
+              <form action="{{ url('/profile') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                  <label for="formFileSm" class="form-label">unggah foto profile</label>
+                  <input type="file" class="form-control" id="image" name="image">
+                    @if (\Session::has('image'))
+                      <span class="text-danger">{{ \Session::get('image') }}</span>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-secondary" data-dismiss="modal">Batal</a>
+                  <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

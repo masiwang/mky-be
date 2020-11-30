@@ -27,6 +27,12 @@ class UserController extends Controller
     }
     $user->phone = $request->phone;
     $user->ktp = $request->ktp;
+    $image = $request->image ?? null;
+
+    if($name && $birthday && $gender && $phone && $ktp){
+      $image_name = $this->setImage($image);
+      $user->image = $image_name;
+    }
     $user->save();
     return redirect('profile');
 }
