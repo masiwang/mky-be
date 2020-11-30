@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserController extends Controller
 {
@@ -14,4 +15,19 @@ class UserController extends Controller
     $transactions = Transaction::where('user_id', $user->id)->get();
     return view('pages.profile.index', compact('transactions', 'user'));
   }
+
+  public function update_save(Request $request){
+    $user = User::find(Auth::id());
+    $user->name = $request->name;
+    if($request->birthday){
+        $user->birthday = $request->birthday;
+    }
+    if($request->gender){
+        $user->gender = $request->gender;
+    }
+    $user->phone = $request->phone;
+    $user->ktp = $request->ktp;
+    $user->save();
+    return redirect('profile');
+}
 }

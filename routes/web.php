@@ -51,4 +51,5 @@ Route::get('/portofolio', [FundCheckoutController::class, 'index'])->middleware(
 Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->middleware('auth', 'profileiscomplete');
 
 Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
+Route::post('/profile', [UserController::class, 'update_save']);
 
