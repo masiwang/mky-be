@@ -36,7 +36,7 @@ class UserController extends Controller
     $user->image = $image_name;
   //   $request->validate([
   //     'image' => 'required',
-  //     'image.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:512'
+  //     'image.*' => 'mimes:jpeg,jpg,png,gif|max:512'
   // ]);
     $user->save();
     return redirect('profile');
