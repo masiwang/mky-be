@@ -25,7 +25,7 @@
       <div id="profileIndexContainer" class="row bg-white shadow-sm">
         <div class="col-3 p-4 border-right">
             <div>
-              <img src="/images/user.png" alt="" srcset="" style="width: 100%">
+            <img src="{{$user->image}}" alt="" srcset="" style="width: 100%">
               <a type="button" class="btn btn-primary btn-sm center" data-toggle="modal" data-target="#exampleModal-profile">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -202,7 +202,7 @@
               <button type="button" class="btn-close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-              <form action="{{ url('/profile') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ url('/profile/foto') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                   <label for="formFileSm" class="form-label">unggah foto profile</label>
@@ -210,6 +210,7 @@
                     @if (\Session::has('image'))
                       <span class="text-danger">{{ \Session::get('image') }}</span>
                     @endif
+                    <span class="text-danger">file upload max 512Kb</span>
                 </div>
                 <div class="modal-footer">
                   <a class="btn btn-secondary" data-dismiss="modal">Batal</a>

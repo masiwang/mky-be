@@ -27,13 +27,18 @@ class UserController extends Controller
     }
     $user->phone = $request->phone;
     $user->ktp = $request->ktp;
-    $image = $request->image ?? null;
-
-    if($name && $birthday && $gender && $phone && $ktp){
-      $image_name = $this->setImage($image);
-      $user->image = $image_name;
-    }
     $user->save();
     return redirect('profile');
-}
+  }
+  public function update_foto(Request $request){
+    $user = User::find(Auth::id());
+    $image_name = $this->setImage($request->image);
+    $user->image = $image_name;
+  //   $request->validate([
+  //     'image' => 'required',
+  //     'image.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:512'
+  // ]);
+    $user->save();
+    return redirect('profile');
+  }
 }
