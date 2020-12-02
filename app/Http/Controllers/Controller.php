@@ -29,7 +29,7 @@ class Controller extends BaseController
   public function setImage($file){
     $name = Str::random(32).'.jpg';
     $file->move('assets/', $name);
-    return 'http://127.0.0.1:8000/assets/'.$name;
+    return '/assets/'.$name;
   }
 
   public function setNotification($user_id, $title, $body){

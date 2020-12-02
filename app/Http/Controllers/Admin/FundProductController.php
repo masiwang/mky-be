@@ -162,6 +162,10 @@ class FundProductController extends Controller
     if($request->ended_at){
       $fund_product->ended_at = new Carbon($request->ended_at);
     }
+    if($request->new_image){
+      $image_name = $this->setImage($request->image);
+      $fund_product->image = $image_name;
+    }
 
     if($fund_product->save()){
       return response()->json(['status' => 200, 'message' => $request], 200);
