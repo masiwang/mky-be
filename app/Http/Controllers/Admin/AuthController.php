@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use JWTAuth;
+use Auth; 
 
 class AuthController extends Controller
 {
   public function loginSave(Request $request){
     /// cek email
-    $email_is_not_admin = User::where('email', $request->email)->wheer('role', 'admin')->first();
+    $email_is_not_admin = User::where('email', $request->email)->where('role', 'admin')->first();
     if(!$email_is_not_admin){
       return response()->json(['error' => 'Unauthorized'], 401);
     }

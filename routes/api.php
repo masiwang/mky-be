@@ -111,3 +111,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     // upload handler
     Route::post('upload/image', [File_::class, 'image']);
 });
+
+use App\Http\Controllers\Apps\FundProductController as AppFundProduct;
+use App\Http\Controllers\Apps\UserController as AppUser;
+
+Route::post('/login', [AppUser::class, 'doLogin']);
+Route::post('/refresh', [AppUser::class, 'doRefresh']);
+Route::get('/user', [AppUser::class, 'getUser'])->middleware('auth:api');
+Route::get('/fund-product', [AppFundProduct::class, 'index']);
