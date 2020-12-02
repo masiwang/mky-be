@@ -24,11 +24,20 @@
     <div class="col-12">
       <div id="profileIndexContainer" class="row bg-white shadow-sm">
         <div class="col-3 p-4 border-right">
-            <div>
-              <img src="/images/user.png" alt="" srcset="" style="width: 100%">
+            {{-- <div class="container">
+            <img src="{{$user->image}}" alt="" srcset="" style="width: 100%">
+            <div class="middle">
+              <div class="text">John Doe</div>
+            </div> --}}
+              <a type="button" class="btn btn-primary btn-sm center" data-toggle="modal" data-target="#exampleModal-profile">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg> perbarui foto
+              </a>
             </div>
             <div class="mt-3">
-              <small class="text-secondary text-uppercase">Menu</small>
+              <small class="text-secondary text-uppercase">Menu Utama</small>
               <ul class="nav flex-column" id="profileTab" role="tablist">
                 <li class="nav-item" role="presentation">
                   <a class="nav-link active" id="personalInfo-tab" data-toggle="tab" href="#personalInfo" role="tab" aria-controls="personalInfo" aria-selected="true">Informasi pribadi</a>
@@ -185,6 +194,34 @@
               <button type="submit" class="btn btn-success">Simpan</button>
             </div>
           </form>
+        </div>
+      </div>
+      <!-- Modal Edit Foto-->
+      <div class="modal fade" id="exampleModal-profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">perbarui foto</h5>
+              <button type="button" class="btn-close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url('/profile/foto') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                  <label for="formFileSm" class="form-label">unggah foto profile</label>
+                  <input type="file" class="form-control" id="image" name="image">
+                    @if (\Session::has('image'))
+                      <span class="text-danger">{{ \Session::get('image') }}</span>
+                    @endif
+                    <span class="text-danger">file upload max 512Kb</span>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-secondary" data-dismiss="modal">Batal</a>
+                  <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
