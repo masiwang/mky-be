@@ -22,6 +22,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\NotificationController;
 use App\Http\Controllers\Web\TransactionController;
 use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\FaqController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -53,4 +54,5 @@ Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->
 Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::post('/profile', [UserController::class, 'update_save']);
 Route::post('/profile/foto', [UserController::class, 'update_foto']);
+Route::resource('/faq', [FaqController::class, 'index']);
 
