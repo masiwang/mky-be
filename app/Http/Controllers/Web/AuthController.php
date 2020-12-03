@@ -11,6 +11,7 @@ use Hash;
 use Session;
 use Str;
 use Mail;
+use App\Mail\ForgotPassword;
 
 class AuthController extends Controller
 {
@@ -74,5 +75,47 @@ class AuthController extends Controller
         Auth::logout();
         Session::flush();
         return redirect('/');
+    }
+
+    public function forgotViewEmail(){
+      return view('pages.forgot.step1');
+    }
+
+    public function forgotSaveEmail(Request $req){
+      $user = User::where('email', $req->email)->first();
+      if(!$user){
+        return back()->with('error', 'Akun tidak ditemukan.');
+      }
+      $user->remember_token = Str::random(64);
+      $user->save();
+      Mail::to($user)->send(new ForgotPassword($user));
+      return redirect('/forgot/reset');
+    }
+
+    public function forgotViewPassword(){
+      return view('pages.forgot.step2');
+    }
+
+    public function forgotSavePassword(Request $request){
+      if(!$request->token || Str::length($request->token) < 64){
+        return back()->with('error', 'Token tidak valid.');
+      }
+
+      if(!$request->new_password || Str::length($request->new_password) < 6){
+        return back()->with('error', 'Password harus lebih dari 6 karakter');
+      }
+
+      if(!($request->new_password == $request->new_password_confirm)){
+        return back()->with('error', 'Konfirmasi password tidak tepat');
+      }
+
+      $user = User::where('remember_token', $request->token)->first();
+      $user->password = Hash::make($request->new_password);
+      
+      if($user->save()){
+        return redirect('/login');
+      }else{
+        return back()->with('error', 'Maaf terdapat kesalahan. Ulangi sekali lagi.');
+      }
     }
 }

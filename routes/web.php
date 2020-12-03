@@ -54,3 +54,8 @@ Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'pr
 Route::post('/profile', [UserController::class, 'update_save']);
 Route::post('/profile/foto', [UserController::class, 'update_foto']);
 
+Route::get('/forgot', [AuthController::class, 'forgotViewEmail']);
+Route::post('/forgot', [AuthController::class, 'forgotSaveEmail']);
+
+Route::get('/forgot/reset', [AuthController::class, 'forgotViewPassword']);
+Route::post('/forgot/reset', [AuthController::class, 'forgotSavePassword']);

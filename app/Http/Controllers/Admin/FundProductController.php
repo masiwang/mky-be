@@ -163,7 +163,7 @@ class FundProductController extends Controller
       $fund_product->ended_at = new Carbon($request->ended_at);
     }
     if($request->new_image){
-      $image_name = $this->setImage($request->image);
+      $image_name = $this->setImage($request->new_image);
       $fund_product->image = $image_name;
     }
 

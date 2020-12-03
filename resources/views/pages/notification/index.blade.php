@@ -31,10 +31,10 @@
               @foreach ($notifications as $notification)
                 <a class="list-group-item text-dark" href="/notification/{{ $notification->id }}">
                   <h6>{{ $notification->title }} @if($notification->status == 'unread')<span class="badge bg-success">Baru</span>@endif</h6>
-                  <div style="height: 2rem; overflow-y: hidden">
+                  <div style="height: 1.4rem; overflow-y: hidden">
                     <p class="mb-0">{!! $notification->body !!}</p>
                   </div>
-                  <small>{{ date('d M Y H:m:s', strtotime($notification->created_at)) }}</small>
+                  <small>{{ date('d M Y H:i:s', strtotime($notification->created_at)) }}</small>
                 </a>
               @endforeach
             </ul>
@@ -46,7 +46,7 @@
               <p>&nbsp;</p>
             @else
               <h4 class="mb-1">{{ $notification_detail->title }}</h4>
-              <small>{{ date('d M Y - H:m:s', strtotime($notification_detail->created_at)) }}</small>
+              <small>{{ date('d M Y - H:i:s', strtotime($notification_detail->created_at)) }}</small>
               <hr/>
               {!! $notification_detail->body !!}
             @endif

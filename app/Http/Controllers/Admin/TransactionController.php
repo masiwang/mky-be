@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Hash;
 
 class TransactionController extends Controller
 {
@@ -54,10 +55,20 @@ class TransactionController extends Controller
   }
 
   public function confirm(Request $request){
+    $user = $this->getUser();
+    if(!(Hash::check($request->password, $user->password))){
+      return response()->json(['status' => 401, 'message' => 'unauthenticated'], 400);
+    }
     $transaction = Transaction::where('code', $request->code)->first();
     $transaction->status_id = 2;
     $transaction->approved_by = 1;
     $transaction->approved_at = Carbon::now();
+
+    $this->setNotification(
+      $transaction->user_id,
+      'Transaksi sukses',
+      'Transaksi Anda dengan kode '.$request->code.' telah berhasil.<br/><br/>Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WA (+62) 821 3000 4204 atau melalui Email support@makarya.in.<br/><br/>--------------------------------------<br/>Salam,<br/><br/>Tim makarya'
+    );
     
     if( $transaction->save() ){
       return response()->json(['status' => 200, 'message' => 'success']);
@@ -69,9 +80,16 @@ class TransactionController extends Controller
   public function reject(Request $request){
     $transaction = Transaction::where('code', $request->code)->first();
     $transaction->status_id = 3;
-    $transaction->comment = $request->comment;
+    $transaction->comment = $request->description;
     $transaction->approved_by = 1;
     $transaction->approved_at = Carbon::now();
+
+    $this->setNotification(
+      $transaction->user_id,
+      'Transaksi gagal',
+      'Transaksi Anda dengan kode '.$request->code.' telah gagal.<br/>Hal tersebut dikarenakan '.$request->description.'<br/><br/>Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WhatsApp +6282130004204 atau melalui Email support@makarya.in.<br/><br>--------------------------------------<br/>Salam,<br/><br/>Tim makarya'
+    );
+
     if( $transaction->save() ){
       return response()->json(['status' => 200, 'message' => 'success']);
     }else{
