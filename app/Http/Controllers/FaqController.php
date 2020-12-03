@@ -12,8 +12,7 @@ class FaqController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $user = $this->getUser();
-        return view('pages.profile.faq', compact('user'));
+        return view('pages.profile.faq');
     }
 
     /**

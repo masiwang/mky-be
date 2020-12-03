@@ -54,5 +54,5 @@ Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->
 Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::post('/profile', [UserController::class, 'update_save']);
 Route::post('/profile/foto', [UserController::class, 'update_foto']);
-Route::resource('/faq', [FaqController::class, 'index']);
+Route::get_declared_classes('/faq', [FaqController::class, 'index']);
 
