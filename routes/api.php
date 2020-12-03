@@ -96,6 +96,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     // investor (user)
     Route::get('investor', [Investor_::class, 'index']);
     Route::get('investor/{id}', [Investor_::class, 'detail']);
+    Route::post('investor/{id}/confirm', [Investor_::class, 'ktpConfirmSave']);
     // notifikasi
     Route::get('notification', [Notification_::class, 'index']);
     Route::get('notification/{id}', [Notification_::class, 'detail']);

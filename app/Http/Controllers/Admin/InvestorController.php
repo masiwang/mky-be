@@ -8,6 +8,8 @@ use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Auth;
+use Hash;
 
 class InvestorController extends Controller
 {
@@ -126,5 +128,23 @@ class InvestorController extends Controller
     $portofolios = $this->_resourcePortofolio( FundCheckout::where('user_id', $id)->get() );
     $transactions = $this->_resourceTransaction( Transaction::where('user_id', $id)->get() );
     return response()->json(compact('user', 'portofolios', 'transactions'));
+  }
+
+  public function ktpConfirmSave(Request $request){
+    $user = User::findOrFail($request->id);
+    $admin = User::findOrFail(Auth::id());
+
+    if(!(Hash::check($request->password, $admin->password))){
+      return response()->json(['error' => 'unauthenticated'], 401);
+    }
+
+    $user->ktp_verified_at = Carbon::now();
+    $user->ktp_verified_by = Auth::id();
+
+    if($user->save()){
+      return response()->json(['success' => 'user confirmed'], 200);
+    }else{
+      return response()->json(['error' => 'bad request'], 400);
+    }
   }
 }
