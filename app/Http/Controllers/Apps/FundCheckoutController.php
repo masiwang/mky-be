@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\FundCheckout;
+use Auth;
 
 class FundCheckoutController extends Controller
 {
@@ -61,5 +63,33 @@ class FundCheckoutController extends Controller
     $transaction->approved_at = Carbon::now();
     $transaction->comment = 'Pendanaan '.$product->name;
     $transaction->save();
+  }
+
+  protected function _resourcePortofolio($portofolios){
+    $response = [];
+    foreach ($portofolios as $portofolio) {
+      $return_is_sent = ($portofolio->return_sent_at) ? 1 : 0;
+      $data = [
+        'id' => $portofolio->id,
+        'product_image' => $portofolio->product->image,
+        'estimated_return' => $portofolio->product->estimated_return,
+        'product_name' => $portofolio->product->name,
+        'vendor_name' => $portofolio->product->vendor->name,
+        'ended_at' => $portofolio->product->ended_at,
+        'is_done' => $return_is_sent,
+        'nominal' => $portofolio->qty * $portofolio->product->price
+      ];
+      array_push($response, $data);
+    }
+    return $response;
+  }
+
+  public function portofolio(){
+    $user = $this->getUser();
+
+    $portofolios = FundCheckout::where('user_id', $user->id)->get();
+    $portofolios = $this->_resourcePortofolio($portofolios);
+
+    return response()->json(compact('portofolios'), 200);
   }
 }

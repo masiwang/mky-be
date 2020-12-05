@@ -140,7 +140,7 @@ class InvestorController extends Controller
 
     $user->ktp_verified_at = Carbon::now();
     $user->ktp_verified_by = Auth::id();
-
+    // todo notifikasi
     if($user->save()){
       return response()->json(['success' => 'user confirmed'], 200);
     }else{

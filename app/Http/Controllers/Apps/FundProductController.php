@@ -11,6 +11,7 @@ use Carbon\Carbon;
 class FundProductController extends Controller
 {
   public function index(Request $req){
+    $user = $this->getUser();
     $fps = new FundProduct;
     if($req->category){
       $fps = $fps->where('category_id', $req->category);
@@ -22,7 +23,7 @@ class FundProductController extends Controller
     foreach ($fps as $fp) {
       $start = new Carbon($fp->started_at);
       $end = new Carbon($fp->ended_at);
-      $in_portofolio = FundCheckout::where('user_id', 37)->where('product_id', $fp->id)->first();
+      $in_portofolio = FundCheckout::where('user_id', $user->id)->where('product_id', $fp->id)->first();
       $data = [
         'id' => $fp->id,
         'image' => $fp->image,

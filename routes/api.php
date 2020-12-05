@@ -114,9 +114,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
 });
 
 use App\Http\Controllers\Apps\FundProductController as AppFundProduct;
+use App\Http\Controllers\Apps\FundCheckoutController as AppFundCheckout;
+use App\Http\Controllers\Apps\NotificationController as AppNotification;
 use App\Http\Controllers\Apps\UserController as AppUser;
 
 Route::post('/login', [AppUser::class, 'doLogin']);
-Route::post('/refresh', [AppUser::class, 'doRefresh']);
+Route::post('/forgot', [AppUser::class, 'forgotPost']);
+Route::post('/forgot/reset', [AppUser::class, 'resetPassword']);
+Route::post('/logout', [AppUser::class, 'logout'])->middleware('auth:api');
+Route::post('/refresh', [AppUser::class, 'doRefresh'])->middleware('auth:api');
 Route::get('/user', [AppUser::class, 'getUser'])->middleware('auth:api');
-Route::get('/fund-product', [AppFundProduct::class, 'index']);
+Route::get('/fund-product', [AppFundProduct::class, 'index'])->middleware('auth:api');
+Route::get('/portofolio', [AppFundCheckout::class, 'portofolio'])->middleware('auth:api');
+Route::get('/notification', [AppNotification::class, 'notification'])->middleware('auth:api');
+Route::get('/profile', [AppUser::class, 'profile'])->middleware('auth:api');
