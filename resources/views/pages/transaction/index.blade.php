@@ -33,6 +33,7 @@
               <th>Nominal</th>
               <th>Status</th>
               <th>Waktu Konfirmasi</th>
+              <th>Keterangan</th>
             </tr>
           </thead>
           <tbody>
@@ -52,7 +53,7 @@
               @if ($transaction->status_id == 3)
                 <td class="text-danger">{{ $transaction->comment }}</td>
               @else
-                <td>{{ $transaction->comment }}</td>
+                <td>{{ \Str::ucfirst($transaction->comment) }}</td>
               @endif
             </tr>
           @endforeach

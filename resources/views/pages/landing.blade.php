@@ -1,5 +1,7 @@
 @extends('components.__master')
-
+@section('title')
+  Selamat Datang    
+@endsection
 @section('content')
 @include('components._top_navigation')
 <div class="w-100 mb-5" style="height: 100vh; background-image: url('/images/vegetables-unsplash-wallpaper.jpg'); background-size: cover; background-posision: center">

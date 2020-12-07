@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// use App\Http\Controllers\Web\AddressController;
+use App\Http\Controllers\Web\AddressController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\FundCheckoutController;
 use App\Http\Controllers\Web\FundProductController;
@@ -54,10 +54,16 @@ Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->
 Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::post('/profile', [UserController::class, 'update_save']);
 Route::post('/profile/foto', [UserController::class, 'update_foto']);
-Route::get_declared_classes('/faq', [FaqController::class, 'index']);
+Route::get('/faq', [FaqController::class, 'index']);
 
 Route::get('/forgot', [AuthController::class, 'forgotViewEmail']);
 Route::post('/forgot', [AuthController::class, 'forgotSaveEmail']);
 
 Route::get('/forgot/reset', [AuthController::class, 'forgotViewPassword']);
 Route::post('/forgot/reset', [AuthController::class, 'forgotSavePassword']);
+
+Route::get('/address', [AddressController::class, 'getProvinsi']);
+Route::get('/address/{provinsi}', [AddressController::class, 'getKabupaten']);
+Route::get('/address/{provinsi}/{kabupaten}', [AddressController::class, 'getKecamatan']);
+Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}', [AddressController::class, 'getKelurahan']);
+Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', [AddressController::class, 'getKodepos']);

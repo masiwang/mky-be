@@ -62,7 +62,7 @@
                     <strong>ROI Aktual</strong>
                   </div>
                   <div class="col-9">
-                    {{ ($portofolio->product->actual_return) ? $portofolio->product->actual_return : '-' }}
+                    {{ ($portofolio->product->actual_return) ? $portofolio->product->actual_return : '-' }}%
                   </div>
                 </div>
               </div>
@@ -84,19 +84,27 @@
       <h4>Laporan pendanaan</h4>
       <hr>
       <div class="d-flex align-items-start">
-        <div class="nav flex-column nav-pills mr-3 bg-light" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="height: 400px">
-          @foreach ($reports as $index => $report)
-            <a class="nav-link" id="v-pills-{{ $report->id }}-tab" data-toggle="pill" href="#v-pills-{{ $report->id }}" role="tab" aria-controls="v-pills-{{ $report->id }}" aria-selected="{{ ($index == 0) ? 'true' : 'false' }}">{{ $report->title }}</a>
-          @endforeach
-        </div>
-        <div class="tab-content" id="v-pills-tabContent">
-          @foreach ($reports as $index => $report)
-            <div class="tab-pane fade {{ ($index == 0) ? 'show active' : '' }}" id="v-pills-{{ $report->id }}" role="tabpanel" aria-labelledby="v-pills-{{ $report->id }}-tab">
-              <img src="{{ $report->image }}" alt="">
-              <div>{!! $report->description !!}</div>
+        <div class="row">
+          <div class="col-3">
+            <div class="nav flex-column nav-pills mr-3 bg-light" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="height: 400px; width: 100%">
+              @foreach ($reports as $index => $report)
+                <a class="nav-link" id="v-pills-{{ $report->id }}-tab" data-toggle="pill" href="#v-pills-{{ $report->id }}" role="tab" aria-controls="v-pills-{{ $report->id }}" aria-selected="{{ ($index == 0) ? 'true' : 'false' }}">{{ $report->title }}</a>
+              @endforeach
             </div>
-          @endforeach
+          </div>
+          <div class="col-9">
+            <div class="tab-content" id="v-pills-tabContent">
+              @foreach ($reports as $index => $report)
+                <div class="tab-pane fade {{ ($index == 0) ? 'show active' : '' }}" id="v-pills-{{ $report->id }}" role="tabpanel" aria-labelledby="v-pills-{{ $report->id }}-tab">
+                  <img src="{{ $report->image }}" alt="" style="max-width: 100%; margin-bottom: 2rem">
+                  <div>{!! $report->description !!}</div>
+                </div>
+              @endforeach
+            </div>
+          </div>
         </div>
+        
+        
       </div>
     </div>
   </div>

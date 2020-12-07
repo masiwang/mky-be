@@ -22,7 +22,10 @@ class Controller extends BaseController
   }
 
   public function getSaldo(){
-    $saldo = (Auth::user()) ? Transaction::where('user_id', Auth::id())->whereNotNull('approved_at')->sum('nominal') : null;
+    $transaksi = Transaction::where('user_id', Auth::id())->whereNotNull('approved_at');
+    $transaksi_masuk = $transaksi->where('status_id', 1)->sum('nominal');
+    $transaksi_keluar = $transaksi->where('status_id', 2)->sum('nominal');
+    $saldo = (Auth::user()) ? $transaksi_masuk+$transaksi_keluar : null;
     return $saldo;
   }
 

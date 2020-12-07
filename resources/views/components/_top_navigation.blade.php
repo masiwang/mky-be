@@ -57,9 +57,9 @@
               <li class="nav-item">
                   <a class="nav-link" aria-current="page" target="_self" href="{{ url('/portofolio') }}">Portofolio</a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                   <a class="nav-link" aria-current="page" target="_self" href="{{ url('/help') }}">Bantuan</a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                   <a class="nav-link" aria-current="page" target="_self" href="{{ url('/faq') }}">FAQ</a>
               </li>

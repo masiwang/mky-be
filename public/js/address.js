@@ -24,19 +24,19 @@ function getData(url, element) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    getData('/api/v1/address', provinsiList)
+    getData('/address/', provinsiList)
 });
 
 provinsi.onchange = function () {
-    getData('/api/v1/address/' + provinsi.value, kabupatenList)
+    getData('/address/' + provinsi.value, kabupatenList)
 }
 
 kabupaten.onchange = function () {
-    getData('/api/v1/address/' + provinsi.value + '/' + kabupaten.value, kecamatanList)
+    getData('/address/' + provinsi.value + '/' + kabupaten.value, kecamatanList)
 }
 
 kecamatan.onchange = function () {
-    getData('/api/v1/address/' + provinsi.value + '/' + kabupaten.value + '/' + kecamatan.value, kelurahanList)
+    getData('/address/' + provinsi.value + '/' + kabupaten.value + '/' + kecamatan.value, kelurahanList)
 }
 
 kelurahan.onchange = function () {
@@ -46,6 +46,6 @@ kelurahan.onchange = function () {
         var response = JSON.parse(this.response)
         kodepos.value = response.data
     }
-    xhttp.open('GET', '/api/v1/address/' + provinsi.value + '/' + kabupaten.value + '/' + kecamatan.value + '/' + kelurahan.value, true)
+    xhttp.open('GET', '/address/' + provinsi.value + '/' + kabupaten.value + '/' + kecamatan.value + '/' + kelurahan.value, true)
     xhttp.send()
 }

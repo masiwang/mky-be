@@ -64,7 +64,10 @@ class User extends Authenticatable implements JWTSubject
 
   public function getSaldoAttribute()
   {
-      return $this->attributes['saldo'] = Transaction::where('user_id', $this->id)->whereNotNull('approved_at')->sum('nominal');
+    $transaksi = Transaction::where('user_id', $this->id)->whereNotNull('approved_at')->where('status_id', 2);
+    $transaksi_masuk = $transaksi->where('type', 'in')->sum('nominal');
+    $transaksi_keluar = $transaksi->where('type', 'out')->sum('nominal');
+      return $this->attributes['saldo'] = $transaksi_masuk+$transaksi_keluar;
   }
   public function getNotificationAttribute(){
     return $this->attributes['notification'] = Notification::where('user_id', $this->id)->where('status', 'unread')->count();
