@@ -8,7 +8,7 @@
       <div class="card-body p-0">
         <div class="row">
           <div class="col-12">
-            <div id="topCarousel" class="carousel carousel-index slide" data-ride="carousel">
+            <div id="topCarousel" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
                 <li data-target="#topCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#topCarousel" data-slide-to="1"></li>
@@ -16,13 +16,13 @@
               </ol>
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080" height="370px" class="d-block w-100" alt="...">
+                  <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080"  class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                  <img src="https://images.unsplash.com/photo-1556762163-542910c8765d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080" height="370px" class="d-block w-100" alt="...">
+                  <img src="https://images.unsplash.com/photo-1556762163-542910c8765d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080"  class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                  <img src="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080"height="370px" class="d-block w-100" alt="...">
+                  <img src="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=370&w=1080"class="d-block w-100" alt="...">
                 </div>
               </div>
             </div>
@@ -32,7 +32,7 @@
     </div>
   </div>
   {{-- Funding --}}
-  <div class="row mt-3">
+  <div class="row mt-4">
     <div class="col-12 p-2">
       <header class="section-heading heading-line">
         <h4 class="text-uppercase">Funding</h4>
@@ -53,22 +53,22 @@
             <p class="card-text mb-1 text-success">
               <b>Rp {{ number_format($fund_product->price, 0, ',', '.') }}/peket</b>
             </p>
-            <div class="d-flex flex-row w-100" style="font-size: .8rem">
+            {{-- <div class="d-flex flex-row w-100" style="font-size: .8rem">
               <div class="col-7"><b>Kontrak</b></div>
               <div class="col-5">{{ $fund_product->periode_length }} hari</div>
-            </div>
+            </div> --}}
             <div class="d-flex flex-row w-100" style="font-size: .8rem">
-              <div class="col-7"><b>Return</b></div>
+              <div class="col-7"><b>ROI</b></div>
               <div class="col-5">{{ $fund_product->estimated_return }}%</div>
             </div>
             <div class="d-flex flex-row w-100" style="font-size: .8rem">
               <div class="col-7"><b>Sisa stock</b></div>
               <div class="col-5">{{ $fund_product->current_stock }} paket</div>
             </div>
-            <div class="d-flex flex-row w-100 mb-3" style="font-size: .8rem">
+            {{-- <div class="d-flex flex-row w-100 mb-3" style="font-size: .8rem">
               <div class="col-7"><b>Pendanaan selesai</b></div>
               <div class="col-5">{{ date('d M Y', strtotime($fund_product->ended_at)) }}</div>
-            </div>
+            </div> --}}
             <div class="w-100">
               <a href="/funding/{{ $fund_product->category->name }}/{{ $fund_product->id }}" class="btn btn-success btn-sm w-100" {{ ($fund_product->current_stock == 0) ? 'disabled' : '' }}>Danai</a>
             </div>

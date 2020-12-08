@@ -21,6 +21,7 @@ class TransactionController extends Controller
         'nominal' => $transaction->nominal,
         'status_id' => $transaction->status_id,
         'status' => $transaction->approved_at,
+        'user_name' => $transaction->user->name
       ];
       array_push($response, $data);
     }
@@ -37,7 +38,8 @@ class TransactionController extends Controller
         'bank' => $transaction->bank_type.' '.$transaction->bank_acc,
         'image' => $transaction->image,
         'nominal' => $transaction->nominal,
-        'status' => $transaction->approved_at
+        'status' => $transaction->approved_at,
+        'user_name' => $transaction->user->name
       ];
       array_push($response, $data);
     }
@@ -87,7 +89,7 @@ class TransactionController extends Controller
     $this->setNotification(
       $transaction->user_id,
       'Transaksi gagal',
-      'Transaksi Anda dengan kode '.$request->code.' telah gagal.<br/>Hal tersebut dikarenakan '.$request->description.'<br/><br/>Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WhatsApp +6282130004204 atau melalui Email support@makarya.in.<br/><br>--------------------------------------<br/>Salam,<br/><br/>Tim makarya'
+      'Transaksi Anda dengan kode '.$request->code.' telah gagal.<br/>Hal tersebut dikarenakan <strong>'.$request->description.'</strong>.<br/><br/>Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WhatsApp +6282130004204 atau melalui Email support@makarya.in.<br/><br>--------------------------------------<br/>Salam,<br/><br/>Tim makarya'
     );
 
     if( $transaction->save() ){

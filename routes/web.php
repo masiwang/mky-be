@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Http\Controllers\Web\AboutUsController;
 use App\Http\Controllers\Web\AddressController;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\FeaturesController;
 use App\Http\Controllers\Web\FundCheckoutController;
 use App\Http\Controllers\Web\FundProductController;
 use App\Http\Controllers\Web\GettingStartedController;
@@ -67,3 +69,6 @@ Route::get('/address/{provinsi}', [AddressController::class, 'getKabupaten']);
 Route::get('/address/{provinsi}/{kabupaten}', [AddressController::class, 'getKecamatan']);
 Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}', [AddressController::class, 'getKelurahan']);
 Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', [AddressController::class, 'getKodepos']);
+
+Route::get('/about-us', [AboutUsController::class, 'index']);
+Route::get('/features', [FeaturesController::class, 'index']);

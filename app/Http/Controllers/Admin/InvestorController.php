@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Str;
 
 class InvestorController extends Controller
 {
@@ -79,13 +80,10 @@ class InvestorController extends Controller
       'gender'=> $user->gender,
       'birthplace' => $user->birthplace,
       'birthday' => new Carbon($user->birthday),
-      'jalan' => $user->jalan,
-      'kelurahan' => $user->kelurahan,
-      'kecamatan' => $user->kecamatan,
-      'kabupaten' => $user->kabupaten,
-      'kodepos' => $user->kodepos,
+      'address' => $user->jalan.', '.Str::ucfirst($user->kelurahan).', '.Str::ucfirst($user->kecamatan).', '.Str::ucfirst($user->kabupaten).' '.$user->kodepos,
       'email' => $user->email,
       'phone' => $user->phone,
+      'image' => $user->image
     ];
     return $data;
   }
@@ -140,7 +138,15 @@ class InvestorController extends Controller
 
     $user->ktp_verified_at = Carbon::now();
     $user->ktp_verified_by = Auth::id();
-    // todo notifikasi
+    
+    $this->setNotification(
+      $user->id,
+      'Konfirmasi Akun Sukses',
+      '<p>Hi, '.$user->name.'.</p>
+      <p>Selamat, akun makarya Anda telah kami konfirmasi. Mulai sekarang Anda sudah dapat melakukan transfer ke saldo Anda dan melakukan pendanaan pada produk funding kami. Terimakasih!</p><br/>
+      <p>Salam 💚,</p><p>Tim Makarya</p>'
+    );
+
     if($user->save()){
       return response()->json(['success' => 'user confirmed'], 200);
     }else{

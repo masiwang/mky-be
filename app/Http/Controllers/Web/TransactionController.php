@@ -72,8 +72,12 @@ class TransactionController extends Controller
     if(!$user->ktp_verified_at){
       return back();
     }
-    $saldo_with_pending_withdraw = Transaction::where('user_id', $user->id)
-      ->where('type', 'in')->whereNotNull('approved_at')->orWhere('type', 'out')->sum('nominal');
+    $saldo_real = $user->saldo;
+    $pending_withdraw = Transaction::where([
+      'user_id'=> $user->id,
+      'type' => 'out'
+      ])->whereNull('approved_at')->sum('nominal');
+    $saldo_with_pending_withdraw = $saldo_real + $pending_withdraw;
     $bank_type = $request->bank_type ?? null;
     $bank_acc = $request->bank_acc ?? null;
     $nominal = $request->nominal ? ($request->nominal < $saldo_with_pending_withdraw ? $request->nominal : null) : null;

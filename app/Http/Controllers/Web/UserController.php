@@ -11,7 +11,7 @@ use Auth;
 class UserController extends Controller
 {
   public function index(){
-    $user = $this->getUser();
+    $user = Auth::user();
     $transactions = Transaction::where('user_id', $user->id)->get();
     return view('pages.profile.index', compact('transactions', 'user'));
   }

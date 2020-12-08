@@ -36,6 +36,10 @@
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="{{ url('profile') }}">Akun</a></li>
               <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{{ url('/portofolio') }}">Portofolio</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{{ url('logout') }}">Keluar</a></li>
             </ul>
         </li>
@@ -53,17 +57,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark text-light bg-success shadow-sm d-none d-md-block">
   <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mb-2 mb-lg-0 mr-auto">
-              <li class="nav-item">
-                  <a class="nav-link" aria-current="page" target="_self" href="{{ url('/portofolio') }}">Portofolio</a>
-              </li>
-              {{-- <li class="nav-item">
-                  <a class="nav-link" aria-current="page" target="_self" href="{{ url('/help') }}">Bantuan</a>
-              </li> --}}
-              <li class="nav-item">
-                  <a class="nav-link" aria-current="page" target="_self" href="{{ url('/faq') }}">FAQ</a>
-              </li>
-          </ul>
+          <div class="mr-auto">&nbsp;</div>
           <ul class="navbar-nav mb-2 mb-lg-0">
               <li id="saldo" class="nav-item">
                   <a class="nav-link" disabled>Saldo: Rp {{ number_format($user->saldo, 0, ',', '.') }}</a>

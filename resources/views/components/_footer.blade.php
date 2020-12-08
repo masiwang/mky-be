@@ -16,18 +16,18 @@
               <div class="col-md-4">
                   <h4 class="my-4 text-light">Navigasi</h4>
                   <ul class="footer-link">
-                      <li><a href="#" class="text-decoration-none">Home</a></li>
-                      <li><a href="#" class="text-decoration-none">Tentang Kami</a></li>
-                      <li><a href="#" class="text-decoration-none">Fitur</a></li>
-                      <li><a href="#" class="text-decoration-none">Cara Kerja</a></li>
+                      <li><a href="/" class="text-decoration-none">Home</a></li>
+                      <li><a href="/about-us" class="text-decoration-none">Tentang Kami</a></li>
+                      <li><a href="/features" class="text-decoration-none">Fitur</a></li>
+                      {{-- <li><a href="#" class="text-decoration-none">Cara Kerja</a></li> --}}
                   </ul>
               </div>
               <div class="col-md-4">
                   <h4 class="my-4 text-light">Link Terkait</h4>
                   <ul class="footer-link">
-                      <li><a href="#" class="text-decoration-none">Blog</a></li>
-                      <li><a href="#" class="text-decoration-none">Hubungi Kami</a></li>
-                      <li><a href="#" class="text-decoration-none">Bantuan & FAQ</a></li>
+                      {{-- <li><a href="#" class="text-decoration-none">Blog</a></li> --}}
+                      {{-- <li><a href="#" class="text-decoration-none">Hubungi Kami</a></li> --}}
+                      <li><a href="#" class="text-decoration-none">FAQ</a></li>
                       <li><a href="#" class="text-decoration-none">Syarat & Ketentuan</a></li>
                   </ul>
               </div>

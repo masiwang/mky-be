@@ -180,6 +180,19 @@ class FundProductController extends Controller
     $report->image = $request->image;
     $report->title = $request->title;
     $report->description = $request->description;
+
+    $product = FundProduct::find($request->id);
+
+    $portofolios = FundCheckout::where('product_id', $request->id)->get();
+
+    foreach ($portofolios as $portofolio) {
+      $this->setNotification(
+        $portofolio->user_id,
+        'Laporan Produk Funding '.$product->name,
+        '<p>Hi, '.$portofolio->user->name.'</p>
+        <p>'.$request->title.' produk funding '.$product->name.' telah rilis. Silahkan periksa laporan tersebut untuk mengetahui perkembangan usaha mitra ya!</p><p>NB: Laporan produk funding dapat dilihat pada halaman portofolio produk terkait.</p><br/>Salam 💚,<br/>Tim Makarya'
+      );
+    }
     
     if($report->save()){
       return response()->json(['status' => 200, 'message' => 'success'], 200);

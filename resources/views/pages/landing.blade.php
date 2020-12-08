@@ -1,6 +1,6 @@
 @extends('components.__master')
 @section('title')
-  Selamat Datang    
+  Selamat Datang
 @endsection
 @section('content')
 @include('components._top_navigation')

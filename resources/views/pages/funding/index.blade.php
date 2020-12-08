@@ -39,14 +39,14 @@
               <p class="card-text mb-1 text-success">
                 <strong>Rp {{ number_format($fund_product->price, 0,',', '.') }}/paket</strong>
               </p>
-              <div class="d-flex flex-row w-100" style="font-size: .8rem">
+              {{-- <div class="d-flex flex-row w-100" style="font-size: .8rem">
                 <div class="col-6">
                   <strong>Kontrak</strong>
                 </div>
                 <div class="col-6">
                   {{ $fund_product->periode_length }} hari
                 </div>
-              </div>
+              </div> --}}
               <div class="d-flex flex-row w-100" style="font-size: .8rem">
                 <div class="col-6">
                   <strong>ROI</strong>
@@ -63,14 +63,14 @@
                   {{ $fund_product->current_stock }} paket
                 </div>
               </div>
-              <div class="d-flex flex-row w-100 mb-3" style="font-size: .8rem">
+              {{-- <div class="d-flex flex-row w-100 mb-3" style="font-size: .8rem">
                 <div class="col-6">
                   <b>Selesai</b>
                 </div>
                 <div class="col-6">
                   {{ date('d M Y', strtotime($fund_product->ended_at)) }}
                 </div>
-              </div>
+              </div> --}}
               <div class="w-100">
                 <a href="/funding/{{$fund_product->category->name}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 {{ ($fund_product->current_stock == 0) ? 'disabled' : '' }}">
                   {{ ($fund_product->current_stock == 0) ? 'Pendanaan ditutup' : 'Danai' }}

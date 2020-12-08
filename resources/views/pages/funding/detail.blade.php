@@ -30,7 +30,7 @@
     <div class="col-sm-12 bg-white shadow-sm py-3">
       <div>
         <div class="row m-3">
-          <div class="col-sm-4 text-center">
+          <div class="col-sm-4 text-center mb-xl-0 mb-4">
             <img src="{{ $fund_product->image }}" alt="" srcset="" style="width: 100%">
           </div>
           <div class="col-sm-8">
@@ -47,22 +47,22 @@
               </div>
               <div class="col-12 mb-4">
                 <div class="row">
-                  <div class="col-2">
+                  <div class="col-xl-2 col-4">
                     <strong>ROI</strong>
                   </div>
-                  <div class="col-10">
+                  <div class="col-xl-10 col-8">
                     {{ $fund_product->estimated_return }}%
                   </div>
-                  <div class="col-2">
+                  <div class="col-xl-2 col-4">
                     <strong>Periode</strong>
                   </div>
-                  <div class="col-10">
+                  <div class="col-xl-10 col-8">
                     {{ $fund_product->periode_length }} hari
                   </div>
-                  <div class="col-2">
+                  <div class="col-xl-2 col-4">
                     <strong>Sisa stok</strong>
                   </div>
-                  <div class="col-10">
+                  <div class="col-xl-10 col-8">
                     {{ $fund_product->current_stock}} paket
                   </div>
                 </div>
@@ -75,7 +75,7 @@
               </div>
               @else
               <div class="row mb-1">
-                <div class="col-10">
+                <div class="col-xl-10 col-12">
                   <div class="input-group mb-3">
                     <span class="input-group-text">Qty</span>
                     <input type="number" class="form-control" placeholder="0" step="1" aria-describedby="basic-addon1" name="qty">
@@ -83,7 +83,7 @@
                     <input type="hidden" name="product_id" value="{{ $fund_product->id }}">
                   </div>
                 </div>
-                <div class="col-2">
+                <div class="col-xl-2 col-12">
                   <input class="btn btn-success w-100" value="Danai" type="submit">
                 </div>
               </div>
