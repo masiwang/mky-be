@@ -12,4 +12,21 @@ class Vendor extends Model
     {
         return $this->hasMany('App\Models\FundProduct', 'vendor_id');
     }
+
+    protected $fillable = [
+      'name',
+      'owner',
+      'ktp',
+      'phone',
+      'kk',
+      'npwp',
+      'bank_type',
+      'bank_acc',
+      'jalan',
+      'provinsi',
+      'kabupaten',
+      'kecamatan',
+      'kelurahan',
+      'kodepos'
+    ];
 }

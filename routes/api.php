@@ -108,6 +108,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     Route::get('user', [User_::class, 'getUser']);
     // vendor (mitra)
     Route::get('vendor', [Vendor_::class, 'index']);
+    Route::post('vendor', [Vendor_::class, 'store']);
     Route::get('vendor/{id}', [Vendor_::class, 'detail']);
     // upload handler
     Route::post('upload/image', [File_::class, 'image']);

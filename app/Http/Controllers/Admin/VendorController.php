@@ -70,4 +70,14 @@ class VendorController extends Controller
       $fund_products = $fundProductController->_resource( FundProduct::where('vendor_id', $id)->get() );
       return response()->json(compact('vendor', 'fund_products'), 200);
     }
+
+    public function store(Request $request){
+      if(
+        Vendor::create($request->all())
+      ){
+        return response()->json(['status' => 'success'], 200);
+      }else{
+        return response()->json(['status' => 'bad request'], 200);
+      }
+    }
 }
