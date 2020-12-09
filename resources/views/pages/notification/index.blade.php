@@ -23,7 +23,7 @@
       </nav>
     </div>
 
-    <div class="col-12 bg-white shadow-sm" style="min-height: 500px">
+    <div class="d-xl-block d-none col-12 bg-white shadow-sm" style="min-height: 500px">
       <div class="row">
         <div class="col-4" style="height: 500px; overflow-y: scroll">
           <div class="p-3">
@@ -53,6 +53,22 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="d-xl-none d-block list-group bg-white" style="height: 600px; overflow-y: scroll">
+      @foreach ($notifications as $notification)
+        <a href="/notification/{{$notification->id}}/view" class="list-group-item list-group-item-action shadow-none border-0 shadow-sm">
+          <div class="d-flex flex-row py-2">
+            <div class="flex-fill">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 {{ $notification->status == 'unread' ? 'text-success' : 'text-dark' }}">{{ $notification->title }}</h5>
+              </div>
+              <p class="mb-1">{!! \Str::limit($notification->body, 100) !!}</p>
+              <small class="text-muted">{{ $notification->created_at}}</small><br/>
+            </div>
+          </div>
+        </a>
+      @endforeach
     </div>
   </div>
 </div>

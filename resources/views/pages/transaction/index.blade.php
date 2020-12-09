@@ -22,7 +22,7 @@
         </nav>
       </div>
 
-      <div class="col-12 bg-white shadow-sm" style="height: 400px; overflow-y: scroll">
+      <div class="d-xl-block d-none col-12 bg-white shadow-sm" style="height: 400px; overflow-y: scroll">
         <table class="table table-hover">
           <thead>
             <tr>
@@ -57,10 +57,36 @@
               @endif
             </tr>
           @endforeach
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-xl-none d-block list-group bg-white" style="height: 600px; overflow-y: scroll">
+        @foreach ($transactions as $transaction)
+          <a href="#" class="list-group-item list-group-item-action shadow-none border-0 shadow-sm">
+            <div class="d-flex flex-row py-2">
+              <div class="flex-fill">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ $transaction->code }}</h5>
+                  @if ($transaction->status_id == 1)
+                  <span class="badge bg-warning pt-2">{{ \Str::ucfirst('Tunda') }}</span>
+                  @endif
+                  @if ($transaction->status_id == 2)
+                  <span class="badge bg-success pt-2">{{ \Str::ucfirst('Selesai') }}</span>
+                  @endif
+                  @if ($transaction->status_id == 3)
+                  <span class="badge bg-danger pt-2">{{ \Str::ucfirst('Gagal') }}</span>
+                  @endif
+                </div>
+                <p class="mb-1">Rp {{ number_format($transaction->nominal, 0, ',', '.') }}</p>
+                <small class="text-muted">{{ $transaction->bank_type }} {{ $transaction->bank_acc }}</small><br/>
+                <small><em>PS: {{$transaction->comment}}</em></small>
+              </div>
+            </div>
+          </a>
+        @endforeach
+      </div>
     </div>
   </div>
-</div>
 @include('components._footer')
 @endsection

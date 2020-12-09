@@ -23,7 +23,7 @@
     </div>
     <div class="col-12">
       <div id="profileIndexContainer" class="row bg-white shadow-sm">
-        <div class="col-3 p-4 border-right">
+        <div class="col-xl-3 col-12 p-4 border-right">
           <div class="container">
             @if ($user->image)
               <img src="{{$user->image}}" alt="" srcset="" style="width: 100%">
@@ -70,7 +70,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-9 p-4">
+          <div class="col-xl-9 col-12 p-4">
             <div class="mb-4">
               <div class="d-flex flex-row align-items-end">
                 <h2 class="mb-1 mr-4">{{ $user->name }}</h2> <p class="mb-2 text-secondary">{{ $user->job }} <span class="badge bg-primary"> {{ ($user->gender === 1) ? 'L' : 'P' }}</span></p>
@@ -211,19 +211,19 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">perbarui foto</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Perbarui foto</h5>
               <button type="button" class="btn-close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">
               <form action="{{ url('/profile/foto') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="formFileSm" class="form-label">unggah foto profile</label>
+                  <label for="formFileSm" class="form-label">Unggah foto profile</label>
                   <input type="file" class="form-control" id="image" name="image">
                     @if (\Session::has('image'))
                       <span class="text-danger">{{ \Session::get('image') }}</span>
                     @endif
-                    <span class="text-danger">file upload max 512Kb</span>
+                    {{-- <span class="text-danger">file upload max 512Kb</span> --}}
                 </div>
                 <div class="modal-footer">
                   <a class="btn btn-secondary" data-dismiss="modal">Batal</a>

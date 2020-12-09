@@ -43,6 +43,7 @@ Route::post('/funding/{category}/{product}', [FundProductController::class, 'new
 
 Route::get('/notification', [NotificationController::class, 'index']);
 Route::get('/notification/{id}', [NotificationController::class, 'detail']);
+Route::get('/notification/{id}/view', [NotificationController::class, 'view_detail']);
 
 Route::get('/transaction', [TransactionController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::get('/transaction/topup', [TransactionController::class, 'topup'])->middleware('auth', 'profileiscomplete');
