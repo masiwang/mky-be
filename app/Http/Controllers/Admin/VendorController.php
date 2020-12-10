@@ -59,6 +59,7 @@ class VendorController extends Controller
         'kk' => $vendor->kk,
         'npwp' => $vendor->npwp,
         'bank' => $vendor->bank_type.' '.$vendor->bank_acc,
+        'phone' => $vendor->phone, 
         'nominal' => $nominal
       ];
       return $response;
