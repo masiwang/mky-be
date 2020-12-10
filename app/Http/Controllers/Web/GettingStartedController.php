@@ -9,6 +9,7 @@ use App\Models\UserAddress;
 use App\Models\Kodepos;
 use Auth;
 use Carbon\Carbon;
+use Image;
 use Str;
 
 class GettingStartedController extends Controller
@@ -93,12 +94,20 @@ class GettingStartedController extends Controller
     }
 
     if($user->level == 3){
+      $this->validate($request, [
+        'image' => 'required|image|max:5120'
+      ]);
       $ktp = $request->ktp ? ((Str::length($request->ktp) == 16) ? $request->ktp : null) : null;
-      $image = $request->image ?? null;
+      $image = $request->file('image') ?? null;
       if($ktp && $image){
-        $image_name = $this->setImage($image);
+        // upload ktp
+        $ktp_image = Image::make($image->getRealPath());
+        $ktp_image->resize(400, 400, function($constraint){
+          $constraint->aspectRatio();
+        })->save('assets/idcard/'.$user->id.'.jpg');
+        // simpan di database
         $user->ktp = $ktp;
-        $user->ktp_image = $image_name;
+        $user->ktp_image = '/assets/idcard/'.$user->id.'.jpg';
         $user->level = 4;
         $user->save();
       }else{
