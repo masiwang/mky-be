@@ -120,18 +120,24 @@ class GettingStartedController extends Controller
 
     if($user->level == 4){
       $agree = $request->agree ?? null;
-      $image = $request->image ?? null;
+      $image = $request->file('image') ?? null;
       if($agree && $image){
-        $image_name = $this->setImage($image);
+        // upload image
+        $ttd_image = Image::make($image->getRealPath());
+        $ttd_image->resize(200, 200, function($constraint){
+          $constraint->aspectRatio();
+        })->save('assets/signature/'.$user->id.'.jpg');
+
+        $image_name = '/assets/signature/'.$user->id.'.jpg';
         $user->ttd = $image_name;
         $user->level = 5;
         $user->save();
         $this->setNotification( 
           $user->id,
           'Pendaftaran Berhasil',
-          '<p>Selamat, registrasi Anda telah berhasil.</p>
-          <p>Setelah ini, silahkan menunggu maksimal 1 hari kerja untuk verifikasi identitas Anda. Apabila dalam 1 hari kerja akun Anda belum diverifikasi, harap hubungi kami melalui nomor WhatsApp Official kami berikut ini +62 821-3000-4204</p>
-          <p>Salam hangat,</p><br/><br/>
+          '<p>Hi, '.$user->name.'👋</p>
+          <p>Selamat, pendaftaran anda berhasil. Setelah ini, silahkan menunggu maksimal 1 hari kerja untuk verifikasi identitas Anda. Apabila dalam 1 hari kerja akun Anda belum diverifikasi, harap hubungi kami melalui nomor WhatsApp Official kami berikut ini +62 821-3000-4204</p><br/>
+          <p>Salam 💚,</p><br/>
           <strong>Tim Makarya</strong>'
         );
       }else{
