@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Image;
 
 class TransactionController extends Controller
 {
@@ -28,18 +29,22 @@ class TransactionController extends Controller
     $bank_type = $request->bank_type ?? null;
     $bank_acc = $request->bank_acc ?? null;
     $nominal = $request->nominal ? ($request->nominal > 1000 ? $request->nominal : null) : null;
-    $image = $request->image ?? null;
+    $image = $request->file('image') ?? null;
 
     if($bank_type && $bank_acc && $nominal && $image){
-      $image_name = $this->setImage($image);
+      $code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;
+      $bukti = Image::make($image->getRealPath());
+      $bukti->resize(600, 600, function($constraint){
+        $constraint->aspectRatio();
+      })->save('assets/transaction/'.$code.'.jpg');
       $transaction = new Transaction();
       $transaction->user_id = $user->id;
-      $transaction->code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;
+      $transaction->code = $code;
       $transaction->type = 'in';
       $transaction->bank_type = $bank_type;
       $transaction->bank_acc = $bank_acc;
       $transaction->nominal = $nominal;
-      $transaction->image = $image_name;
+      $transaction->image = '/assets/transaction/'.$code.'.jpg';
       $transaction->status_id = 1;
       $transaction->comment = 'topup';
       if($transaction->save()){

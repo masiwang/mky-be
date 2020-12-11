@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Image;
 
 class UserController extends Controller
 {
@@ -32,12 +33,17 @@ class UserController extends Controller
   }
   public function update_foto(Request $request){
     $user = User::find(Auth::id());
-    $image_name = $this->setImage($request->image);
+    // upload image
+    $request->validate([
+      'image' => 'required|max:5120'
+    ]);
+    $user_image = Image::make($request->file('image')->getRealPath());
+    $user_image->resize(300, 300, function($constraint){
+      $constraint->aspectRatio();
+    })->save('assets/user/'.$user->id.'.jpg');
+
+    $image_name = '/assets/user/'.$user->id.'.jpg';
     $user->image = $image_name;
-  //   $request->validate([
-  //     'image' => 'required',
-  //     'image.*' => 'mimes:jpeg,jpg,png,gif|max:512'
-  // ]);
     $user->save();
     return redirect('profile');
   }
