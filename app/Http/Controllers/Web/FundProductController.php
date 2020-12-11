@@ -102,7 +102,8 @@ class FundProductController extends Controller
       $user->id,
       'Pendanaan '.$fund_product->name,
       '<p>Hi '.$user->name.'👋</p>'.
-      '<p>Terimakasih telah melakukan pendanaan pada produk '.$fund_product->name.'. Berikut ini adalah rincian portofolio anda pada pendanaan ini. Setelah pendanaan dimulai, Anda akan menerima invoice dan rincian pendanaan dari kami. Terimakasih 🙏.</p>'.
+      '<p>Terimakasih telah melakukan pendanaan pada produk '.$fund_product->name.'. Setelah pendanaan dimulai, Anda akan menerima invoice dan rincian pendanaan dari kami. Terimakasih 🙏.</p>'.
+      '<p>Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WA (+62) 821 3000 4204 atau melalui Email support@makarya.in.</p>'.
       '<br/><p>Salam 💚,<br/><br/>Tim makarya</p>'
     );
     // kirim invoice
