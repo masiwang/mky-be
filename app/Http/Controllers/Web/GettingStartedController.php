@@ -137,8 +137,7 @@ class GettingStartedController extends Controller
           'Pendaftaran Berhasil',
           '<p>Hi, '.$user->name.'👋</p>
           <p>Selamat, pendaftaran anda berhasil. Setelah ini, silahkan menunggu maksimal 1 hari kerja untuk verifikasi identitas Anda. Apabila dalam 1 hari kerja akun Anda belum diverifikasi, harap hubungi kami melalui nomor WhatsApp Official kami berikut ini +62 821-3000-4204</p><br/>
-          <p>Salam 💚,</p><br/>
-          <strong>Tim Makarya</strong>'
+          <p>Salam 💚,<br/><br/>Tim Makarya</p>'
         );
       }else{
         return back()->with([

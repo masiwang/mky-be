@@ -83,7 +83,7 @@ class FundProductController extends Controller
     $transaction->code = 'MKYTRFO'.$user->id.Carbon::now()->timestamp;
     $transaction->user_id = $user->id;
     $transaction->type = 'out';
-    $transaction->bank_type = 'MKY';
+    $transaction->bank_type = 'Saldo';
     $transaction->bank_acc = $user->id;
     $transaction->nominal = (-1)*$funding_price;
     $transaction->status_id = 2;
@@ -91,8 +91,20 @@ class FundProductController extends Controller
     $transaction->approved_at = Carbon::now();
     $transaction->comment = 'Pendanaan '.$product->name;
     $transaction->save();
+    // kurangi sisa stock saat ini
+    $fund_product = FundProduct::find($product_id);
+    $old_stock = $fund_product->current_stock;
+    $new_stock = $old_stock - $qty;
+    $fund_product->current_stock = $new_stock;
+    $fund_product->save();
     // kirim notifikasi
-
+    $this->setNotification(
+      $user->id,
+      'Pendanaan '.$fund_product->name,
+      '<p>Hi '.$user->name.'👋</p>'.
+      '<p>Terimakasih telah melakukan pendanaan pada produk '.$fund_product->name.'. Berikut ini adalah rincian portofolio anda pada pendanaan ini. Setelah pendanaan dimulai, Anda akan menerima invoice dan rincian pendanaan dari kami. Terimakasih 🙏.</p>'.
+      '<br/><p>Salam 💚,<br/><br/>Tim makarya</p>'
+    );
     // kirim invoice
     return redirect('/portofolio');
   }
