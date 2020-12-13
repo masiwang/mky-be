@@ -22,6 +22,7 @@ class TransactionController extends Controller
   }
 
   public function topupSave(Request $request){
+
     $user = $this->getUser();
     if(!$user->ktp_verified_at){
       return back();
@@ -30,6 +31,10 @@ class TransactionController extends Controller
     $bank_acc = $request->bank_acc ?? null;
     $nominal = $request->nominal ? ($request->nominal > 1000 ? $request->nominal : null) : null;
     $image = $request->file('image') ?? null;
+
+    if($nomimal > 9999999999){
+      $nomimal = null;
+    }
 
     if($bank_type && $bank_acc && $nominal && $image){
       $code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;

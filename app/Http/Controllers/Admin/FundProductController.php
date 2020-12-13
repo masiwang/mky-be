@@ -99,7 +99,7 @@ class FundProductController extends Controller
         'price' => 'required|min:4',
         'stock' => 'required',
         'periode' => 'required',
-        'description' => 'required|max:512',
+        'description' => 'required|max:5000',
         'prospectus' => 'required'
       ]);
       $fund_product = new FundProduct();
