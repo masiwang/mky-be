@@ -9,7 +9,7 @@ use App\Models\UserAddress;
 use App\Models\Kodepos;
 use Auth;
 use Carbon\Carbon;
-use Image;
+use Image; 
 use Str;
 
 class GettingStartedController extends Controller

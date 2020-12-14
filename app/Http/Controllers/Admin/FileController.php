@@ -9,8 +9,12 @@ use Str;
 class FileController extends Controller
 {
   public function image(Request $request){
-    $image_name = Str::random(32).'.jpg';
-    $request->image->move('assets/', $image_name);
-    return response()->json(['location' => '/assets/'.$image_name]);
+    $image = $request->file('image');
+    $image_name = Str::random(32);
+    $product_image = Image::make($image->getRealPath());
+    $product_image->resize(500, 500, function($constraint){
+      $constraint->aspectRatio();
+    })->save('asset/fund/'.$image_name.'.jpg');
+    return response()->json(['location' => '/assets/fund/'.$image_name.'.jpg']);
   }
 }
