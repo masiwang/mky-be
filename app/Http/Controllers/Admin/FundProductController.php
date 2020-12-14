@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Image;
+use Str;
 
 class FundProductController extends Controller
 {
@@ -163,7 +165,11 @@ class FundProductController extends Controller
       $fund_product->ended_at = new Carbon($request->ended_at);
     }
     if($request->new_image){
-      $image_name = $this->setImage($request->new_image);
+      $image = $request->file('new_image');
+      $image_name = Str::random(32);
+      $product_image = Image::make($image->getRealPath());
+      $product_image->fit(500)->save('assets/fund/'.$image_name.'.jpg');
+      $image_name = '/assets/fund/'.$image_name.'.jpg';
       $fund_product->image = $image_name;
     }
 
