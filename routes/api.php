@@ -13,56 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-use App\Http\Controllers\API\v1\AddressController;
-use App\Http\Controllers\API\v1\FileController;
-use App\Http\Controllers\API\v1\FundController;
-use App\Http\Controllers\API\v1\FundCheckoutController;
-use App\Http\Controllers\API\v1\TransactionController;
-use App\Http\Controllers\API\v1\UpdaterController;
-use App\Http\Controllers\API\v1\UserController;
 
-use App\Http\Controllers\User\AddressController as UserAddress;
-Route::group(['prefix' => 'v1'], function () {
-    // guest
-    Route::get('guestfund', [FundController::class, 'product_guest']);
-    // alamat
-    Route::get('provinsi', [AddressController::class, 'provinsi']);
-    Route::get('kabupaten', [AddressController::class, 'kabupaten']);
-    Route::get('kecamatan', [AddressController::class, 'kecamatan']);
-    Route::get('kelurahan', [AddressController::class, 'kelurahan']);
-    Route::get('kodepos', [AddressController::class, 'kodepos']);
-    // apps update
-    Route::get('update', [UpdaterController::class, 'check_update']);
-    // auth user
-    Route::post('login', [UserController::class, 'login']);
-    Route::post('register', [UserController::class, 'register']);
-    Route::get('refresh', [UserController::class, 'refresh']);
-    Route::group(['middleware' => 'auth:api'], function () {
-        // user
-        Route::get('user', [UserController::class, 'user']);
-        Route::post('user', [UserController::class, 'user_edit']);
-        Route::post('getstarted', [UserController::class, 'get_started']);
-        // fund
-        Route::get('fund', [FundController::class, 'product']);
-        Route::get('fund/{id}', [FundController::class, 'product_detail']);
-        //fund checkout aka portofolio
-        Route::get('portofolio', [FundCheckoutController::class, 'portofolio']);
-        Route::post('portofolio', [FundCheckoutController::class, 'new_portofolio']);
-        // transaction
-        Route::get('saldo', [TransactionController::class, 'saldo']);
-        Route::get('transaction', [TransactionController::class, 'transaction']);
-        Route::post('topup', [TransactionController::class, 'topup']);
-        Route::post('withdraw', [TransactionController::class, 'withdraw']);
-        // upload
-        Route::post('upload', [FileController::class, 'upload']);
-    });
-
-    Route::get('/address', [UserAddress::class, 'getProvinsi']);
-    Route::get('/address/{provinsi}', [UserAddress::class, 'getKabupaten']);
-    Route::get('/address/{provinsi}/{kabupaten}', [UserAddress::class, 'getKecamatan']);
-    Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}', [UserAddress::class, 'getKelurahan']);
-    Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', [UserAddress::class, 'getKodepos']);
-});
 /**
  * Admin Area
  */
@@ -129,3 +80,14 @@ Route::get('/fund-product', [AppFundProduct::class, 'index'])->middleware('auth:
 Route::get('/portofolio', [AppFundCheckout::class, 'portofolio'])->middleware('auth:api');
 Route::get('/notification', [AppNotification::class, 'notification'])->middleware('auth:api');
 Route::get('/profile', [AppUser::class, 'profile'])->middleware('auth:api');
+
+use App\Http\Controllers\API\UserController as UserApi;
+use App\Http\Controllers\API\FundProductController as FundProductApi;
+use App\Http\Controllers\API\PortofolioController as PortofolioApi;
+use App\Http\Controllers\API\TransactionController as TransactionApi;
+Route::get('/admin/v2/user', [UserApi::class, 'index']);
+Route::get('/admin/v2/user/{id}/portofolio', [UserApi::class, 'portofolio']);
+Route::get('/admin/v2/user/{id}/transaction', [UserApi::class, 'transaction']);
+Route::get('/admin/v2/fund-product', [FundProductApi::class, 'index']);
+Route::post('/admin/v2/portofolio', [PortofolioApi::class, 'store']);
+Route::post('/admin/v2/transaction', [TransactionApi::class, 'store']);

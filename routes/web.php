@@ -23,6 +23,7 @@ use App\Http\Controllers\Web\GettingStartedController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\NotificationController;
 use App\Http\Controllers\Web\TransactionController;
+use App\Http\Controllers\Web\TutorialController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\FaqController;
 
@@ -35,6 +36,8 @@ Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'registerSave']);
 Route::get('/getting-started', [GettingStartedController::class, 'index'])->middleware('auth');
 Route::post('/getting-started', [GettingStartedController::class, 'save'])->middleware('auth');
+
+Route::get('/tutorial', [TutorialController::class, 'index'])->middleware('auth', 'profileiscomplete');
 
 Route::get('/funding', [FundProductController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::get('/funding/{category}', [FundProductController::class, 'category'])->middleware('auth', 'profileiscomplete');
@@ -55,8 +58,8 @@ Route::get('/portofolio', [FundCheckoutController::class, 'index'])->middleware(
 Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->middleware('auth', 'profileiscomplete');
 
 Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
-Route::post('/profile', [UserController::class, 'update_save']);
-Route::post('/profile/foto', [UserController::class, 'update_foto']);
+Route::post('/profile', [UserController::class, 'update_save'])->middleware('auth', 'profileiscomplete');
+Route::post('/profile/foto', [UserController::class, 'update_foto'])->middleware('auth', 'profileiscomplete');
 Route::get('/faq', [FaqController::class, 'index']);
 
 Route::get('/forgot', [AuthController::class, 'forgotViewEmail']);

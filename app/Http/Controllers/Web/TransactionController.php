@@ -12,7 +12,7 @@ class TransactionController extends Controller
 {
   public function index(){
     $user = $this->getUser();
-    $transactions = Transaction::where('user_id', $user->id)->get();
+    $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
     return view('pages.transaction.index', compact('user', 'transactions'));
   }
   

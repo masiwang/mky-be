@@ -8,6 +8,9 @@ use App\Models\Transaction;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\InvoicePortofolio;
+use App\Models\User;
 
 class FundCheckoutController extends Controller
 {
@@ -33,6 +36,9 @@ class FundCheckoutController extends Controller
       </table><br/><br/>
       Salam,<br/><br/>Tim Makarya'
     );
+    // kirim invoice vie email
+    $user = User::find($portofolio->user_id);
+    Mail::to($user)->send(new InvoicePortofolio($user, $portofolio));
 
     if( $portofolio->save() ){
       return response()->json(['status' => 200, 'message' => 'success']);

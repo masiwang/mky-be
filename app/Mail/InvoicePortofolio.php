@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\User;
+use App\Models\FundCheckout;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -18,7 +20,7 @@ class InvoicePortofolio extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user, FundCheckout $portofolio)
     {
         $this->user = $user;
         $this->portofolio = $portofolio;
@@ -33,6 +35,17 @@ class InvoicePortofolio extends Mailable
     {
         return $this->to($this->user->email)
         ->subject('Invoice #'.$this->portofolio->invoice)
-        ->view('template.email.invoice');
+        ->view('template.email.invoice')
+        ->with([
+          'user_name' => $this->user->name,
+          'product_name' => $this->portofolio->product->name,
+          'vendor_name' => $this->portofolio->product->vendor->name,
+          'invoice_code' => $this->portofolio->invoice,
+          'qty' => $this->portofolio->qty,
+          'price' => $this->portofolio->product->price,
+          'estimated_return' => $this->portofolio->product->estimated_return,
+          'created_at' => $this->portofolio->created_at,
+          'ended_at' => $this->portofolio->product->ended_at
+        ]);
     }
 }

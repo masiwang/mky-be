@@ -10,6 +10,9 @@
       <div class="mr-auto">&nbsp;</div>
       <ul class="navbar-nav mb-2 mb-lg-0">
         @if ($user)
+          <li class="nav-item">
+            <a class="nav-link" href="/funding">Funding</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
               Transaksi
@@ -46,6 +49,9 @@
         @else
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{{ url('/login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url('/register') }}">Registrasi</a>
           </li>
         @endif
       </ul>
