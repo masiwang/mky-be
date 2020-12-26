@@ -113,7 +113,7 @@ class AuthController extends Controller
       $user->password = Hash::make($request->new_password);
       
       if($user->save()){
-        return redirect('/login');
+        return redirect('/login')->with('reset_password_success', 'Password Anda berhasil diubah.');
       }else{
         return back()->with('error', 'Maaf terdapat kesalahan. Ulangi sekali lagi.');
       }

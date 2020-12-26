@@ -34,16 +34,15 @@
             <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@makarya.in">
           </div>
 
-          <div class="mb-3">
-            <div class="row">
-              <div class="col-6">
-                Password
-              </div>
-              <div class="col-6 text-right">
-                <a class="text-secondary" href="/forgot">Lupa password?</a>
-              </div>
-            </div>
+          <div class="mb-2">
+            <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password">
+            @if (\Session::has('reset_password_success'))
+            <p class="text-success">{{ \Session::get('reset_password_success') }}</p>
+            @endif
+            <div class="col-12 mt-3 text-right">
+              <a class="text-secondary" href="/forgot">Lupa password?</a>
+            </div>
           </div>
           {{-- Jika terdapat error --}}
           @if( Session::has('error') )

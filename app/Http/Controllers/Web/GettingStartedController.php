@@ -95,7 +95,7 @@ class GettingStartedController extends Controller
 
     if($user->level == 3){
       $this->validate($request, [
-        'image' => 'required|image|max:5120'
+        'image' => 'required|image|max:12400'
       ]);
       $ktp = $request->ktp ? ((Str::length($request->ktp) == 16) ? $request->ktp : null) : null;
       $image = $request->file('image') ?? null;
@@ -105,6 +105,17 @@ class GettingStartedController extends Controller
         $ktp_image->resize(400, 400, function($constraint){
           $constraint->aspectRatio();
         })->save('assets/idcard/'.$user->id.'.jpg');
+
+        if($request->file('image_npwp')){
+          $npwp_image = $request->file('image_npwp');
+          $npwp_image = Image::make($npwp_image->getRealPath());
+          $npwp_image->resize(400, 400, function($constraint){
+            $constraint->aspectRatio();
+          })->save('assets/idcard/'.$user->id.'_npwp.jpg');
+
+          $user->npwp = $request->npwp;
+          $user->npwp_image = '/assets/idcard/'.$user->id.'_npwp.jpg';
+        }
         // simpan di database
         $user->ktp = $ktp;
         $user->ktp_image = '/assets/idcard/'.$user->id.'.jpg';
@@ -120,16 +131,16 @@ class GettingStartedController extends Controller
 
     if($user->level == 4){
       $agree = $request->agree ?? null;
-      $image = $request->file('image') ?? null;
-      if($agree && $image){
+      // $image = $request->file('image') ?? null;
+      if($agree){
         // upload image
-        $ttd_image = Image::make($image->getRealPath());
-        $ttd_image->resize(200, 200, function($constraint){
-          $constraint->aspectRatio();
-        })->save('assets/signature/'.$user->id.'.jpg');
+        // $ttd_image = Image::make($image->getRealPath());
+        // $ttd_image->resize(200, 200, function($constraint){
+        //   $constraint->aspectRatio();
+        // })->save('assets/signature/'.$user->id.'.jpg');
 
-        $image_name = '/assets/signature/'.$user->id.'.jpg';
-        $user->ttd = $image_name;
+        // $image_name = '/assets/signature/'.$user->id.'.jpg';
+        // $user->ttd = $image_name;
         $user->level = 5;
         $user->save();
         $this->setNotification( 
@@ -141,8 +152,7 @@ class GettingStartedController extends Controller
         );
       }else{
         return back()->with([
-          'agree' => (!$agree) ? 'Anda tidak dapat menyelesaikan pendaftaran karena tidak setuju dengan syarat dan ketentuan Makarya' : '',
-          'ttd' => (!$image) ? 'Foto tanda tangan wajib diisi' : ''
+          'agree' => (!$agree) ? 'Anda tidak dapat menyelesaikan pendaftaran karena tidak setuju dengan syarat dan ketentuan Makarya' : ''
         ]);
       }
     }

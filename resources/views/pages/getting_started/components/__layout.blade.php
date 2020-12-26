@@ -12,7 +12,7 @@
                 ['_email', 'Konfirmasi Email'],
                 ['_card', 'Informasi Umum'],
                 ['_pin', 'Alamat'], 
-                ['_id', 'KTP'], 
+                ['_id', 'Dokumen Pribadi'], 
                 ['_document', 'Persetujuan']
               ];
             @endphp

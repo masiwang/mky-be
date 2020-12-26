@@ -9,6 +9,7 @@ class FundCheckout extends Model
 {
     use HasFactory;
     protected $table = 'fund_checkouts';
+    protected $fillable = ['invoice', 'product_id', 'user_id', 'qty', 'invoice_sent_at', 'invoice_sent_by', 'return_sent_at', 'return_sent_by'];
 
     public function product()
     {

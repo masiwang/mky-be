@@ -28,25 +28,20 @@
         <div class="col-6 col-md-2 p-2">
           <div class="card card-product h-100 shadow-sm">
             <div class="card-product__image-container" style="overflow: hidden">
-              <img src="{{ $fund_product->image }}" alt="Avatar" class="card-img-top" style="width: 100%;">
+              <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" >
+                <img src="{{ $fund_product->image }}" alt="Avatar" class="card-img-top" style="width: 100%;">
+              </a>
             </div>
             <div class="card-body d-flex align-items-start flex-column">
+              <strong>{{ $fund_product->vendor->name }}</strong>
               <p class="card-title mb-auto" style="max-height: 44px; overflow: hidden; font-size: .9rem;">
-                <a href="/funding/{{$fund_product->category->name}}/{{$fund_product->id}}" style="text-decoration:none" class="text-dark">
+                <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" style="text-decoration:none" class="text-dark">
                   {{ $fund_product->name }}
                 </a>
               </p>
               <p class="card-text mb-1 text-success">
                 <strong>Rp {{ number_format($fund_product->price, 0,',', '.') }}/paket</strong>
               </p>
-              {{-- <div class="d-flex flex-row w-100" style="font-size: .8rem">
-                <div class="col-6">
-                  <strong>Kontrak</strong>
-                </div>
-                <div class="col-6">
-                  {{ $fund_product->periode_length }} hari
-                </div>
-              </div> --}}
               <div class="d-flex flex-row w-100" style="font-size: .8rem">
                 <div class="col-6">
                   <strong>ROI</strong>
@@ -63,18 +58,22 @@
                   {{ $fund_product->current_stock }} paket
                 </div>
               </div>
-              {{-- <div class="d-flex flex-row w-100 mb-3" style="font-size: .8rem">
-                <div class="col-6">
-                  <b>Selesai</b>
-                </div>
-                <div class="col-6">
-                  {{ date('d M Y', strtotime($fund_product->ended_at)) }}
-                </div>
-              </div> --}}
               <div class="w-100">
-                <a href="/funding/{{$fund_product->category->name}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 {{ ($fund_product->current_stock == 0) ? 'disabled' : '' }}">
-                  {{ ($fund_product->current_stock == 0) ? 'Pendanaan ditutup' : 'Danai' }}
-                </a>
+                @if ($fund_product->current_stock > 0)
+                  <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100">
+                    Danai
+                  </a>
+                @else
+                  @if ($fund_product->return_sent_at)
+                    <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 disabled">
+                    Selesai
+                    </a>
+                  @else
+                  <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 disabled">
+                    Berlangsung
+                  </a>
+                  @endif
+                @endif
               </div>
             </div>
           </div>

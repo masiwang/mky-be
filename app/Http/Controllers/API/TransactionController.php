@@ -20,7 +20,7 @@ class TransactionController extends Controller
     {
       $user = User::where('email', $request->email)->first();
       $transactions = Transaction::where('user_id', $user->id)->get();
-      return response()->json(compact('request'), 200);
+      return response()->json(compact('transactions'), 200);
     }
 
     /**

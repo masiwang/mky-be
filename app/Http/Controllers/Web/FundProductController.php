@@ -14,14 +14,14 @@ class FundProductController extends Controller
 {
   public function index(){
     $user = $this->getUser();
-    $fund_products = FundProduct::orderBy('id', 'desc')->paginate(12);
+    $fund_products = FundProduct::orderBy('started_at', 'desc')->paginate(12);
     return view('pages.funding.index', compact('fund_products', 'user'));
   }
 
   public function category($category){
     $user = $this->getUser();
     $category = FundProductCategory::where('name', $category)->first();
-    $fund_products = FundProduct::where('category_id', $category->id)->orderBy('id', 'desc')->paginate(12);
+    $fund_products = FundProduct::where('category_id', $category->id)->orderBy('started_at', 'desc')->paginate(12);
     return view('pages.funding.index', compact('category', 'fund_products', 'user'));
   }
 

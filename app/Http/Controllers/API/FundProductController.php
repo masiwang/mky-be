@@ -25,7 +25,7 @@ class FundProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         //
     }
@@ -38,7 +38,8 @@ class FundProductController extends Controller
      */
     public function show($id)
     {
-        //
+      $product = FundProduct::with('vendor')->find($id);
+      return response()->json(compact('product'), 200);
     }
 
     /**

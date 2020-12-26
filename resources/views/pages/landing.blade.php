@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-12 h-100 d-flex justify-content-center align-items-center">
         <div class="text-center">
-          <h1 class="text-white mb-0" style="font-size: 6rem; font-weight: 600">Bersama Makarya</h1>
+          <h1 class="text-white mb-0" style="font-size: 5rem; font-weight: 600">Bersama Makarya</h1>
           <h2 class="text-white mb-4" style="font-size: 2.3rem;font-weight: 600">Membangun negeri dimulai dari sini</h2>
           <a href="/login" class="btn btn-success">Yuk mulai!</a>
         </div>
@@ -48,7 +48,7 @@
         </p>
       </div>
       <div class="row">
-        <div class="col-4 px-4 d-flex align-items-stretch">
+        <div class="col-xl-4 col-12 mb-xl-0 mb-3 px-4 d-flex align-items-stretch">
           <div class="card border-0 shadow-sm h-100">
             <div class="card-body rounded" style="background-color: #e8f2e8">
               <p class="text-success mb-2">01</p>
@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4 px-4 d-flex align-items-stretch">
+        <div class="col-xl-4 col-12 mb-xl-0 mb-3 px-4 d-flex align-items-stretch">
           <div class="card border-0 shadow-sm h-100">
             <div class="card-body rounded" style="background-color: #e8f2e8">
               <p class="text-primary mb-2">02</p>
@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4 px-4 d-flex align-items-stretch">
+        <div class="col-xl-4 col-12 mb-xl-0 mb-3 px-4 d-flex align-items-stretch">
           <div class="card border-0 shadow-sm h-100">
             <div class="card-body rounded" style="background-color: #e8f2e8">
               <p class="text-primary mb-2">03</p>
@@ -112,17 +112,17 @@
     <h2 class="h1 font-weight-bold mb-3">Bidang Usaha <span class="text-success">Mitra Makarya</span></h2>
   </div>
   <div class="row">
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-4 mb-xl-0 mb-3 ">
       <div class="d-flex align-items-end justify-content-center rounded" style="height: 300px; overflow: hidden; background-image: url('/images/vegetables-unsplash-wallpaper-330x330.jpg'); background-size:cover; background-position:center">
         <h3 class="text-light font-weight-bold">Pertanian</h3>
       </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-4 mb-xl-0 mb-3 ">
       <div class="d-flex align-items-end justify-content-center rounded" style="height: 300px; overflow: hidden; background-image: url('/images/makarya-sheep-330x330.jpg'); background-size:cover; background-position:center">
         <h3 class="text-light font-weight-bold">Peternakan</h3>
       </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-4 mb-xl-0 mb-3 ">
       <div class="d-flex align-items-end justify-content-center rounded" style="height: 300px; overflow: hidden; background-image: url('/images/makarya-fishery-330x330.jpg'); background-size:cover; background-position:center">
         <h3 class="text-light font-weight-bold">Perikanan</h3>
       </div>

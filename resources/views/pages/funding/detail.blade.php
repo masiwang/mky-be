@@ -36,7 +36,8 @@
           <div class="col-sm-8">
             <form class="row" action="/funding/{{ $fund_product->category->name }}/{{ $fund_product->id }}" method="POST">
               @csrf
-              <h4 class="col-12 mb-4"> {{ $fund_product->name }}</h4>
+              <h4 class="col-12"> {{ $fund_product->vendor->name }}</h4>
+              <h5 class="col-12 mb-4">{{ $fund_product->name }}</h5>
               <div class="col-12 mb-2">
                 <h4 class="text-success" style="font-weight: 600">Rp {{ number_format($fund_product->price, 0, ',', '.') }}/paket</h4>
               </div>
@@ -47,6 +48,12 @@
               </div>
               <div class="col-12 mb-4">
                 <div class="row">
+                  <div class="col-xl-2 col-4">
+                    <strong>Periode</strong>
+                  </div>
+                  <div class="col-xl-10 col-8">
+                    {{ date('d M Y', strtotime($fund_product->started_at)) }} s/d {{ date('d M Y', strtotime($fund_product->ended_at))}}
+                  </div>
                   <div class="col-xl-2 col-4">
                     <strong>ROI</strong>
                   </div>

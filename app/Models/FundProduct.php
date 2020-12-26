@@ -23,7 +23,7 @@ class FundProduct extends Model
   }
 
   public function report(){
-    return $this->hasMany('App\Models\FundProductReport', 'product_id');
+    return $this->hasMany('App\Models\FundProductReport', 'fund_product_id');
   }
 
   public function getPeriodeLengthAttribute(){

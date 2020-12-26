@@ -83,11 +83,26 @@ Route::get('/profile', [AppUser::class, 'profile'])->middleware('auth:api');
 
 use App\Http\Controllers\API\UserController as UserApi;
 use App\Http\Controllers\API\FundProductController as FundProductApi;
+use App\Http\Controllers\API\NotificationController as NotificationApi;
 use App\Http\Controllers\API\PortofolioController as PortofolioApi;
 use App\Http\Controllers\API\TransactionController as TransactionApi;
+use App\Http\Controllers\API\FundProductReportController as FundReportApi;
 Route::get('/admin/v2/user', [UserApi::class, 'index']);
 Route::get('/admin/v2/user/{id}/portofolio', [UserApi::class, 'portofolio']);
 Route::get('/admin/v2/user/{id}/transaction', [UserApi::class, 'transaction']);
 Route::get('/admin/v2/fund-product', [FundProductApi::class, 'index']);
 Route::post('/admin/v2/portofolio', [PortofolioApi::class, 'store']);
 Route::post('/admin/v2/transaction', [TransactionApi::class, 'store']);
+
+// user
+Route::get('/v2/fund-product', [FundProductApi::class, 'index']);
+Route::get('/v2/fund-product/{id}', [FundProductApi::class, 'show']);
+Route::get('/v2/fund-report/{id}', [FundReportApi::class, 'show']);
+Route::get('/v2/user/{user_id}/portofolio', [UserApi::class, 'portofolios']);
+Route::get('/v2/user/{user_id}/notification', [UserApi::class, 'notifications']);
+
+Route::get('/v2/user/{user_id}/portofolio/{portofolio_id}', [UserApi::class, 'portofolio']); // salah
+Route::get('/v2/user/{user_id}/portofolio/{portofolio_id}/report/{report_id}', [UserApi::class, 'portofolio']); // salah
+
+Route::get('/v2/notification/{id}', [NotificationApi::class, 'show']);
+Route::post('/v2/portofolio', [PortofolioApi::class, 'store_']);

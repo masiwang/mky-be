@@ -87,13 +87,4 @@
       @endif
   </div>
 </div>
-<div class="mb-3">
-  <label for="ttd" class="form-label">Unggah Tanda Tangan</label>
-  <input type="file" class="form-control" id="ttd" name="image">
-  @if (\Session::has('ttd'))
-        <span class="text-danger">
-          {{\Session::get('ttd')}}
-        </span>
-      @endif
-</div>
 @endsection
