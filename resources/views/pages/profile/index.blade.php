@@ -104,6 +104,10 @@
                       <th>KTP</th>
                       <td>{{ $user->ktp }}</td>
                     </tr>
+                    <tr>
+                      <th>Bank</th>
+                      <td>{{ $user->bank_type.' '.$user->bank_acc }}</td>
+                    </tr>
                   </table>
                 </div>
                 <div class="mb-4">
@@ -191,11 +195,19 @@
                 </div>
                 <div class="col-md-6">
                   <label for="inputAddress2" class="form-label">No KTP</label>
-                  <input type="text" class="form-control" id="inputAddress2" value="{{$user->ktp}}" disabled>
+                  <input type="text" class="form-control disabled" id="inputAddress2" value="{{$user->ktp}}" disabled>
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Nomor HP</label>
                   <input type="text" class="form-control" id="phone" name="phone" value="{{$user->phone}}">
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Nama Bank</label>
+                  <input type="text" class="form-control" id="phone" name="bank_type" value="{{$user->bank_type}}">
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">No. Rekening</label>
+                  <input type="text" class="form-control" id="phone" name="bank_acc" value="{{$user->bank_acc}}">
                 </div>
               </div>
             </div>

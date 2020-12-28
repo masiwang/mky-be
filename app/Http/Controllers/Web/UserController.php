@@ -27,7 +27,8 @@ class UserController extends Controller
         $user->gender = $request->gender;
     }
     $user->phone = $request->phone;
-    $user->ktp = $request->ktp;
+    $user->bank_type = $request->bank_type;
+    $user->bank_acc = $request->bank_acc;
     $user->save();
     return redirect('profile');
   }
