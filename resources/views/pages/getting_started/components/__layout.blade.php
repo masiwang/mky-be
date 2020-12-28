@@ -6,7 +6,7 @@
     <div class="col-12 bg-white p-4 border-0 shadow-sm">
       <div>
         <div class="row">
-          <div class="col-3">
+          <div class="col-xl-3 d-xl-block d-none">
             @php
               $items = [
                 ['_email', 'Konfirmasi Email'],
@@ -27,7 +27,7 @@
               @endforeach
             </ul>
           </div>
-          <div class="col-9">
+          <div class="col-xl-9 col-12">
             <form class="card border-0" action="{{ url('/getting-started') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="card-body" style="min-height: 400px">

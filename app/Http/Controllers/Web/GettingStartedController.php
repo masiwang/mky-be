@@ -119,6 +119,8 @@ class GettingStartedController extends Controller
         // simpan di database
         $user->ktp = $ktp;
         $user->ktp_image = '/assets/idcard/'.$user->id.'.jpg';
+        $user->bank_type = $request->bank_type;
+        $user->bank_acc = $request->bank_acc;
         $user->level = 4;
         $user->save();
       }else{
