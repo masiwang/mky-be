@@ -2,7 +2,7 @@
 @section('title') Tutorial @endsection
 @section('content')
 @include('components._top_navigation')
-<div class="container mb-5">
+<div class="container mt-3 mb-5 bg-white p-4">
   <div class="row mt-4">
     <div class="col-12">
       <div>

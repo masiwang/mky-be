@@ -146,9 +146,9 @@ class FundProductController extends Controller
     if($request->total_stock){
       $fund_product->total_stock = $request->total_stock;
     }
-    if($request->current_stock){
-      $fund_product->current_stock = $request->current_stock;
-    }
+
+    $fund_product->current_stock = $request->current_stock;
+    
     if($request->estimated_return){
       $fund_product->estimated_return = $request->estimated_return;
     }

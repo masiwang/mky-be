@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Transaction;
+use App\Models\FundCheckout as Portofolio;
 use Auth;
 
 class User extends Authenticatable implements JWTSubject
@@ -64,12 +65,12 @@ class User extends Authenticatable implements JWTSubject
   public function getSaldoAttribute()
   {
     $transaksi_masuk = Transaction::where([
-      'user_id' => Auth::id(),
+      'user_id' => $this->id,
       'status_id' => 2,
       'type' => 'in'
       ])->whereNotNull('approved_at')->sum('nominal');
     $transaksi_keluar = Transaction::where([
-      'user_id' => Auth::id(),
+      'user_id' => $this->id,
       'status_id' => 2,
       'type' => 'out'
       ])->whereNotNull('approved_at')->sum('nominal');
@@ -77,9 +78,34 @@ class User extends Authenticatable implements JWTSubject
     return $this->attributes['saldo'] = $transaksi_masuk+$transaksi_keluar;
   }
 
+  public function getAssetAttribute(){
+    $portofolio_berjalan = Portofolio::where([
+      'user_id' => $this->id,
+    ])->whereNull('return_sent_at')->get();
+    
+    $asset = 0;
+    foreach ($portofolio_berjalan as $portofolio) {
+      $p = Portofolio::find($portofolio->id);
+      $asset = $asset + $p->qty*$p->product->price;
+    }
+
+    $transaksi_masuk = Transaction::where([
+      'user_id' => $this->id,
+      'status_id' => 2,
+      'type' => 'in'
+      ])->whereNotNull('approved_at')->sum('nominal');
+    $transaksi_keluar = Transaction::where([
+      'user_id' => $this->id,
+      'status_id' => 2,
+      'type' => 'out'
+      ])->whereNotNull('approved_at')->sum('nominal');
+    
+    return $this->attributes['asset'] = $asset + $transaksi_masuk + $transaksi_keluar;
+  }
+
   public function getNotificationAttribute(){
     return $this->attributes['notification'] = Notification::where('user_id', $this->id)->where('status', 'unread')->count();
   }
-  public $appends = ['saldo', 'notification'];
+  public $appends = ['saldo', 'notification', 'asset'];
 
 }

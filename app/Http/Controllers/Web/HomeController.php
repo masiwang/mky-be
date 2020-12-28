@@ -17,7 +17,8 @@ class HomeController extends Controller
         return redirect('/getting-started');
       }
     }
-    $fund_products = FundProduct::limit(4)->orderBy('id', 'desc')->get();
-    return view('pages.'.$view, compact('fund_products', 'user'));
+    $fund_products = FundProduct::limit(12)->orderBy('started_at', 'desc')->get();
+    $all_fund_products = FundProduct::get();
+    return view('pages.'.$view, compact('fund_products', 'all_fund_products', 'user'));
   }
 }

@@ -16,9 +16,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $users = User::get();
+      if(!$request){
+        $users = User::with('portofolio')->get();
+      }else{
+        $users = new User;
+        if($request->unconfirmed){
+          $users = $users->whereNull('ktp_verified_at');
+        }
+        $users = $users->get();
+      }
+      return response()->json(compact('users'), 200);
+    }
+
+    public function index_admin(){
+      $users = User::with('portofolio')->get();
       return response()->json(compact('users'), 200);
     }
     /**
@@ -76,8 +89,6 @@ class UserController extends Controller
       
       return response()->json(compact('notifications'), 200);
     }
-
-
 
     public function transaction($id){
       $transactions = Transaction::where('user_id', $id)->get();

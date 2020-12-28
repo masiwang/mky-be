@@ -88,11 +88,21 @@ use App\Http\Controllers\API\PortofolioController as PortofolioApi;
 use App\Http\Controllers\API\TransactionController as TransactionApi;
 use App\Http\Controllers\API\FundProductReportController as FundReportApi;
 Route::get('/admin/v2/user', [UserApi::class, 'index']);
-Route::get('/admin/v2/user/{id}/portofolio', [UserApi::class, 'portofolio']);
+Route::get('/admin/v2/user/{id}/portofolio', [UserApi::class, 'portofolios']);
 Route::get('/admin/v2/user/{id}/transaction', [UserApi::class, 'transaction']);
+
 Route::get('/admin/v2/fund-product', [FundProductApi::class, 'index']);
+Route::get('/admin/v2/fund-product/{id}', [FundProductApi::class, 'show']);
+Route::post('/admin/v2/fund-product/{id}', [FundProductApi::class, 'update']);
+
 Route::post('/admin/v2/portofolio', [PortofolioApi::class, 'store']);
+
+Route::get('/admin/v2/portofolio/{id}', [PortofolioApi::class, 'show']);
+Route::post('/admin/v2/portofolio/{id}', [PortofolioApi::class, 'update']);
+Route::delete('/admin/v2/portofolio/{id}', [PortofolioApi::class, 'destroy']);
+
 Route::post('/admin/v2/transaction', [TransactionApi::class, 'store']);
+Route::delete('/admin/v2/transaction/{id}', [TransactionApi::class, 'destroy']);
 
 // user
 Route::get('/v2/fund-product', [FundProductApi::class, 'index']);
@@ -106,3 +116,4 @@ Route::get('/v2/user/{user_id}/portofolio/{portofolio_id}/report/{report_id}', [
 
 Route::get('/v2/notification/{id}', [NotificationApi::class, 'show']);
 Route::post('/v2/portofolio', [PortofolioApi::class, 'store_']);
+Route::get('/v2/portofolio/{id}', [PortofolioApi::class, 'show']);

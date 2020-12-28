@@ -142,7 +142,8 @@ class PortofolioController extends Controller
      */
     public function show($id)
     {
-        //
+      $portofolio = Portofolio::with('product')->find($id);
+      return response()->json(compact('portofolio'), 200);
     }
 
     /**
@@ -154,7 +155,28 @@ class PortofolioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      // return $request->user_id;
+      $product = FundProduct::find($request->product_id);
+      $time = new Carbon($request->time);
+      $portofolio = Portofolio::find($id);
+      $portofolio->user_id = $request->user_id;
+      $portofolio->invoice = 'MKYINVF'.$request->user_id.$time->timestamp;
+      $portofolio->product_id = $request->product_id;
+      $portofolio->qty = $request->qty;
+      $portofolio->created_at = $time;
+      if($request->invoice_is_sent == 'true'){
+        $portofolio->invoice_sent_at = $time;
+        $portofolio->invoice_sent_by = 1;
+      }
+      if($request->return_is_sent == 'true'){
+        $portofolio->return_sent_at = $product->ended_at;
+        $portofolio->return_sent_by = 1;
+      }
+      if($portofolio->save()){
+        return response()->json(['status' => 'success'], 200);
+      }else{
+        return response()->json(['status' => 'bad request'], 200);
+      }
     }
 
     /**
@@ -165,6 +187,8 @@ class PortofolioController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $portofolio = Portofolio::find($id);
+      $portofolio->delete();
+      return response()->json(['status' => 'success'], 200);
     }
 }

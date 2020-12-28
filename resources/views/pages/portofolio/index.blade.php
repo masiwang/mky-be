@@ -33,15 +33,10 @@
               </div>
               <p class="mb-1">{{ $portofolio->product->name }}</p>
               <small class="text-muted">Rp {{ number_format($portofolio->qty * $portofolio->product->price, 0, ',', '.') }}</small><br/>
-              @if (strtotime($portofolio->ended_at) > strtotime(\Carbon\Carbon::now()))
-                <span class="badge bg-primary">Berjalan</span>
-              @endif
-              @if (strtotime($portofolio->ended_at) <= strtotime(\Carbon\Carbon::now()))
-                @if ($portofolio->return_sent_at)
-                  <span class="badge bg-success">Return telah dikirim</span>
-                @else
-                  <span class="badge bg-success">Selesai</span>
-                @endif
+              @if ($portofolio->return_sent_at)
+              <span class="badge bg-success">Pendanaan selesai</span>
+              @else
+              <span class="badge bg-warning">Sedang berjalan</span>
               @endif
             </div>
           </div>

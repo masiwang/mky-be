@@ -112,6 +112,8 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $transaction = Transaction::find($id);
+      $transaction->delete();
+      return response()->json(['status' => 'success'], 200);
     }
 }

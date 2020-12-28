@@ -34,9 +34,9 @@
             </div>
             <div class="card-body d-flex align-items-start flex-column">
               <strong>{{ $fund_product->vendor->name }}</strong>
-              <p class="card-title mb-auto" style="max-height: 44px; overflow: hidden; font-size: .9rem;">
+              <p class="mb-auto" style="max-height: 44px; overflow: hidden; font-size: .9rem;">
                 <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" style="text-decoration:none" class="text-dark">
-                  {{ $fund_product->name }}
+                  {{ \Str::of($fund_product->name)->title() }}
                 </a>
               </p>
               <p class="card-text mb-1 text-success">
@@ -64,7 +64,7 @@
                     Danai
                   </a>
                 @else
-                  @if ($fund_product->return_sent_at)
+                  @if ((strtotime(\Carbon\Carbon::now()) - strtotime($fund_product->ended_at)) > 0)
                     <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 disabled">
                     Selesai
                     </a>

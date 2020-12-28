@@ -13,9 +13,21 @@ class FundProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $products = FundProduct::get();
+      if(!$request){
+        $products = FundProduct::get();
+      }else{
+        $products = new FundProduct;
+        if($request->category){
+          $products = $products->where('category_id', $request->category);
+        }
+        if($request->search){
+          $products = $products->where('name', 'like', '%'.$request->search.'%');
+        }
+        $products = $products->orderBy('started_at', 'desc')->get();
+      }
+      
       return response()->json(compact('products'), 200);
     }
 
@@ -51,7 +63,9 @@ class FundProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $product = FundProduct::find($id);
+      $product->update($request);
+      return response()->json(['status' => 'success'], 200);
     }
 
     /**

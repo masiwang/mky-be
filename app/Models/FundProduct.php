@@ -8,24 +8,25 @@ use Carbon\Carbon;
 
 class FundProduct extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    public function vendor()
-    {
-        return $this->belongsTo('App\Models\Vendor', 'vendor_id');
-    }
-    public function category()
-    {
-        return $this->belongsTo('App\Models\FundProductCategory', 'category_id');
-    }
-    public function checkout(){
-      return $this->hasMany('App\Models\FundCheckout', 'product_id');
+  protected $fillable = [
+    'name', 'description', 'prospectus', 'price', 'estimated_return', 'actual_return', 'total_stock',
+    'current_stock', 'image', 'started_at', 'ended_at', 'category_id', 'vendor_id'
+  ];
+
+  public function vendor(){
+    return $this->belongsTo('App\Models\Vendor', 'vendor_id');
   }
-
+  public function category(){
+    return $this->belongsTo('App\Models\FundProductCategory', 'category_id');
+  }
+  public function checkout(){
+    return $this->hasMany('App\Models\FundCheckout', 'product_id');
+  }
   public function report(){
     return $this->hasMany('App\Models\FundProductReport', 'fund_product_id');
   }
-
   public function getPeriodeLengthAttribute(){
     /**
      * Sumber : https://laravel.com/docs/8.x/eloquent-serialization#appending-values-to-json

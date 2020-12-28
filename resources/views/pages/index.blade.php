@@ -44,11 +44,16 @@
       <div class="col-6 col-md-3 mb-4">
         <div class="card card-product shadow-sm mr-2">
           <div style="overflow: hidden">
-            <img src="{{$fund_product->image}}" alt="Avatar" class="card-img" style="width: 100%">
+            <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}">
+              <img src="{{$fund_product->image}}" alt="Avatar" class="card-img" style="width: 100%">
+            </a>
           </div>
           <div class="card-body d-flex flex-column">
-            <p class="card-title align-self-stretch" style="max-height: 44px; overflow: hidden; font-size: .9rem;">
-              <a v-bind:href="/funding/{{$fund_product->category->name}}/{{$fund_product->id}}" class="text-decoration-none text-dark">{{ $fund_product->name }}</a>
+            <strong>{{ $fund_product->vendor->name }}</strong>
+            <p class="align-self-stretch" style="max-height: 44px; overflow: hidden; font-size: .9rem;">
+              <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="text-decoration-none text-dark">
+                {{ \Str::of($fund_product->name)->title() }}
+              </a>
             </p>
             <p class="card-text mb-1 text-success">
               <b>Rp {{ number_format($fund_product->price, 0, ',', '.') }}/peket</b>
@@ -70,7 +75,21 @@
               <div class="col-5">{{ date('d M Y', strtotime($fund_product->ended_at)) }}</div>
             </div> --}}
             <div class="w-100">
-              <a href="/funding/{{ $fund_product->category->name }}/{{ $fund_product->id }}" class="btn btn-success btn-sm w-100" {{ ($fund_product->current_stock == 0) ? 'disabled' : '' }}>Danai</a>
+              @if ($fund_product->current_stock > 0)
+                  <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100">
+                    Danai
+                  </a>
+                @else
+                  @if ((strtotime(\Carbon\Carbon::now()) - strtotime($fund_product->ended_at)) > 0)
+                    <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 disabled">
+                    Selesai
+                    </a>
+                  @else
+                  <a href="/funding/{{\Str::lower($fund_product->category->name)}}/{{$fund_product->id}}" class="btn btn-success btn-sm w-100 disabled">
+                    Berlangsung
+                  </a>
+                  @endif
+                @endif
             </div>
           </div>
         </div>

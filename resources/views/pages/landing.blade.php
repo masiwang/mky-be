@@ -25,8 +25,8 @@
   </div>
   <div class="row mb-5 d-flex align-items-stretch">
     <div class="col-12 col-xl-6 text-center">
-      <p class="mb-0" style="font-size: 10rem; font-weight: 800; line-height: 10rem">28</p>
-      <span class="font-weight-bold">Mitra telah bergabung</span>
+      <p class="mb-0" style="font-size: 10rem; font-weight: 800; line-height: 10rem">{{ count($all_fund_products) }}</p>
+      <span class="font-weight-bold">Project berjalan</span>
     </div>
     <div class="col-12 col-xl-6 d-flex align-items-center">
       <p style="line-height: 2rem">

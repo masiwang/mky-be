@@ -37,7 +37,7 @@
             <form class="row" action="/funding/{{ $fund_product->category->name }}/{{ $fund_product->id }}" method="POST">
               @csrf
               <h4 class="col-12"> {{ $fund_product->vendor->name }}</h4>
-              <h5 class="col-12 mb-4">{{ $fund_product->name }}</h5>
+              <h5 class="col-12 mb-4">{{ \Str::of($fund_product->name)->title() }}</h5>
               <div class="col-12 mb-2">
                 <h4 class="text-success" style="font-weight: 600">Rp {{ number_format($fund_product->price, 0, ',', '.') }}/paket</h4>
               </div>

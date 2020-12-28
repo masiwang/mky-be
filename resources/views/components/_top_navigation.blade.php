@@ -11,6 +11,9 @@
       <ul class="navbar-nav mb-2 mb-lg-0">
         @if ($user)
           <li class="nav-item">
+            <a class="nav-link" href="/tutorial">Tutorial</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/funding">Funding</a>
           </li>
           <li class="nav-item dropdown">
@@ -68,6 +71,9 @@
               <li id="saldo" class="nav-item">
                   <a class="nav-link" disabled>Saldo: Rp {{ number_format($user->saldo, 0, ',', '.') }}</a>
               </li>
+              <li id="saldo" class="nav-item">
+                <a class="nav-link" disabled>Total Asset: Rp {{ number_format($user->asset, 0, ',', '.') }}</a>
+            </li>
           </ul>
       </div>
   </div>
