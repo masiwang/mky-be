@@ -24,7 +24,11 @@
         </ol>
       </nav>
     </div>
-
+    @if(!$user->bank_type)
+    <div class="mb-4 bg-white p-3 rounded text-primary">
+      &#9888; Harap masukkan data rekening bank Anda terlebih dahulu di ubah profile pada <a href="/profile">halaman profile</a>.
+    </div>
+    @endif
     <div class="col-sm-12 bg-white shadow-sm py-3">
       <form class="p-3" action="/transaction/withdraw" method="POST">
         @csrf

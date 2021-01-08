@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FundProduct as ProductDB;
+use DB;
 
 class Vendor extends Model
 {
@@ -29,4 +31,9 @@ class Vendor extends Model
       'kelurahan',
       'kodepos'
     ];
+
+    public function getInvestasiAttribute(){
+      $product = ProductDB::select(DB::raw('sum(total_stock * price) as investasi'))->where('vendor_id', $this->id)->first();
+      return $this->attributes['investasi'] = $product->investasi;
+    }
 }

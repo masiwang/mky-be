@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\FundCheckout as Portofolio;
+use App\Models\User;
 
 class FundProduct extends Model
 {
@@ -27,11 +29,16 @@ class FundProduct extends Model
   public function report(){
     return $this->hasMany('App\Models\FundProductReport', 'fund_product_id');
   }
+  
   public function getPeriodeLengthAttribute(){
     /**
      * Sumber : https://laravel.com/docs/8.x/eloquent-serialization#appending-values-to-json
      */
     $periode_length = (new Carbon($this->started_at))->diffInDays(new Carbon($this->ended_at));
     return $this->attributes['periode_length'] = $periode_length;
+  }
+
+  public function getTotalInvestorAttribute(){
+    return $this->attributes['total_investor'] = Portofolio::where('product_id', $this->id)->count();
   }
 }

@@ -27,18 +27,15 @@ class TransactionController extends Controller
     if(!$user->ktp_verified_at){
       return back();
     }
-    $bank_type = $request->bank_type ?? null;
-    $bank_acc = $request->bank_acc ?? null;
-    $nominal = $request->nominal ? ($request->nominal > 1000 ? $request->nominal : null) : null;
-    $image = $request->file('image') ?? null;
-
-    if($nomimal > 9999999999){
-      $nomimal = null;
-    }
-
-    if($bank_type && $bank_acc && $nominal && $image){
-      $code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;
-      $bukti = Image::make($image->getRealPath());
+    $request->validate([
+      'bank_type' => 'required|string',
+      'bank_acc' => 'required|numeric',
+      'nominal' => 'required|numeric|min:1000|max:9999999999',
+      'image' => 'required'
+    ]);
+    
+    $code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;
+      $bukti = Image::make($request->image->getRealPath());
       $bukti->resize(600, 600, function($constraint){
         $constraint->aspectRatio();
       })->save('assets/transaction/'.$code.'.jpg');
@@ -46,9 +43,9 @@ class TransactionController extends Controller
       $transaction->user_id = $user->id;
       $transaction->code = $code;
       $transaction->type = 'in';
-      $transaction->bank_type = $bank_type;
-      $transaction->bank_acc = $bank_acc;
-      $transaction->nominal = $nominal;
+      $transaction->bank_type = $request->bank_type;
+      $transaction->bank_acc = $request->bank_acc;
+      $transaction->nominal = $request->nominal;
       $transaction->image = '/assets/transaction/'.$code.'.jpg';
       $transaction->status_id = 1;
       $transaction->comment = 'topup';
@@ -62,14 +59,6 @@ class TransactionController extends Controller
       }else{
         return back();
       }
-    }else{
-      return back()->with([
-        'bank_type' => (!$bank_type) ? 'Nama bank tidak valid' : '',
-        'bank_acc' => (!$bank_acc) ? 'No. rekening tidak valid' : '',
-        'nominal' => (!$nominal) ? 'Nominal tidak valid' : '',
-        'image' => (!$image) ? 'Bukti transfer tidak valid' : ''
-      ]);
-    }
   }
   
   public function withdraw(){

@@ -12,6 +12,7 @@ use Session;
 use Str;
 use Mail;
 use App\Mail\ForgotPassword;
+use App\Mail\EmailToken;
 
 class AuthController extends Controller
 {
@@ -55,10 +56,12 @@ class AuthController extends Controller
           $user->level = 0;
           $user->save();
           // kirim email verifikasi
-          $this->sendMail('templates.email_verification', [$email, 'Verifikasi Email @makarya.in'], ['token' => $email_token]);
+          
           // auth
           $credential = $request->only('email', 'password');
           if(Auth::attempt($credential)){
+            $user = User::find(Auth::id());
+            Mail::to($user)->send(new EmailToken($user));
             return redirect('/getting-started');
           }
         }else{
@@ -117,5 +120,11 @@ class AuthController extends Controller
       }else{
         return back()->with('error', 'Maaf terdapat kesalahan. Ulangi sekali lagi.');
       }
+    }
+
+    public function resendToken(){
+      $user = User::find(Auth::id());
+      Mail::to($user)->send(new EmailToken($user));
+      return back()->with('email', 'Token telah dikirim ulang, periksa email anda untuk konfirmasi token.');
     }
 }

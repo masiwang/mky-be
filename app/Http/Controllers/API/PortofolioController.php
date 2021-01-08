@@ -156,7 +156,6 @@ class PortofolioController extends Controller
     public function update(Request $request, $id)
     {
       // return $request->user_id;
-      $product = FundProduct::find($request->product_id);
       $time = new Carbon($request->time);
       $portofolio = Portofolio::find($id);
       $portofolio->user_id = $request->user_id;
@@ -167,10 +166,17 @@ class PortofolioController extends Controller
       if($request->invoice_is_sent == 'true'){
         $portofolio->invoice_sent_at = $time;
         $portofolio->invoice_sent_by = 1;
+      }else{
+        $portofolio->invoice_sent_at = null;
+        $portofolio->invoice_sent_by = null;
       }
       if($request->return_is_sent == 'true'){
+        $product = FundProduct::find($request->product_id);
         $portofolio->return_sent_at = $product->ended_at;
         $portofolio->return_sent_by = 1;
+      }else{
+        $portofolio->return_sent_at = null;
+        $portofolio->return_sent_by = null;
       }
       if($portofolio->save()){
         return response()->json(['status' => 'success'], 200);

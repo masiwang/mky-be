@@ -56,7 +56,7 @@
               </a>
             </p>
             <p class="card-text mb-1 text-success">
-              <b>Rp {{ number_format($fund_product->price, 0, ',', '.') }}/peket</b>
+              <b>Rp {{ number_format($fund_product->price, 0, ',', '.') }}/paket</b>
             </p>
             {{-- <div class="d-flex flex-row w-100" style="font-size: .8rem">
               <div class="col-7"><b>Kontrak</b></div>

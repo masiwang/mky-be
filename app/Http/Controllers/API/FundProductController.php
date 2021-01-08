@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FundProduct;
+use App\Models\FundCheckout as Portofolio;
 
 class FundProductController extends Controller
 {
@@ -50,8 +51,13 @@ class FundProductController extends Controller
      */
     public function show($id)
     {
-      $product = FundProduct::with('vendor')->find($id);
+      $product = FundProduct::with(['vendor', 'report', 'checkout', 'checkout.user'])->find($id);
       return response()->json(compact('product'), 200);
+    }
+
+    public function investor($id){
+      $investors = Portofolio::where('product_id', $id)->with('user')->get();
+      return response()->json(compact('investors'), 200);
     }
 
     /**
@@ -64,7 +70,20 @@ class FundProductController extends Controller
     public function update(Request $request, $id)
     {
       $product = FundProduct::find($id);
-      $product->update($request);
+      $product->update([
+        'name' => $request->name,
+        'vendor_id' => $request->vendor_id,
+        'price' => $request->price,
+        'total_stock' => $request->total_stock,
+        'current_stock' => $request->current_stock,
+        'estimated_return' => $request->estimated_return,
+        'actual_return' => $request->actual_return,
+        'category_id' => $request->category_id,
+        'started_at' => $request->started_at,
+        'ended_at' => $request->ended_at,
+        'prospectus' => $request->prospectus,
+        'description' => $request->description
+      ]);
       return response()->json(['status' => 'success'], 200);
     }
 

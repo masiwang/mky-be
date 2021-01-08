@@ -9,5 +9,14 @@
   @if (\Session::has('error'))
     <small class="text-danger">{{ \Session::get('error') }}</small>
   @endif
+  <div class="my-3">
+    <div class="mb-3">
+      <span class="mr-2">Belum menerima token?</span><a href="/resend-token" class="btn btn-link text-decoration-none">Kirim ulang</a>
+    </div>
+  </div>
+  @if(\Request::has('email'))
+  <span class="text-success">{{ \Request::get('email') }}</span>
+  @endif
+
 </div>
 @endsection

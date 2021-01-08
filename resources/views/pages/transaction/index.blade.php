@@ -21,6 +21,11 @@
           </ol>
         </nav>
       </div>
+      @if(!$user->bank_type)
+      <div class="mb-4 bg-white p-3 rounded text-primary">
+        &#9888; Harap masukkan data rekening bank Anda terlebih dahulu di ubah profile pada <a href="/profile">halaman profile</a>.
+      </div>
+      @endif
 
       <div class="d-xl-block d-none col-12 bg-white shadow-sm" style="height: 400px; overflow-y: scroll">
         <table class="table table-hover">

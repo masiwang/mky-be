@@ -83,10 +83,12 @@ Route::get('/profile', [AppUser::class, 'profile'])->middleware('auth:api');
 
 use App\Http\Controllers\API\UserController as UserApi;
 use App\Http\Controllers\API\FundProductController as FundProductApi;
+use App\Http\Controllers\API\FundProductReportController as FundReportApi;
 use App\Http\Controllers\API\NotificationController as NotificationApi;
 use App\Http\Controllers\API\PortofolioController as PortofolioApi;
 use App\Http\Controllers\API\TransactionController as TransactionApi;
-use App\Http\Controllers\API\FundProductReportController as FundReportApi;
+use App\Http\Controllers\API\VendorController as VendorApi;
+
 Route::get('/admin/v2/user', [UserApi::class, 'index']);
 Route::get('/admin/v2/user/{id}/portofolio', [UserApi::class, 'portofolios']);
 Route::get('/admin/v2/user/{id}/transaction', [UserApi::class, 'transaction']);
@@ -103,6 +105,8 @@ Route::delete('/admin/v2/portofolio/{id}', [PortofolioApi::class, 'destroy']);
 
 Route::post('/admin/v2/transaction', [TransactionApi::class, 'store']);
 Route::delete('/admin/v2/transaction/{id}', [TransactionApi::class, 'destroy']);
+
+Route::get('/admin/v2/vendor', [VendorApi::class, 'index']);
 
 // user
 Route::get('/v2/fund-product', [FundProductApi::class, 'index']);

@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td>Hi, {{ $user_name }} 👋</td>
+    <td>Hi, {{ $user_name }} 👋.</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -30,7 +30,7 @@
           <td style="border: 1px solid black">Rp {{number_format($price, 0, ',', '.')}}/paket</td>
         </tr>
         <tr>
-          <td style="border: 1px solid black">Total Pembiayaan</td>
+          <td style="border: 1px solid black">Total Pendanaan</td>
           <td style="border: 1px solid black">Rp {{number_format($qty*$price, 0, ',', '.')}},-</td>
         </tr>
         <tr>
@@ -38,7 +38,7 @@
           <td style="border: 1px solid black">{{$estimated_return}}%</td>
         </tr>
         <tr>
-          <td style="border: 1px solid black">Waktu Pembiayaan</td>
+          <td style="border: 1px solid black">Waktu Pendanaan</td>
           <td style="border: 1px solid black">{{$created_at}}</td>
         </tr>
         <tr>

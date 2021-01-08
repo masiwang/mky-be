@@ -32,7 +32,12 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
       $portofolio = Portofolio::find($request->portofolio_id);
-      $time = new Carbon($request->time);
+      $request->validate([
+        'bank_acc' => 'max:25'
+      ]);
+      $time = Carbon::create($request->time)->addMinutes(rand(1,59))->addSeconds(rand(1,59));
+    //   return $time->timestamp;
+    //   $time = $time->addMinutes(rand(1,59))->addSeconds(rand(1,59));
       $transaction = new Transaction;
       $transaction->user_id = $request->user_id;
       $transaction->status_id = 2;
@@ -57,6 +62,7 @@ class TransactionController extends Controller
         $transaction->created_at = $time;
       }else if($request->type == 'funding'){
         $portofolio_created = new Carbon($portofolio->created_at);
+        $portofolio_created = $portofolio_created->addMinutes(rand(1,59))->addSeconds(rand(1,59));
         $transaction->bank_type = 'MAKARYA';
         $transaction->bank_acc = $request->user_id;
         $transaction->code = 'MKYTRFO'.$request->user_id.$portofolio_created->timestamp;
@@ -67,6 +73,7 @@ class TransactionController extends Controller
         $transaction->created_at = $portofolio_created;
       }else if($request->type == 'return'){
         $portofolio_ended = new Carbon($portofolio->product->ended_at);
+        $portofolio_ended = $portofolio_ended->addMinutes(rand(1,59))->addSeconds(rand(1,59));
         $transaction->bank_type = 'MAKARYA';
         $transaction->bank_acc = $request->user_id;
         $transaction->code = 'MKYTRFI'.$request->user_id.$portofolio_ended->timestamp;

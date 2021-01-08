@@ -34,10 +34,14 @@ Route::post('login', [AuthController::class, 'login_save']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'registerSave']);
+
+Route::post('/change-email', [AuthController::class, 'changeEmail']);
+Route::get('/resend-token', [AuthController::class, 'resendToken']);
+
 Route::get('/getting-started', [GettingStartedController::class, 'index'])->middleware('auth');
 Route::post('/getting-started', [GettingStartedController::class, 'save'])->middleware('auth');
 
-Route::get('/tutorial', [TutorialController::class, 'index'])->middleware('auth', 'profileiscomplete');
+Route::get('/tutorial', [TutorialController::class, 'index']);
 
 Route::get('/funding', [FundProductController::class, 'index'])->middleware('auth', 'profileiscomplete');
 Route::get('/funding/{category}', [FundProductController::class, 'category'])->middleware('auth', 'profileiscomplete');
@@ -76,3 +80,37 @@ Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', [AddressCo
 
 Route::get('/about-us', [AboutUsController::class, 'index']);
 Route::get('/features', [FeaturesController::class, 'index']);
+
+
+/**
+ * WEB 2.0
+ */
+
+Route::group(['prefix' => 'v2'], function () {
+  /**
+   * Admin Area
+   */
+
+  Route::group(['prefix' => 'admin'], function () {
+    // FundProduct
+    Route::get('fund', 'App\Http\Livewire\Admin\FundProducts');
+    Route::get('fund/{id}', 'App\Http\Livewire\Admin\FundProduct');
+    Route::get('fund/{id}/report', 'App\Http\Livewire\Admin\FundProductReport');
+    Route::get('fund/{id}/investor', 'App\Http\Livewire\Admin\FundProductInvestor');
+    // Transaction
+    Route::get('transaction', 'App\Http\Livewire\Admin\Transactions');
+    // User
+    Route::get('user', 'App\Http\Livewire\Admin\Users');
+    Route::get('user/{id}', 'App\Http\Livewire\Admin\User');
+    // Vendor (mitra)
+    Route::get('vendor', 'App\Http\Livewire\Admin\Vendors');
+    Route::get('vendor/{id}', 'App\Http\Livewire\Admin\Vendor');
+    // Route::get('vendor-new', 'App\Http\Livewire\Admin\VendorNew');
+  });
+
+   /**
+    * User Area
+    */
+});
+
+Route::get('investor', 'App\Http\Livewire\Investor');
