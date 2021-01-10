@@ -1,18 +1,18 @@
 <table>
   <tr>
-    <td>Hi, {{ $user_name }} 👋</td>
+    <td>Hi 👋</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td>
-      Anda telah meminta untuk me-reset password Anda, kami harap permintaan ini benar dari Anda. Jika bukan, abaikan saja pesan ini atau kontak Admin makarya. Untuk melanjutkan reset password, klik link dibawah ini:
+      Terima kasih telah melakukan pendaftaran Akun Makarya. Berikut ini adalah token konfirmasi Email Anda.
     </td>
   </tr>
   <tr>
     <td>
-      <a href="https://makarya.in/reset/{{ $token }}">https://makarya.in/reset/{{ $token }}</a>
+      <strong>{{ $token }}</strong>
     </td>
   </tr>
   <tr><td>&nbsp;</td></tr>

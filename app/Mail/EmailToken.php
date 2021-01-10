@@ -32,6 +32,7 @@ class EmailToken extends Mailable
     {
         return $this->to($this->user->email)
         ->subject('Konfirmasi Email Makarya')
-        ->view('template.email.email_token');
+        ->view('template.email.email-token')
+        ->with(['token' => $this->user->email_token]);
     }
 }

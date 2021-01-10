@@ -32,6 +32,10 @@ class ForgotPassword extends Mailable
     {
         return $this->to($this->user->email)
         ->subject('Reset Password Makarya')
-        ->view('template.email.forgot');
+        ->view('template.email.forgot')
+        ->with([
+          'token' => $this->user->remember_token,
+          'user_name' => $this->user->name
+          ]);
     }
 }

@@ -85,13 +85,15 @@ Route::get('/features', [FeaturesController::class, 'index']);
 /**
  * WEB 2.0
  */
-
-Route::group(['prefix' => 'v2'], function () {
+use App\Model\User;
+Route::group(['middleware' => ['auth', 'admin']], function () {
   /**
    * Admin Area
    */
 
-  Route::group(['prefix' => 'admin'], function () {
+  Route::group(['prefix' => 'markas'], function () {
+    // dashboard
+    Route::get('/', 'App\Http\Livewire\Admin\Dashboard');
     // FundProduct
     Route::get('fund', 'App\Http\Livewire\Admin\FundProducts');
     Route::get('fund/{id}', 'App\Http\Livewire\Admin\FundProduct');
@@ -105,12 +107,11 @@ Route::group(['prefix' => 'v2'], function () {
     // Vendor (mitra)
     Route::get('vendor', 'App\Http\Livewire\Admin\Vendors');
     Route::get('vendor/{id}', 'App\Http\Livewire\Admin\Vendor');
-    // Route::get('vendor-new', 'App\Http\Livewire\Admin\VendorNew');
   });
 
    /**
     * User Area
     */
+    Route::get('auth', 'App\Http\Livewire\Auth');
+    Route::get('reset/{token}', 'App\Http\Livewire\Reset');
 });
-
-Route::get('investor', 'App\Http\Livewire\Investor');

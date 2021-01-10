@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td>
-      Terima kasih telah melakukan pendaftaran Akun Makarya, Akun Anda telah berhasil di konfirmasi. Selanjutnya, Anda dapat mengisi saldo akun Anda di menu Transaksi dan melakukan pendanaan. Terimakasih.
+      Akun Anda telah berhasil di konfirmasi. Selanjutnya, Anda dapat mengisi saldo akun Anda di menu Transaksi dan melakukan pendanaan. Terimakasih.
     </td>
   </tr>
   <tr><td>&nbsp;</td></tr>

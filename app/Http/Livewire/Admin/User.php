@@ -45,7 +45,7 @@ class User extends Component{
   public function remove(){
     $user = UserDB::find($this->user->id);
     $user->delete();
-    redirect('/v2/admin/user');
+    redirect('/markas/user');
   }
 
   public function reject(){

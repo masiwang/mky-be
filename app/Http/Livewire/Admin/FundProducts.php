@@ -45,7 +45,7 @@ class FundProducts extends Component
   public function save(){
     $this->uploadImage();
     $product = ProductDB::create($this->product);
-    return redirect('/v2/admin/fund/'.$product->id);
+    return redirect('/markas/fund/'.$product->id);
   }
 
   public function render(){

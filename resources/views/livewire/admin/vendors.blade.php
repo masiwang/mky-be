@@ -1,4 +1,5 @@
 <div class="container" style="margin-top: 6rem">
+  @if($view == 'index')
   <div class="row">
     <div class="col-2 p-2">
       <ul class="list-group  mb-3">
@@ -13,11 +14,6 @@
             Nama {{ $order_by == 'name' ? '👈' : ''}}
           </a>
         </li>
-        {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a  wire:click="$set('order_by', 'name')"  type="button" class="text-decoration-none">
-            Waktu Daftar {{ $order_by == 'created_at' ? '👈' : ''}}
-          </a>
-        </li> --}}
       </ul>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -31,6 +27,9 @@
           </a>
         </li>
       </ul>
+      <div class="mb-3">
+        <button wire:click="$set('view', 'create')" class="w-100 btn btn-success">Mitra Baru</button>
+      </div>
     </div>
     <div class="col-10 p-2">
       <div class="row">
@@ -67,4 +66,118 @@
       </div>
     </div>
   </div>
+  @endif
+
+  @if($view == 'create')
+  <form wire:submit.prevent="create" class="row" enctype="multipart/form-data">
+    <div class="col-2 p-2">
+      @if ($new_vendor_image)
+      <img src="{{ $new_vendor_image->temporaryUrl() }}" class="mb-3" style="width: 100%; min-height: 8rem">
+      <div class="mb-4">
+        <label for="staticEmail" class="form-label">Ubah gambar</label>
+        <input wire:model="new_vendor_image" type="file" class="form-control">
+      </div>
+      @else
+      <div class="mb-2 d-flex justify-content-center align-items-center" style="width: 100%; height: 8rem; background-color: #aaa">Upload gambar dulu</div>
+      <div class="mb-4">
+        <label for="staticEmail" class="form-label">Pilih gambar</label>
+        <input wire:model="new_vendor_image" type="file" class="form-control">
+      </div>
+      @endif
+      <div>
+        <button type="submit" class="btn btn-success w-100 mb-1">Simpan</button>
+        <button type="button" wire:click="$set('view', 'index')" class="btn btn-danger w-100">Batal</button>
+      </div>
+    </div>
+    <div class="col-10">
+      {{-- {{ json_encode($new_vendor) }} --}}
+      <div class="w-100 p-2">
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Nama Perusahaan</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.name" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Nama Pemilik</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.owner" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">KTP</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.ktp" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">KK</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.kk" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">NPWP</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.npwp" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Nama Bank</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.bank_type" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">No. Rekening</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.bank_acc" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.email" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Nomor HP</label>
+          <div class="col-sm-10">
+            <input wire:model="new_vendor.phone" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Alamat</label>
+          <div class="col-5 mb-2">
+            <input wire:model="new_vendor.jalan" type="text" class="form-control" placeholder="Jalan">
+          </div>
+          <div class="col-2 mb-2">
+            <input wire:model="new_vendor.kodepos" type="text" class="form-control" placeholder="Kodepos">
+            
+          </div>
+          <div class="col-3 mb-2">
+            <input wire:model="new_vendor.kelurahan" list="kelurahanList" type="text" class="form-control" placeholder="Kelurahan">
+            <datalist id="kelurahanList">
+              @if($alamats)
+              @foreach($alamats as $alamat)
+              <option value="{{ $alamat->kelurahan }}">
+              @endforeach
+              @endif
+            </datalist>
+          </div>
+          <div class="col-2 mb-2">&nbsp;</div>
+          <div class="col-3 mb-2">
+            <input wire:model="new_vendor.kecamatan" type="text" class="form-control" placeholder="Kecamatan">
+          </div>
+          <div class="col-3 mb-2">
+            <input wire:model="new_vendor.kabupaten" type="text" class="form-control" placeholder="Kabupaten">
+          </div>
+          <div class="col-4 mb-2">
+            <input wire:model="new_vendor.provinsi" type="text" class="form-control" placeholder="Provinsi">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  @endif
 </div>

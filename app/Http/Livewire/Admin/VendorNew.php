@@ -118,7 +118,7 @@ class VendorNew extends Component
       'kecamatan' => $this->kecamatan,
       'kelurahan' => $this->kelurahan
     ]);
-    return redirect('/vendor/'.$new_vendor->id);
+    return redirect('/markas/vendor/'.$new_vendor->id);
   }
 
   public function render(){
