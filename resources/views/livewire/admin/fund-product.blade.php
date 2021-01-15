@@ -30,6 +30,7 @@
           </a>
         </li>
       </ul>
+      <button type="button" wire:click="exportInvestors" class="btn btn-primary w-100 mb-4">Export investor (xlsx)</button>
       @if($view == 'detail')
       <div class="mb-3">
         <div class="mb-3">

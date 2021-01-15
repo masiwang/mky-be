@@ -17,19 +17,22 @@ use Mail;
 use Str;
 use Image;
 use Carbon\Carbon;
+use App\Exports\ProductInvestorsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FundProduct extends Component
 {
   use WithPagination;
   use WithFileUploads;
 
-  public $product;
+  public $product, $product_id;
   public $view = 'detail';
   public $product_name, $product_vendor_id, $product_category_id, $product_price, $product_total_stock, $product_current_stock, $product_estimated_return, $product_actual_return, $product_started_at, $product_ended_at, $product_prospectus, $product_description, $product_image, $product_image_url;
   public $page_investor = 1;
   public $new_investor_name, $new_investor_qty;
 
   public function mount($id){
+    $this->product_id = $id;
     $this->product = ProductDB::find($id);
     $this->product_name = $this->product->name;
     $this->product_vendor_id = $this->product->vendor_id;
@@ -185,6 +188,12 @@ class FundProduct extends Component
 
   public function moreInvestor(){
     $this->page_investor++;
+  }
+
+  public function exportInvestors(){
+    $product = ProductDB::find($this->product_id);
+    $portofolios = PortofolioDB::where('product_id', $product->id)->get();
+    return Excel::download(new ProductInvestorsExport($portofolios), 'investor-'.Str::kebab($product->name).'.xlsx');
   }
   
   public function render(){
