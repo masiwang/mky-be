@@ -200,7 +200,7 @@
           </div>
           <div class="col-xl-2">
             <span>Jumlah bagi hasil</span>
-            <h5>Rp {{ number_format(($total_return - $total_funding) * -1) }}</h5>
+            <h5>Rp {{ number_format($total_return * -1) }}</h5>
           </div>
           <div class="col-xl-2">
             <span>Saldo</span>
