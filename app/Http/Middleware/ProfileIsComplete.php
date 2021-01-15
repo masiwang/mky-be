@@ -18,6 +18,9 @@ class ProfileIsComplete
   public function handle(Request $request, Closure $next)
   {
     $user = Auth::user();
+    if(!$user){
+      return redirect('/login');
+    }
     if($user->level <5){
       return redirect('/mulai'); 
     }
