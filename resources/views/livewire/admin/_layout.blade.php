@@ -6,9 +6,12 @@
   <link href="/vendors/bootstrap-5.0.0-beta1-dist/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="shortcut icon" type="image/jpg" href="/images/favicon.ico"/>
   <style>
-    html, body{
-      font-size: .9rem
+    @media only screen and (min-width: 600px) {
+      html, body{
+        font-size: .9rem
+      }
     }
     th{
       font-weight: 500;

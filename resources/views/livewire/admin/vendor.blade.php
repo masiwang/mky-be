@@ -106,12 +106,12 @@
         @foreach ($products as $product)
         <div class="col-3 mb-3">
           <div class="card">
-            <a href="/v2/admin/fund/{{ $product->id }}">
+            <a href="/markas/fund/{{ $product->id }}">
               <div style="height: 10rem; background-image: url({{ $product->image }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="card-body">
-              <a href="/v2/admin/vendor/{{ $product->vendor->id }}" class="text-secondary mb-0">{{ $product->vendor->name }}</a><br/>
-              <a href="/v2/admin/fund/{{ $product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $product->name }}</a>
+              <a href="/markas/vendor/{{ $product->vendor->id }}" class="text-secondary mb-0">{{ $product->vendor->name }}</a><br/>
+              <a href="/markas/fund/{{ $product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $product->name }}</a>
               <table>
                 <tr>
                   <td>⏱</td>

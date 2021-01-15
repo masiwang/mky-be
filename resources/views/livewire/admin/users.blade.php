@@ -1,71 +1,63 @@
-<div class="container" style="margin-top: 6rem">
+<div class="container" style="margin-top: 5rem">
   <div class="row">
-    <div class="col-2 p-2">
-      <ul class="list-group  mb-3">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <input wire:model="query" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cari...">
-        </li>
-      </ul>
+    <div class="col-xl-2 d-none d-xl-block p-2">
+      <input wire:model="query" type="text" class="form-control mb-4" id="exampleFormControlInput1" placeholder="Cari...">
       <p class="mb-1" style="font-weight: 500">Pilih user</p>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="select('all')" type="button" class="text-decoration-none">
-            Semua {{ $select_by == 'all' ? '👈' : ''}}
+          <a wire:click="$set('status', 'all')" type="button" class="text-decoration-none">
+            Semua {{ $status == 'all' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="select('verified')" type="button" class="text-decoration-none">
-            Verified {{ $select_by == 'verified' ? '👈' : ''}}
+          <a wire:click="$set('status', 'verified')" type="button" class="text-decoration-none">
+            Verified {{ $status == 'verified' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="select('new')" type="button" class="text-decoration-none">
-            Baru {{ $select_by == 'new' ? '👈' : ''}}
+          <a wire:click="$set('status', 'new')" type="button" class="text-decoration-none">
+            Baru {{ $status == 'new' ? '👈' : ''}}
           </a>
         </li>
       </ul>
       <p class="mb-1" style="font-weight: 500">Urutkan berdasarkan</p>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="orderBy('name')" type="button" class="text-decoration-none">
+          <a wire:click="$set('order_by', 'name')" type="button" class="text-decoration-none">
             Nama {{ $order_by == 'name' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="orderBy('created_at')" type="button" class="text-decoration-none">
+          <a wire:click="$set('order_by', 'created_at')" type="button" class="text-decoration-none">
             Waktu Daftar {{ $order_by == 'created_at' ? '👈' : ''}}
           </a>
         </li>
-        {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="orderBy('new')" type="button" class="text-decoration-none">
-            Baru {{ $select_by == 'new' ? '👈' : ''}}
-          </a>
-        </li> --}}
       </ul>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="orderTo('asc')" type="button" class="text-decoration-none">
+          <a wire:click="$set('order_to', 'asc')" type="button" class="text-decoration-none">
             A - Z {{ $order_to == 'asc' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a wire:click="orderTo('desc')" type="button" class="text-decoration-none">
+          <a wire:click="$set('order_to', 'desc')" type="button" class="text-decoration-none">
             Z - A {{ $order_to == 'desc' ? '👈' : ''}}
           </a>
         </li>
       </ul>
     </div>
-    <div class="col-10 p-2">
+    <div class="col-xl-10 col-12 p-2 mb-5">
+      <input wire:model="query" type="text" class="form-control mb-4 d-xl-none d-block" id="exampleFormControlInput1" placeholder="Cari...">
       <div class="row">
         @foreach ($users as $user)
-        <div class="col-3 mb-3">
-          <div class="card">
-            <a href="/v2/admin/user/{{ $user->id }}">
+        <div class="col-xl-3 col-6 mb-3">
+          <div class="card h-100">
+            <a href="/markas/user/{{ $user->id }}">
               <div style="height: 10rem; background-image: url({{ $user->image ?? 'https://i.stack.imgur.com/l60Hf.png' }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="card-body">
-              <a href="/v2/admin/user/{{ $user->id }}" class="text-secondary mb-0">{{ $user->email }}</a><br/>
-              <a href="/v2/admin/user/{{ $user->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $user->name ?? '-' }}</a>
+              <a href="/markas/user/{{ $user->id }}" class="text-secondary mb-0">{{ $user->email }}</a><br/>
+              <a href="/markas/user/{{ $user->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $user->name ?? '-' }}</a>
               <table>
                 <tr>
                   <td>🏛</td>
@@ -90,4 +82,34 @@
       </div>
     </div>
   </div>
+  <div id="fab" class="p-4 d-xl-none d-block" style="position: fixed; bottom: 0; right: 0;">
+    <button wire:click="$set('filter', true)" class="btn btn-success p-3 rounded-circle d-flex justify-content-center align-items-center" style="width: 3.5rem; height: 3.5rem">⚙️</button>
+  </div>
+  @if($filter)
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; background-color: #33333388">
+    <div class="card" style="min-width: 20rem">
+      <div class="card-body">
+        <span>Status user</span>
+        <select wire:model="status" class="form-select mb-2" aria-label="Default select example">
+          <option value="all">Semua</option>
+          <option value="verified">Verified</option>
+          <option value="new">Baru</option>
+        </select>
+        <span>Urutkan berdasarkan</span>
+        <select wire:model="order_by" class="form-select" aria-label="Default select example">
+          <option value="name">Nama</option>
+          <option value="created_at">Waktu daftar</option>
+        </select>
+        <span>Urutkan secara</span>
+        <select wire:model="order_to" class="form-select" aria-label="Default select example">
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button wire:click="$set('filter', false)" class="btn btn-secondary">Tutup</button>
+      </div>
+    </div>
+  </div>
+  @endif
 </div>

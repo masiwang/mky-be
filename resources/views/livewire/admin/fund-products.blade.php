@@ -1,39 +1,35 @@
-<div class="container mb-4" style="margin-top: 6rem">
+<div class="container mb-4" style="margin-top: 5rem">
   @if($view == 'list')
   <div class="row">
-    <div class="col-2 p-2">
-      <ul class="list-group  mb-3">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <input wire:model="query" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cari...">
-        </li>
-      </ul>
+    <div class="col-xl-2 p-2 d-xl-block d-none">
+      <input wire:model="query" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="Cari...">
       <p class="mb-1" style="font-weight: 500">Urutkan berdasarkan</p>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a type="button" wire:click="sortBy('name')" class="text-decoration-none">
-            Nama produk {{ $sort_by == 'name' ? '👈' : ''}}
+          <a type="button" wire:click="$set('order_by', 'name')" class="text-decoration-none">
+            Nama produk {{ $order_by == 'name' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a type="button" wire:click="sortBy('ended_at')" class="text-decoration-none">
-            Tgl. Penutupan {{ $sort_by == 'ended_at' ? '👈' : ''}}
+          <a type="button" wire:click="$set('order_by', 'ended_at')" class="text-decoration-none">
+            Tgl. Penutupan {{ $order_by == 'ended_at' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a type="button" wire:click="sortBy('current_stock')" class="text-decoration-none">
-            Stok {{ $sort_by == 'current_stock' ? '👈' : ''}}
+          <a type="button" wire:click="$set('order_by', 'current_stock')" class="text-decoration-none">
+            Stok {{ $order_by == 'current_stock' ? '👈' : ''}}
           </a>
         </li>
       </ul>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a type="button" wire:click="sortTo('asc')" class="text-decoration-none">
-            A - Z {{ $sort_to == 'asc' ? '👈' : ''}}
+          <a type="button" wire:click="$set('order_to', 'asc')" class="text-decoration-none">
+            A - Z {{ $order_to == 'asc' ? '👈' : ''}}
           </a>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a type="button" wire:click="sortTo('desc')" class="text-decoration-none">
-            Z - A {{ $sort_to == 'desc' ? '👈' : ''}}
+          <a type="button" wire:click="$set('order_to', 'asc')" class="text-decoration-none">
+            Z - A {{ $order_to == 'desc' ? '👈' : ''}}
           </a>
         </li>
       </ul>
@@ -41,21 +37,22 @@
         <button wire:click="$set('view', 'add')" class="btn btn-success w-100">Tambah produk</button>
       </div>
     </div>
-    <div class="col-10 p-2">
+    <div class="col-xl-10 col-12 p-2">
+      <input wire:model="query" type="text" class="form-control mb-4" id="exampleFormControlInput1" placeholder="Cari...">
       <div class="row">
         @foreach ($products as $product)
-        <div class="col-3 mb-3">
-          <div class="card">
-            <a href="/v2/admin/fund/{{ $product->id }}">
+        <div class="col-xl-3 col-6 mb-3">
+          <div class="card h-100">
+            <a href="/markas/fund/{{ $product->id }}">
               <div style="height: 10rem; background-image: url({{ $product->image }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="card-body">
-              <a href="/v2/admin/vendor/{{ $product->vendor->id }}" class="text-secondary mb-0">{{ $product->vendor->name }}</a><br/>
-              <a href="/v2/admin/fund/{{ $product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $product->name }}</a>
+              <a href="/markas/vendor/{{ $product->vendor->id }}" class="text-secondary mb-0">{{ $product->vendor->name }}</a><br/>
+              <a href="/markas/fund/{{ $product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $product->name }}</a>
               <table>
                 <tr>
                   <td>⏱</td>
-                  <td>{{ date('d M y', strtotime($product->started_at)) }} - {{ date('d M y', strtotime($product->started_at)) }}</td>
+                  <td>{{ date('d M y', strtotime($product->started_at)) }} - {{ date('d M y', strtotime($product->ended_at)) }}</td>
                 </tr>
                 <tr>
                   <td>💰</td>
@@ -104,7 +101,6 @@
       </div>
     </div>
     <div class="col-10">
-      {{ json_encode($product) }}
       <div class="w-100 p-2">
         <div class="mb-3 row">
           <label for="staticEmail" class="col-sm-2 col-form-label">Nama produk</label>
@@ -223,6 +219,31 @@
       </div>
     </div>
   </form>
+  @endif
+  <div id="fab" class="p-4 d-xl-none d-block" style="position: fixed; bottom: 0; right: 0;">
+    <button wire:click="$set('filter', true)" class="btn btn-success p-3 rounded-circle d-flex justify-content-center align-items-center" style="width: 3.5rem; height: 3.5rem">⚙️</button>
+  </div>
+  @if($filter)
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; background-color: #33333388">
+    <div class="card" style="min-width: 20rem">
+      <div class="card-body">
+        <span>Urutkan berdasarkan</span>
+        <select wire:model="order_by" class="form-select" aria-label="Default select example">
+          <option value="name">Nama</option>
+          <option value="ended_at">Tanggal penutupan</option>
+          <option value="current_stock">Stok</option>
+        </select>
+        <span>Urutkan secara</span>
+        <select wire:model="order_to" class="form-select" aria-label="Default select example">
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button wire:click="$set('filter', false)" class="btn btn-secondary">Tutup</button>
+      </div>
+    </div>
+  </div>
   @endif
 </div>
 

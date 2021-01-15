@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\FundCheckout as Portofolio;
 use App\Models\User;
 
+
 class FundProduct extends Model
 {
-  use HasFactory;
+  use HasFactory, SoftDeletes;
 
   protected $fillable = [
     'name', 'description', 'prospectus', 'price', 'estimated_return', 'actual_return', 'total_stock',

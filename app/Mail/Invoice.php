@@ -44,7 +44,7 @@ class Invoice extends Mailable
           'qty' => $this->portofolio->qty,
           'price' => $this->portofolio->product->price,
           'estimated_return' => $this->portofolio->product->estimated_return,
-          'created_at' => $this->portofolio->created_at,
+          'started_at' => $this->portofolio->started_at,
           'ended_at' => $this->portofolio->product->ended_at
         ]);
     }

@@ -12,106 +12,30 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-use App\Http\Controllers\Web\AboutUsController;
-use App\Http\Controllers\Web\AddressController;
-use App\Http\Controllers\Web\AuthController;
-use App\Http\Controllers\Web\FeaturesController;
-use App\Http\Controllers\Web\FundCheckoutController;
-use App\Http\Controllers\Web\FundProductController;
-use App\Http\Controllers\Web\GettingStartedController;
-use App\Http\Controllers\Web\HomeController;
-use App\Http\Controllers\Web\NotificationController;
-use App\Http\Controllers\Web\TransactionController;
-use App\Http\Controllers\Web\TutorialController;
-use App\Http\Controllers\Web\UserController;
-use App\Http\Controllers\Web\FaqController;
-
-Route::get('/', [HomeController::class, 'index']);
-
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('login', [AuthController::class, 'login_save']);
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
-Route::get('/register', [AuthController::class, 'register']);
-Route::post('/register', [AuthController::class, 'registerSave']);
-
-Route::post('/change-email', [AuthController::class, 'changeEmail']);
-Route::get('/resend-token', [AuthController::class, 'resendToken']);
-
-Route::get('/getting-started', [GettingStartedController::class, 'index'])->middleware('auth');
-Route::post('/getting-started', [GettingStartedController::class, 'save'])->middleware('auth');
-
-Route::get('/tutorial', [TutorialController::class, 'index']);
-
-Route::get('/funding', [FundProductController::class, 'index'])->middleware('auth', 'profileiscomplete');
-Route::get('/funding/{category}', [FundProductController::class, 'category'])->middleware('auth', 'profileiscomplete');
-Route::get('/funding/{category}/{product}', [FundProductController::class, 'detail'])->middleware('auth', 'profileiscomplete');
-Route::post('/funding/{category}/{product}', [FundProductController::class, 'newPortofolio'])->middleware('auth', 'profileiscomplete');
-
-Route::get('/notification', [NotificationController::class, 'index']);
-Route::get('/notification/{id}', [NotificationController::class, 'detail']);
-Route::get('/notification/{id}/view', [NotificationController::class, 'view_detail']);
-
-Route::get('/transaction', [TransactionController::class, 'index'])->middleware('auth', 'profileiscomplete');
-Route::get('/transaction/topup', [TransactionController::class, 'topup'])->middleware('auth', 'profileiscomplete');
-Route::post('/transaction/topup', [TransactionController::class, 'topupSave'])->middleware('auth', 'profileiscomplete');
-Route::get('/transaction/withdraw', [TransactionController::class, 'withdraw'])->middleware('auth', 'profileiscomplete');
-Route::post('/transaction/withdraw', [TransactionController::class, 'withdrawSave'])->middleware('auth', 'profileiscomplete');
-
-Route::get('/portofolio', [FundCheckoutController::class, 'index'])->middleware('auth', 'profileiscomplete');
-Route::get('/portofolio/{invoice}', [FundCheckoutController::class, 'detail'])->middleware('auth', 'profileiscomplete');
-
-Route::get('/profile', [UserController::class, 'index'])->middleware('auth', 'profileiscomplete');
-Route::post('/profile', [UserController::class, 'update_save'])->middleware('auth', 'profileiscomplete');
-Route::post('/profile/foto', [UserController::class, 'update_foto'])->middleware('auth', 'profileiscomplete');
-Route::get('/faq', [FaqController::class, 'index']);
-
-Route::get('/forgot', [AuthController::class, 'forgotViewEmail']);
-Route::post('/forgot', [AuthController::class, 'forgotSaveEmail']);
-
-Route::get('/forgot/reset', [AuthController::class, 'forgotViewPassword']);
-Route::post('/forgot/reset', [AuthController::class, 'forgotSavePassword']);
-
-Route::get('/address', [AddressController::class, 'getProvinsi']);
-Route::get('/address/{provinsi}', [AddressController::class, 'getKabupaten']);
-Route::get('/address/{provinsi}/{kabupaten}', [AddressController::class, 'getKecamatan']);
-Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}', [AddressController::class, 'getKelurahan']);
-Route::get('/address/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', [AddressController::class, 'getKodepos']);
-
-Route::get('/about-us', [AboutUsController::class, 'index']);
-Route::get('/features', [FeaturesController::class, 'index']);
-
-
 /**
  * WEB 2.0
  */
-use App\Model\User;
-Route::group(['middleware' => ['auth', 'admin']], function () {
-  /**
-   * Admin Area
-   */
+Route::get('/', 'App\Http\Livewire\Landing');
+Route::get('/pendanaan', 'App\Http\Livewire\Client\Home');
+Route::get('/pendanaan/{id}', 'App\Http\Livewire\Client\FundProduct');
+Route::get('/login', 'App\Http\Livewire\Auth')->name('login'); 
+Route::get('/about-us', 'App\Http\Livewire\AboutUs');
+Route::get('/features', 'App\Http\Livewire\Features');
+Route::get('/tutorial', 'App\Http\Livewire\Tutorial');
+Route::get('/reset/{token}', 'App\Http\Livewire\Reset');
+Route::get('/mulai', 'App\Http\Livewire\GetStarted')->middleware('auth');
+Route::group(['middleware' => 'auth', 'middleware' => 'completed'], function () {
+  Route::get('/notifikasi', 'App\Http\Livewire\Client\Notifications');
+  Route::get('/profile', 'App\Http\Livewire\Client\Profile');
+  Route::get('/portofolio', 'App\Http\Livewire\Client\Portofolio');
+  Route::get('/transaksi', 'App\Http\Livewire\Client\Transactions');
 
-  Route::group(['prefix' => 'markas'], function () {
-    // dashboard
-    Route::get('/', 'App\Http\Livewire\Admin\Dashboard');
-    // FundProduct
-    Route::get('fund', 'App\Http\Livewire\Admin\FundProducts');
-    Route::get('fund/{id}', 'App\Http\Livewire\Admin\FundProduct');
-    Route::get('fund/{id}/report', 'App\Http\Livewire\Admin\FundProductReport');
-    Route::get('fund/{id}/investor', 'App\Http\Livewire\Admin\FundProductInvestor');
-    // Transaction
-    Route::get('transaction', 'App\Http\Livewire\Admin\Transactions');
-    // User
-    Route::get('user', 'App\Http\Livewire\Admin\Users');
-    Route::get('user/{id}', 'App\Http\Livewire\Admin\User');
-    // Vendor (mitra)
-    Route::get('vendor', 'App\Http\Livewire\Admin\Vendors');
-    Route::get('vendor/{id}', 'App\Http\Livewire\Admin\Vendor');
-  });
-
-   /**
-    * User Area
-    */
-    Route::get('auth', 'App\Http\Livewire\Auth');
-    Route::get('reset/{token}', 'App\Http\Livewire\Reset');
+  Route::get('/markas', 'App\Http\Livewire\Admin\Dashboard');
+  Route::get('/markas/fund', 'App\Http\Livewire\Admin\FundProducts');
+  Route::get('/markas/fund/{id}', 'App\Http\Livewire\Admin\FundProduct');
+  Route::get('/markas/transaction', 'App\Http\Livewire\Admin\Transactions');
+  Route::get('/markas/user', 'App\Http\Livewire\Admin\Users');
+  Route::get('/markas/user/{id}', 'App\Http\Livewire\Admin\User');
+  Route::get('/markas/vendor', 'App\Http\Livewire\Admin\Vendors');
+  Route::get('/markas/vendor/{id}', 'App\Http\Livewire\Admin\Vendor');
 });

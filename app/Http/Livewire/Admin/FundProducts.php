@@ -13,12 +13,12 @@ use Image;
 class FundProducts extends Component
 {
   use WithFileUploads;
-
+  public $filter;
   public $view = 'list';
   // list variable
   public $page_number = 1;
-  public $sort_by = 'ended_at';
-  public $sort_to = 'desc';
+  public $order_by = 'ended_at';
+  public $order_to = 'desc';
   public $query = '';
   // add variable
   public $product_image;
@@ -27,13 +27,6 @@ class FundProducts extends Component
 
   public function more(){
     $this->page_number++;
-  }
-
-  public function sortBy($param){
-    $this->sort_by = $param;
-  }
-  public function sortTo($param){
-    $this->sort_to = $param;
   }
 
   public function uploadImage(){
@@ -49,7 +42,7 @@ class FundProducts extends Component
   }
 
   public function render(){
-    $products = ProductDB::limit($this->page_number*8)->orderBy($this->sort_by, $this->sort_to)
+    $products = ProductDB::limit($this->page_number*8)->orderBy($this->order_by, $this->order_to)
       ->where('name', 'like', '%'.$this->query.'%')->get();
     $this->vendors = VendorDB::get();
     return view('livewire.admin.fund-products', compact('products'))->layout('livewire.admin._layout');

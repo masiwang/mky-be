@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <td style="border: 1px solid black">Waktu Pendanaan</td>
-          <td style="border: 1px solid black">{{$created_at}}</td>
+          <td style="border: 1px solid black">{{$started_at}}</td>
         </tr>
         <tr>
           <td style="border: 1px solid black">Est. Waktu Selesai</td>

@@ -17,9 +17,13 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if( !(Auth::user()->role == 'admin') ){
-            return abort('404');
-        }
-        return $next($request);
+      $user = Auth::user();
+      if(!$user){
+        return abort('404');
+      }
+      if(!($user->role == 'admin') ){
+        return abort('404');
+      }
+      return $next($request);
     }
 }

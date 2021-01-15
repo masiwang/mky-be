@@ -1,4 +1,18 @@
 <div class="container" style="margin-top: 6rem">
+  @if(Session::has('success'))
+  <div class="mb-3">
+    <div class="alert alert-primary" role="alert">
+      {{ Session::get('success') }}
+    </div>
+  </div>
+  @endif
+  @if(Session::has('error'))
+  <div class="mb-3">
+    <div class="alert alert-danger" role="alert">
+      {{ Session::get('error') }}
+    </div>
+  </div>
+  @endif
   <div class="row">
     <div class="col-2 p-2">
       <div class="mb-3" style="height: 10rem; background-image: url({{ $user->image ?? 'https://i.stack.imgur.com/l60Hf.png' }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
@@ -36,7 +50,7 @@
           <span wire:loading.remove wire:target="reject">Tolak</span>
         </button>
         @if ($reject_error) <span class="text-danger">Penolakan gagal. Coba lagi.</span> @endif
-        <button wire:model="remove" type="button" class="btn btn-dark w-100">Hapus user</button>
+        <button wire:click="remove" type="button" class="btn btn-dark w-100">Hapus user</button>
         <small class="text-danger">*) data tidak dapat dikembalikan</small>
       </div>
       @endif
@@ -134,12 +148,12 @@
         @foreach ($portofolios as $portofolio)
         <div class="col-3 mb-3">
           <div class="card">
-            <a href="/v2/admin/fund/{{ $portofolio->product->id }}">
+            <a href="/markas/fund/{{ $portofolio->product->id }}">
               <div style="height: 10rem; background-image: url({{ $portofolio->product->image ?? '/image/product-default.png' }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="card-body">
-              <a href="/v2/admin/vendor/{{ $portofolio->product->vendor->id }}" class="text-secondary mb-0">{{ $portofolio->product->vendor->name }}</a><br/>
-              <a href="/v2/admin/fund/{{ $portofolio->product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $portofolio->product->name }}</a>
+              <a href="/markas/vendor/{{ $portofolio->product->vendor->id }}" class="text-secondary mb-0">{{ $portofolio->product->vendor->name }}</a><br/>
+              <a href="/markas/fund/{{ $portofolio->product->id }}" style="font-size: 1.1rem; color: var(--bs-green); font-weight: 500">{{ $portofolio->product->name }}</a>
               <table>
                 <tr>
                   <td>📃</td>
@@ -170,6 +184,34 @@
     @endif
     @if($view == 'transaction')
     <div class="col-10 p-2">
+      <div class="mb-3 bg-white shadow-sm p-3">
+        <div class="row">
+          <div class="col-xl-2">
+            <span>Jumlah topup</span>
+            <h5>Rp {{ number_format($total_topup) }}</h5>
+          </div>
+          <div class="col-xl-2">
+            <span>Jumlah withdraw</span>
+            <h5>Rp {{ number_format($total_withdraw * -1) }}</h5>
+          </div>
+          <div class="col-xl-2">
+            <span>Jumlah funding</span>
+            <h5>Rp {{ number_format($total_funding * -1) }}</h5>
+          </div>
+          <div class="col-xl-2">
+            <span>Jumlah bagi hasil</span>
+            <h5>Rp {{ number_format(($total_return - $total_funding) * -1) }}</h5>
+          </div>
+          <div class="col-xl-2">
+            <span>Saldo</span>
+            <h5>Rp {{ number_format($user->saldo) }}</h5>
+          </div>
+          <div class="col-xl-2">
+            <span>Asset</span>
+            <h5>Rp {{ number_format($user->asset) }}</h5>
+          </div>
+        </div>
+      </div>
       <table class="table table-borderless table-hover bg-white">
         <tbody>
           @foreach ($transactions as $transaction)
@@ -202,6 +244,9 @@
                 </div>
               </div>
             </td>
+            <td>
+              <small>{{ $transaction->comment }}</small>
+            </td>
           </tr>
           @endforeach
         </tbody>
@@ -211,5 +256,11 @@
       </div>
     </div>
     @endif
+  </div>
+  <div wire:loading wire:target="reject, remove">
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="https://steamuserimages-a.akamaihd.net/ugc/499143799328359714/EE0470B9BD25872DC95E7973B2C2F7006B7B9FB8/" alt="" style="height: 2rem">
+      <p class="text-white">Loading...</p>
+    </div>
   </div>
 </div>

@@ -8,7 +8,7 @@
       @endif
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="/v2/admin/fund/{{ $product->id }}" class="text-decoration-none">
+          <a href="/markas/fund/{{ $product->id }}" class="text-decoration-none">
             Detail {{$view == 'detail' ? '👁' : ''}}
           </a>
         </li>
@@ -25,7 +25,7 @@
           <span class="badge bg-success rounded-pill">{{ count($portofolios) }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="/v2/admin/vendor/{{ $product->vendor->id }}" class="text-decoration-none">
+          <a href="/markas/vendor/{{ $product->vendor->id }}" class="text-decoration-none">
             Vendor
           </a>
         </li>
@@ -115,10 +115,10 @@
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="staticEmail" class="col-sm-2 col-form-label">Imbal Imbal Hasil</label>
+          <label for="staticEmail" class="col-sm-2 col-form-label">Imbal Hasil Aktual</label>
           <div class="col-sm-10">
             <div class="input-group">
-              <input wire:model="product_actual_return" type="number" class="form-control" aria-describedby="basic-addon1">
+              <input wire:model="product_actual_return" type="number" step="0.1" class="form-control" aria-describedby="basic-addon1">
               <span class="input-group-text">%</span>
             </div>
           </div>
@@ -167,27 +167,38 @@
       @endif
 
       @if($view == 'investor')
+      @if(Session::has('error'))
+      <div class="alert alert-danger" role="alert">
+        {{ Session::get('error') }}
+      </div>
+      @endif
       <div class="row">
         @foreach ($portofolios as $portofolio)
         <div class="col-3 mb-3">
           <div class="card h-100" style="position: relative">
-            <a href="/v2/admin/user/{{ $portofolio->user->id }}">
+            <a href="/markas/user/{{ $portofolio->user->id }}">
               <div style="height: 10rem; background-image: url({{ $portofolio->user->image ?? 'https://i.stack.imgur.com/l60Hf.png' }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="d-flex flex-row w-100 p-2" style="position: absolute; left: 0; top: 0;">
-              @if(!$portofolio->invoice_sent_at)
-              <button wire:click="sendInvoice({{$portofolio->user->id}})" type="button" class="btn btn-sm py-2 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kirim invoice">📜</button>
+              @if(!($portofolio->invoice_sent_at))
+              <button wire:click="sendInvoice({{$portofolio->id}})" type="button" class="btn btn-sm py-2 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kirim invoice">📜</button>
               @endif
               @if(!$portofolio->return_sent_at)
-              <button wire:click="sendReturn({{$portofolio->user->id}})" type="button" class="btn btn-sm py-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kirim return">💰</button>
+              <button wire:click="sendReturn({{$portofolio->id}})" type="button" class="btn btn-sm py-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kirim return">💰</button>
               @endif
               <div class="flex-fill"></div>
               <button class="btn py-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hapus investor">❌</button>
             </div>
             <div class="card-body">
-              <a href="/v2/admin/user/{{ $portofolio->user->id }}" class="text-secondary mb-0" style="font-size: .8rem">{{ $portofolio->user->email }}</a><br/>
-              <a href="/v2/admin/user/{{ $portofolio->user->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $portofolio->user->name ?? '-' }}</a>
+              <a href="/markas/user/{{ $portofolio->user->id }}" class="text-secondary mb-0" style="font-size: .8rem">{{ $portofolio->user->email }}</a><br/>
+              <a href="/markas/user/{{ $portofolio->user->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $portofolio->user->name ?? '-' }}</a>
               <table>
+                <tr>
+                  <td>Fak</td>
+                  <td>
+                    {{ $portofolio->id }} // {{ $portofolio->user->id }} // {{ $portofolio->product->id }}
+                  </td>
+                </tr>
                 <tr>
                   <td>🏛</td>
                   <td style="font-size: .8rem">{{ $portofolio->user->bank_type ?? '-' }} {{ $portofolio->user->bank_acc ?? '-' }}</td>
@@ -236,6 +247,12 @@
         <button wire:click="moreInvestor" class="btn btn-success" type="button">Lebih banyak</button>
       </div>
       @endif
+    </div>
+    <div wire:loading wire:target="sendInvoice, sendReturn">
+      <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+        <img src="https://steamuserimages-a.akamaihd.net/ugc/499143799328359714/EE0470B9BD25872DC95E7973B2C2F7006B7B9FB8/" alt="" style="height: 2rem">
+        <p class="text-white">Loading...</p>
+      </div>
     </div>
   </form>
 </div>

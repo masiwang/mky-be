@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=.8">
   <link href="/vendors/bootstrap-5.0.0-beta1-dist/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>{{ $title }} | Makarya</title>
+  <link rel="shortcut icon" type="image/jpg" href="/images/favicon.ico"/>
   <style>
+    @media only screen and (min-width: 600px) {
+      html, body{
+        font-size: .9rem
+      }
+    }
     th{
       font-weight: 500;
       text-transform: uppercase;

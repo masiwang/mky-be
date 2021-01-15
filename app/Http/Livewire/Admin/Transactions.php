@@ -10,12 +10,12 @@ use Carbon\Carbon;
 
 class Transactions extends Component
 {
-  public $select_by = 'all';
-  public $filter = 'confirmed';
+  public $type = 'all';
+  public $status = 'confirmed';
   public $order_by = 'created_at';
   public $order_to = 'desc';
   public $page = 1;
-  public $query;
+  public $query, $filter;
   public $detail_dialog, $detail_image, $detail_code;
   public $new_dialog, $new_user, $new_type, $new_nominal, $new_portofolio;
   public $delete_dialog, $delete_code;
@@ -80,22 +80,25 @@ class Transactions extends Component
   }
 
   public function confirm(){
-    $transaction = TransactionDB::where('code', $this->detail_code);
-    $transaction->approved_at = Carbon::now();
-    $transaction->approved_by = 1;
-    $transaction->save();
+    $transaction = TransactionDB::where('code', $this->detail_code)->first();
+    $transaction->update([
+      'status_id' => 2,
+      'approved_at' => Carbon::now(),
+      'approved_by' => 1
+    ]);
     $this->detail_dialog = false;
+    session()->flash('seccess', 'Transaksi berhasil dikonfirmasi');
   }
 
   public function render(){
     $transactions = TransactionDB::orderBy($this->order_by, $this->order_to);
-    if($this->filter == 'confirmed'){
+    if($this->status == 'confirmed'){
       $transactions = $transactions->whereNotNull('approved_at');
-    }else if($this->filter == 'new'){
+    }else if($this->status == 'new'){
       $transactions = $transactions->whereNull('approved_at');
     }
-    if(!($this->select_by == 'all')){
-      $transactions = $transactions->where('type', $this->select_by);
+    if(!($this->type == 'all')){
+      $transactions = $transactions->where('type', $this->type);
     }
     if($this->query){
       $query = $this->query;

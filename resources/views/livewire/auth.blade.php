@@ -29,6 +29,11 @@
                       👌 {{ Session::get('success') }}
                     </div>
                     @endif
+                    @if(Session::has('error'))
+                    <div class="text-sm text-danger">
+                      {{ Session::get('error') }}
+                    </div>
+                    @endif
                 </div>
                 @if(!($view == 'register'))
                 <p class="text-center text-secondary">Belum punya akun? <a wire:click="$set('view', 'register')" type="button" class="text-green">Daftar sekarang juga</a></p>

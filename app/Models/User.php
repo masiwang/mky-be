@@ -10,10 +10,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Transaction;
 use App\Models\FundCheckout as Portofolio;
 use Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +22,13 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name', 'jalan', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'kodepos', 
+        'gender', 'birthday', 'image', 'job', 'phone', 'email_verified_at', 'remember_token',
+        'ktp', 'ktp_image', 'ktp_verified_at', 'ktp_verified_by', 'bank_type', 'bank_acc',
+        'npwp', 'npwp_image', 'npwp_verified_at', 'npwp_verified_by',
         'email',
         'password',
+        'email_token', 'level'
     ];
 
     /**
@@ -90,19 +95,7 @@ class User extends Authenticatable implements JWTSubject
       $p = Portofolio::find($portofolio->id);
       $asset = $asset + $p->qty*$p->product->price;
     }
-
-    $transaksi_masuk = Transaction::where([
-      'user_id' => $this->id,
-      'status_id' => 2,
-      'type' => 'in'
-      ])->whereNotNull('approved_at')->sum('nominal');
-    $transaksi_keluar = Transaction::where([
-      'user_id' => $this->id,
-      'status_id' => 2,
-      'type' => 'out'
-      ])->whereNotNull('approved_at')->sum('nominal');
-    
-    return $this->attributes['asset'] = $asset + $transaksi_masuk + $transaksi_keluar;
+    return $this->attributes['asset'] = $asset;
   }
 
   public function getNotificationAttribute(){

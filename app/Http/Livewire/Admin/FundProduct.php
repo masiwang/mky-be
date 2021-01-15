@@ -63,7 +63,7 @@ class FundProduct extends Component
       <tr><td style="border: 1px solid black">Harga paket</td><td style="border: 1px solid black">Rp '.number_format($portofolio->product->price, 0, ',', '.').'/paket</td></tr>
       <tr><td style="border: 1px solid black">Total Pendanaan</td><td style="border: 1px solid black">Rp '.number_format($portofolio->qty*$portofolio->product->price, 0, ',', '.').',-</td></tr>
       <tr><td style="border: 1px solid black">Estimasi ROI</td><td style="border: 1px solid black">'.$portofolio->product->estimated_return.'%</td></tr>
-      <tr><td style="border: 1px solid black">Waktu Pendanaan</td><td style="border: 1px solid black">'.$portofolio->created_at.'</td></tr>
+      <tr><td style="border: 1px solid black">Waktu Pendanaan</td><td style="border: 1px solid black">'.$portofolio->started_at.'</td></tr>
       <tr><td style="border: 1px solid black">Est. Waktu Selesai</td><td style="border: 1px solid black">'.$portofolio->product->ended_at.'</td></tr>
       </table><br/>
       Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WA (+62) 821 3000 4204 atau melalui Email support@makarya.in<br/><br/>
@@ -77,6 +77,9 @@ class FundProduct extends Component
 
   public function sendReturn($id){
     $portofolio = PortofolioDB::find($id);
+    if(!$portofolio->product->actual_return){
+      return session()->flash('error', 'Imbal hasil aktual belum ditentukan.');
+    }
     // set return telah dikirim
     $portofolio->return_sent_at = Carbon::now();
     $portofolio->return_sent_by = 1;
@@ -116,6 +119,7 @@ class FundProduct extends Component
     // kirim email
     // echo compact('user', 'portofolio', 'transfer');
     Mail::to($user)->send(new BagiHasilMail($user, $portofolio, $transfer));
+    // return redirect('/markas/fund/'.$portofolio->product->id);
   }
 
   public function addNewInvestor(){

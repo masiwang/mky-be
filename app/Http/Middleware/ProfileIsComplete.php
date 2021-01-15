@@ -19,7 +19,7 @@ class ProfileIsComplete
   {
     $user = Auth::user();
     if($user->level <5){
-      return redirect('/getting-started');
+      return redirect('/mulai');
     }
     return $next($request);
   }

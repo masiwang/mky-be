@@ -24,10 +24,10 @@ class Reset extends Component
       'password' => Hash::make($this->password),
       'remember_token' => null
     ]);
-    return redirect('/v2/auth');
+    return redirect('/login');
   }
 
   public function render(){
-    return view('livewire.reset')->layout('livewire._layout');
+    return view('livewire.reset')->layout('livewire._layout', ['title' => 'Reset Password']);
   }
 }

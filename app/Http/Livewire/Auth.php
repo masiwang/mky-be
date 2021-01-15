@@ -9,6 +9,7 @@ use App\Mail\EmailToken as EmailTokenMail;
 use App\Mail\ForgotPassword as ForgotPasswordMail;
 use Mail;
 use Str;
+use Hash;
 
 class Auth extends Component
 {
@@ -23,9 +24,9 @@ class Auth extends Component
     }else{
       $login = AuthLib::attempt(['email' => $this->email, 'password' => $this->password]);
       if($login){
-        return redirect('/');
+        return redirect('/pendanaan');
       }else{
-        session()->flash('error', 'Password salah.');
+        session()->flash('error', 'Password salah');
       }
     }
   }
@@ -34,6 +35,11 @@ class Auth extends Component
     $this->validate([
       'password' => 'min:6'
     ]);
+    // cek email
+    $user_exist = UserDB::withTrashed()->where('email', $this->email)->first();
+    if($user_exist){
+      return session()->flash('error', 'Email sudah terdaftar.');
+    }
     $user = UserDB::create([
       'email' => $this->email,
       'password' => Hash::make($this->password),
@@ -44,8 +50,12 @@ class Auth extends Component
   }
 
   public function forgot(){
-    $user = UserDB::where('email', $this->email)->first();
-    if($user){
+    $user = UserDB::withTrashed()->where('email', $this->email)->first();
+    if($user or $user->trashed()){
+      if($user->trashed()){
+        $user->restore();
+        $user->level = 0;
+      }
       $user->remember_token = Str::random(32);
       $user->save();
       $email = Mail::send(new ForgotPasswordMail($user));
@@ -71,6 +81,6 @@ class Auth extends Component
   }
 
   public function render(){
-    return view('livewire.auth')->layout('livewire._layout');
+    return view('livewire.auth')->layout('livewire._layout', ['title' => 'Login']);
   }
 }

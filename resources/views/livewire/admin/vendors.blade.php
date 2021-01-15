@@ -1,12 +1,8 @@
-<div class="container" style="margin-top: 6rem">
+<div class="container" style="margin-top: 5rem">
   @if($view == 'index')
   <div class="row">
-    <div class="col-2 p-2">
-      <ul class="list-group  mb-3">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <input wire:model="search" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cari...">
-        </li>
-      </ul>
+    <div class="col-xl-2 d-none d-xl-block p-2">
+      <input wire:model="search" type="text" class="form-control mb-4" id="exampleFormControlInput1" placeholder="Cari...">
       <p class="mb-1" style="font-weight: 500">Urutkan berdasarkan</p>
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -31,17 +27,18 @@
         <button wire:click="$set('view', 'create')" class="w-100 btn btn-success">Mitra Baru</button>
       </div>
     </div>
-    <div class="col-10 p-2">
+    <div class="col-xl-10 col-12 p-2 mb-5">
+      <input wire:model="search" type="text" class="form-control mb-4 d-block d-xl-none" id="exampleFormControlInput1" placeholder="Cari...">
       <div class="row">
         @foreach ($vendors as $vendor)
-        <div class="col-3 mb-3">
+        <div class="col-xl-3 col-6 mb-3">
           <div class="card h-100">
-            <a href="/v2/admin/vendor/{{ $vendor->id }}">
+            <a href="/markas/vendor/{{ $vendor->id }}">
               <div style="height: 10rem; background-image: url({{ $vendor->image ?? 'https://i.stack.imgur.com/l60Hf.png' }}); background-size: cover; background-repeat: no-repeat; background-position: center"></div>
             </a>
             <div class="card-body">
-              <a href="/v2/admin/vendor/{{ $vendor->id }}" class="text-secondary mb-0">{{ $vendor->owner }}</a><br/>
-              <a href="/v2/admin/vendor/{{ $vendor->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $vendor->name ?? '-' }}</a>
+              <a href="/markas/vendor/{{ $vendor->id }}" class="text-secondary mb-0">{{ $vendor->owner }}</a><br/>
+              <a href="/markas/vendor/{{ $vendor->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $vendor->name ?? '-' }}</a>
               <table>
                 <tr>
                   <td>🏛</td>
