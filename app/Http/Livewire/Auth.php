@@ -18,16 +18,26 @@ class Auth extends Component
   public $view = 'login';
 
   public function login(){
-    $user = UserDB::where('email', $this->email)->first();
+    $user = UserDB::withTrashed()->where('email', $this->email)->first();
     if(!$user){
       session()->flash('error', 'Email tidak ditemukan.');
     }else{
-      $login = AuthLib::attempt(['email' => $this->email, 'password' => $this->password]);
-      if($login){
-        return redirect('/pendanaan');
+      if($user->trashed()){
+        return session()->flash('error', 'Akun Anda dinonaktifkan karena tidak sesuai identitas. Harap hubungi Admin.');
       }else{
-        session()->flash('error', 'Password salah');
+        $login = AuthLib::attempt(['email' => $this->email, 'password' => $this->password]);
+        if($login){
+          if(AuthLib::user()->role == 'admin'){
+            return redirect('/markas');
+          }else{
+            return redirect('/pendanaan');
+          }
+          
+        }else{
+          return session()->flash('error', 'Password salah');
+        }
       }
+      
     }
   }
 

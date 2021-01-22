@@ -1,0 +1,16 @@
+@media only screen and (min-width: 600px) {
+  html, body{
+    font-size: .9rem
+  }
+}
+th{
+  font-weight: 500;
+  text-transform: uppercase;
+}
+a{
+  color: var(--bs-green-dark);
+  text-decoration:none;
+}
+a:hover{
+  color: var(--bs-green);
+}

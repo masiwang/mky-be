@@ -119,7 +119,7 @@
           <label for="staticEmail" class="col-sm-2 col-form-label">Imbal Hasil Aktual</label>
           <div class="col-sm-10">
             <div class="input-group">
-              <input wire:model="product_actual_return" type="number" step="0.1" class="form-control" aria-describedby="basic-addon1">
+              <input wire:model="product_actual_return" type="number" step="0.01" class="form-control" aria-describedby="basic-addon1">
               <span class="input-group-text">%</span>
             </div>
           </div>
@@ -194,12 +194,6 @@
               <a href="/markas/user/{{ $portofolio->user->id }}" class="text-secondary mb-0" style="font-size: .8rem">{{ $portofolio->user->email }}</a><br/>
               <a href="/markas/user/{{ $portofolio->user->id }}" style="font-size: 1rem; color: var(--bs-green); font-weight: 500">{{ $portofolio->user->name ?? '-' }}</a>
               <table>
-                <tr>
-                  <td>Fak</td>
-                  <td>
-                    {{ $portofolio->id }} // {{ $portofolio->user->id }} // {{ $portofolio->product->id }}
-                  </td>
-                </tr>
                 <tr>
                   <td>🏛</td>
                   <td style="font-size: .8rem">{{ $portofolio->user->bank_type ?? '-' }} {{ $portofolio->user->bank_acc ?? '-' }}</td>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top dark-mode">
   <div class="container-fluid">
     <a class="navbar-brand" href="/pendanaan">
       <img src="/images/makarya-dark-160x48.png" style="height: 32px" alt="">
@@ -20,6 +20,19 @@
       </ul>
       @if(Auth::user())
       <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item d-flex align-items-center">
+          <a type="button" wire:click="darkmode">
+            @if(Session::has('dark-mode'))
+              @if(Session::get('dark-mode') == true)
+              <span>🌝 Mode gelap</span>
+              @else
+              <span>🌞 Mode cerah</span>
+              @endif  
+            @else
+            <span>🌞 Mode cerah</span>
+            @endif
+          </a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             💰 Rp. {{ number_format($navbar_user->saldo + $navbar_user->asset, 2, ',', '.') }}

@@ -20,14 +20,14 @@
         </ul>
         <p class="mb-1 fw-bolder">Status portofolio</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'all')">Semua {{ $status == 'all' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'all' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'all')">Semua</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'ongoing')">Berjalan {{ $status == 'ongoing' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'ongoing' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'ongoing')">Berjalan</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'done')">Selesai {{ $status == 'done' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'done' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'done')">Selesai</a>
           </li>
         </ul>
       </div>
@@ -112,6 +112,23 @@
     </div>
   </div>
   @endif
-
+  <div wire:loading>
+    @php
+      $gifs = [
+        'https://media.giphy.com/media/kyzzHEoaLAAr9nX4fy/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/UVqhzNsYWIelUBV7zN/giphy.gif',
+        'https://media.giphy.com/media/LPkczVwUYcMbXsRCdP/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/cNqBzFAC3aU2gDuD4k/giphy.gif',
+        'https://media.giphy.com/media/IbaaxVxgaZAZx9ddJ4/giphy.gif'
+      ];
+      $gif = $gifs[rand(0, 6)];
+    @endphp
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="{{ $gif }}" alt="" style="height: 6rem">
+      <p class="text-white">Sebentar, jangan lupa pakai masker ya...</p>
+    </div>
+  </div>
   @livewire('client.component.footer')
 </div>

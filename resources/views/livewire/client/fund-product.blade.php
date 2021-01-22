@@ -61,5 +61,23 @@
     </div>
   </div>
   @endif
+  <div wire:loading>
+    @php
+      $gifs = [
+        'https://media.giphy.com/media/kyzzHEoaLAAr9nX4fy/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/UVqhzNsYWIelUBV7zN/giphy.gif',
+        'https://media.giphy.com/media/LPkczVwUYcMbXsRCdP/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/cNqBzFAC3aU2gDuD4k/giphy.gif',
+        'https://media.giphy.com/media/IbaaxVxgaZAZx9ddJ4/giphy.gif'
+      ];
+      $gif = $gifs[rand(0, 6)];
+    @endphp
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="{{ $gif }}" alt="" style="height: 6rem">
+      <p class="text-white">Sebentar, jangan lupa pakai masker ya...</p>
+    </div>
+  </div>
   @livewire('client.component.footer')
 </div>

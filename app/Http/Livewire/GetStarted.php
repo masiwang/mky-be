@@ -11,6 +11,7 @@ use App\Mail\EmailToken;
 use Image;
 use Mail;
 use Str;
+use Carbon\Carbon;
 
 class GetStarted extends Component
 {
@@ -47,12 +48,14 @@ class GetStarted extends Component
     }
   }
   // step 2
-  public $name, $gender, $birthday, $phone, $job;
+  public $name, $gender, $birthday_date, $birthday_month, $birthday_year, $phone, $job;
   public function personalInfo(){
     $this->validate([
       'name' => 'required|min:3',
       'gender' => 'required',
-      'birthday' => 'required',
+      'birthday_date' => 'required',
+      'birthday_month' => 'required',
+      'birthday_year' => 'required',
       'phone' => 'required',
       'job' => 'required'
     ]);
@@ -61,7 +64,7 @@ class GetStarted extends Component
     $user->update([
       'name' => $this->name,
       'gender' => $this->gender,
-      'birthday' => $this->birthday,
+      'birthday' => Carbon::createFromDate($this->birthday_year, $this->birthday_month, $this->birthday_date),
       'phone' => $this->phone,
       'job' => $this->job,
       'level' => 2
@@ -109,7 +112,11 @@ class GetStarted extends Component
   }
   public function userDocument(){
     $this->validate([
-      'ktp' => 'required'
+      'ktp_image' => 'required|image|max:2048',
+      'ktp' => 'required|numeric',
+      'npwp_image' => 'nullable|image|max:2048',
+      'bank_type' => 'required|string',
+      'bank_acc' => 'required|numeric'
     ]);
 
     if(!$this->ktp_image){
@@ -147,7 +154,7 @@ class GetStarted extends Component
       'level' => 5
     ]);
 
-    return redirect('/');
+    return redirect('/pendanaan');
   }
 
   public function render()

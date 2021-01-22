@@ -8,44 +8,44 @@
         <input type="text" class="form-control mb-4" placeholder="Cari...">
         <p class="mb-1 fw-bolder">Tipe transaksi</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('type', 'all')">Semua {{ $type == 'all' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $type == 'all' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('type', 'all')">Semua</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('type', 'in')">Debit {{ $type == 'in' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $type == 'in' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('type', 'in')">Debit</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('type', 'out')">Kredit {{ $type == 'out' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $type == 'out' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('type', 'out')">Kredit</a>
           </li>
         </ul>
         <p class="mb-1 fw-bolder">Urutkan berdasarkan</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_by', 'nominal')">Nominal {{ $order_by == 'nominal' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_by == 'nominal' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_by', 'nominal')">Nominal</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_by', 'id')">Tanggal transaksi {{ $order_by == 'id' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_by == 'id' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_by', 'id')">Tanggal transaksi</a>
           </li>
         </ul>
         <p class="mb-1 fw-bolder">Urutkan secara</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_to', 'asc')">A-Z {{ $order_to == 'asc' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_to == 'asc' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_to', 'asc')">A-Z</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_to', 'desc')">Z-A {{ $order_to == 'desc' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_to == 'desc' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_to', 'desc')">Z-A</a>
           </li>
         </ul>
       </div>
       <div class="col-xl-10">
-        <table class="table table-hover d-none d-xl-block">
+        <table class="table table-hover d-none d-xl-table">
           @foreach ($transactions as $transaction)
           <tr>
             <td>
               <div class="row">
                 <div class="col-12">
                   <small>{{ date('d M Y, H:i:s', strtotime($transaction->created_at)) }}</small><br/>
-                  <a wire:click="openDetail({{ $transaction->id }})" class="mb-0 text-bold" type="button" style="color: {{ $transaction->type == 'in' ? 'var(--bs-green)' : 'var(--bs-red)'}}">{{ $transaction->code }}</a><br/>
+                  <a class="mb-0 text-bold" type="button" style="color: {{ $transaction->type == 'in' ? 'var(--bs-green)' : 'var(--bs-red)'}}">{{ $transaction->code }}</a><br/>
                 </div>
               </div>
             </td>
@@ -78,7 +78,7 @@
               <div class="row">
                 <div class="col-12">
                   <small>{{ date('d M Y, H:i:s', strtotime($transaction->created_at)) }}</small><br/>
-                  <a wire:click="openDetail({{ $transaction->id }})" class="mb-0 text-bold" type="button" style="color: {{ $transaction->type == 'in' ? 'var(--bs-green)' : 'var(--bs-red)'}}">{{ $transaction->code }}</a><br/>
+                  <a class="mb-0 text-bold" type="button" style="color: {{ $transaction->type == 'in' ? 'var(--bs-green)' : 'var(--bs-red)'}}">{{ $transaction->code }}</a><br/>
                   <small>{{ $transaction->bank_type }} {{ $transaction->bank_acc }}</small>
                 </div>
               </div>
@@ -166,5 +166,23 @@
     </div>
   </div>
   @endif
+  <div wire:loading>
+    @php
+      $gifs = [
+        'https://media.giphy.com/media/kyzzHEoaLAAr9nX4fy/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/UVqhzNsYWIelUBV7zN/giphy.gif',
+        'https://media.giphy.com/media/LPkczVwUYcMbXsRCdP/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/cNqBzFAC3aU2gDuD4k/giphy.gif',
+        'https://media.giphy.com/media/IbaaxVxgaZAZx9ddJ4/giphy.gif'
+      ];
+      $gif = $gifs[rand(0, 6)];
+    @endphp
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="{{ $gif }}" alt="" style="height: 6rem">
+      <p class="text-white">Sebentar, jangan lupa pakai masker ya...</p>
+    </div>
+  </div>
   @livewire('client.component.footer')
 </div>

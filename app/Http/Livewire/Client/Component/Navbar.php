@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Client\Component;
 use Livewire\Component;
 use Auth;
 use App\Models\Notification as NotificationDB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class Navbar extends Component
 {
@@ -13,6 +15,23 @@ class Navbar extends Component
     session()->invalidate();
     session()->regenerateToken();
     return redirect('/');
+  }
+
+  public function darkmode(){
+    $darkmode = Session::has('dark-mode');
+
+    if($darkmode){
+      $darkmode_active = Session::get('dark-mode');
+      if($darkmode_active){
+        Session::put(['dark-mode' => false]);
+      }else{
+        Session::put(['dark-mode' => true]);
+      }
+    }else{
+      Session::put(['dark-mode' => true]);
+    }
+    
+    $this->dispatchBrowserEvent('reload');
   }
   
   public function render(){

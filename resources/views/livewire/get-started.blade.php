@@ -59,9 +59,28 @@
                 </div>
                 <div class="col-4 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Tanggal lahir</label>
-                  <input wire:model='birthday' id="birthday" class="form-control"/>
-                  @error('birthday') <span class="text-danger">{{ $message }}</span> @enderror
-                  <script>$("#birthday").flatpickr();</script>
+                  <div class="row">
+                    <div class="col-xl-3 pr-0">
+                      <select wire:model="birthday_date" class="form-select" aria-label="Default select example">
+                        <option selected>Tgl...</option>
+                        @for ($i = 1; $i <= 31; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                      </select>
+                    </div>
+                    <div class="col-xl-5 px-0">
+                      <select wire:model="birthday_month" class="form-select" aria-label="Default select example">
+                        <option selected>Bulan...</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                        <option value="{{$i}}">{{date('F', strtotime('2020-'.$i.'-1'))}}</option>
+                        @endfor
+                      </select>
+                    </div>
+                    <div class="col-xl-4 pl-0">
+                      <input wire:model="birthday_year" type="number" class="form-control" placeholder="Tahun"/>
+                    </div>
+                  </div>
+                  @error('birthday_date') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-4 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Nomor HP</label>
@@ -76,7 +95,7 @@
               </div>
             </div>
             <div class="card-footer bg-white d-flex justify-content-end p-2">
-              <button class="btn btn-success">Simpan</button>
+              <button type="submit" class="btn btn-success">Simpan</button>
             </div>
           </form>
           @endif
@@ -119,7 +138,7 @@
               </div>
             </div>
             <div class="card-footer bg-white d-flex justify-content-end p-2">
-              <button class="btn btn-success">Simpan</button>
+              <button type="submit" class="btn btn-success">Simpan</button>
             </div>
           </form>
           @endif
@@ -129,18 +148,26 @@
               <div class="row">
                 <div class="col-xl-4 col-12 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Foto KTP</label>
-                  <input wire:model="ktp_image" type="file" class="form-control" accept=".jpg,.png,.jpeg">
+                  <input wire:model="ktp_image" type="file" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+                  @error('ktp_image')
+                    <small class="text-danger">File terlalu besar. </small>
+                  @enderror
+                  <small class="text-primary">Maksimum 2MB</small>
                 </div>
-                @if(Session::has('path'))
-                {{ Session::get('path') }}
-                @endif
                 <div class="col-xl-8 col-12 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Nomor KTP</label>
                   <input wire:model="ktp" type="text" name="ktp" class="form-control" >
+                  @error('ktp')
+                    <small class="text-danger">Nomor KTP harus angka</small>
+                  @enderror
                 </div>
                 <div class="col-xl-4 col-12 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Foto NPWP <small class="text-primary">[Tidak wajib]</small></label>
-                  <input wire:model="npwp_image" type="file" class="form-control" accept=".jpg,.png,.jpeg">
+                  <input wire:model="npwp_image" type="file" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+                  @error('npwp_image')
+                    <small class="text-danger">File terlalu besar. </small>
+                  @enderror
+                  <small class="text-primary">Maksimum 2MB</small>
                 </div>
                 <div class="col-xl-8 col-12 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Nomor NPWP <small class="text-primary">[Tidak wajib]</small></label>
@@ -149,15 +176,24 @@
                 <div class="col-4 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Nama Bank</label>
                   <input wire:model="bank_type" type="text" name="bank" class="form-control">
+                  @error('bank_type')
+                    <small class="text-danger">Nama bank salah</small>
+                  @enderror
                 </div>
                 <div class="col-8 mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Nomor Rekening</label>
                   <input wire:model="bank_acc" type="text" name="rekening" class="form-control">
+                  @error('bank_acc')
+                    <small class="text-danger">Nomor rekening harus angka</small>
+                  @enderror
                 </div>
               </div>
             </div>
             <div class="card-footer bg-white d-flex justify-content-end p-2">
-              <button class="btn btn-success">Simpan</button>
+              <button type="submit" class="btn btn-success">
+                <span wire:loading.remove wire:target="ktp_image, npwp_image">Simpan</span>
+                <span wire:loading wire:target="ktp_image, npwp_image">Sedang upload..</span>
+              </button>
             </div>
           </form>
           @endif
@@ -269,12 +305,30 @@
                   </div>
               </div>
               <div class="card-footer bg-white d-flex justify-content-end p-2">
-                  <button class="btn btn-success">Simpan</button>
+                  <button type="submit" class="btn btn-success">Simpan</button>
               </div>
           </form>
           @endif
         </div>
       </div>
     </div>
+    <div wire:loading>
+    @php
+      $gifs = [
+        'https://media.giphy.com/media/kyzzHEoaLAAr9nX4fy/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/UVqhzNsYWIelUBV7zN/giphy.gif',
+        'https://media.giphy.com/media/LPkczVwUYcMbXsRCdP/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/cNqBzFAC3aU2gDuD4k/giphy.gif',
+        'https://media.giphy.com/media/IbaaxVxgaZAZx9ddJ4/giphy.gif'
+      ];
+      $gif = $gifs[rand(0, 6)];
+    @endphp
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="{{ $gif }}" alt="" style="height: 6rem">
+      <p class="text-white">Sebentar, jangan lupa pakai masker ya...</p>
+    </div>
+  </div>
     @livewire('client.component.footer')
 </div>

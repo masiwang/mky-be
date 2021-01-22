@@ -3,58 +3,58 @@
   <div class="container" style="margin-top: 5rem">
     <div class="row">
       <div class="col-xl-2 d-none d-xl-block">
-        <input wire:model="search" type="text" class="form-control mb-3" placeholder="Cari...">
+        <input wire:model.debounce.500ms="search" type="text" class="form-control mb-3" placeholder="Cari...">
         <p class="mb-1 fw-bolder">Kategori produk</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('category', 'all')">Semua {{ $category == 'all' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $category == 'all' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('category', 'all')">Semua</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('category', '1')">Pertanian {{ $category == '1' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $category == '1' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('category', '1')">Pertanian</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('category', '2')">Peternakan {{ $category == '2' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $category == '2' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('category', '2')">Peternakan</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('category', '3')">Perikanan {{ $category == '3' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $category == '3' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('category', '3')">Perikanan</a>
           </li>
         </ul>
         <p class="mb-1 fw-bolder">Status produk</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'all')">Semua {{ $status == 'all' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'all' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'all')">Semua</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'new')">Baru {{ $status == 'new' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'new' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'new')">Baru</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'ongoing')">Berjalan {{ $status == 'ongoing' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'ongoing' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'ongoing')">Berjalan</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('status', 'done')">Selesai {{ $status == 'done' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $status == 'done' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('status', 'done')">Selesai</a>
           </li>
         </ul>
         <p class="mb-1 fw-bolder">Urutkan berdasarkan</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_by', 'name')">Nama {{ $order_by == 'name' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_by == 'name' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_by', 'name')">Nama</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_by', 'ended_at')">Tanggal penutupan {{ $order_by == 'ended_at' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_by == 'ended_at' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_by', 'ended_at')">Tanggal penutupan</a>
           </li>
         </ul>
         <p class="mb-1 fw-bolder">Urutkan secara</p>
         <ul class="list-group mb-3">
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_to', 'asc')">A-Z {{ $order_to == 'asc' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_to == 'asc' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_to', 'asc')">A-Z</a>
           </li>
-          <li class="list-group-item">
-            <a type="button" wire:click="$set('order_to', 'desc')">Z-A {{ $order_to == 'desc' ? '👈' : '' }}</a>
+          <li class="list-group-item {{ $order_to == 'desc' ? 'bg-success text-white' : '' }}">
+            <a type="button" wire:click="$set('order_to', 'desc')">Z-A</a>
           </li>
         </ul>
       </div>
       <div class="col-xl-10">
-        <input wire:model="search" type="text" class="form-control mb-3 d-block d-xl-none" placeholder="Cari...">
+        <input wire:model.debounce.500ms="search" type="text" class="form-control mb-3 d-block d-xl-none" placeholder="Cari...">
         <div class="row mb-3">
           @foreach ($products as $product)
           <div class="col-xl-3 col-6 mb-3">
@@ -148,5 +148,23 @@
     </div>
   </div>
   @endif
+  <div wire:loading>
+    @php
+      $gifs = [
+        'https://media.giphy.com/media/kyzzHEoaLAAr9nX4fy/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/UVqhzNsYWIelUBV7zN/giphy.gif',
+        'https://media.giphy.com/media/LPkczVwUYcMbXsRCdP/giphy.gif',
+        'https://media.giphy.com/media/UsLzFcO1wZCgnAFFvi/giphy.gif',
+        'https://media.giphy.com/media/cNqBzFAC3aU2gDuD4k/giphy.gif',
+        'https://media.giphy.com/media/IbaaxVxgaZAZx9ddJ4/giphy.gif'
+      ];
+      $gif = $gifs[rand(0, 6)];
+    @endphp
+    <div class="d-flex flex-column justify-content-center align-items-center" style="position:fixed; top: 0; left: 0; height: 100vh; width: 100vw; background-color: #333333bb">
+      <img src="{{ $gif }}" alt="" style="height: 6rem">
+      <p class="text-white">Sebentar, jangan lupa pakai masker ya...</p>
+    </div>
+  </div>
   @livewire('client.component.footer')
 </div>

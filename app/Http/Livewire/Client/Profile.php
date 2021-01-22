@@ -16,7 +16,7 @@ class Profile extends Component
   
   public function uploadImage(){
     $random = Str::random(32);
-    $image = Image::make($this->user_image)->fit(400)->save('userdata/profile/'.$random.'.jpg');
+    $image = Image::make($this->user_image)->fit(400)->orientate()->save('userdata/profile/'.$random.'.jpg');
     $this->user_image_url = '/userdata/profile/'.$random.'.jpg';
   }
   public function update(){

@@ -24,18 +24,19 @@ Route::get('/features', 'App\Http\Livewire\Features');
 Route::get('/tutorial', 'App\Http\Livewire\Tutorial');
 Route::get('/reset/{token}', 'App\Http\Livewire\Reset');
 Route::get('/mulai', 'App\Http\Livewire\GetStarted')->middleware('auth');
+
 Route::group(['middleware' => 'auth', 'middleware' => 'completed'], function () {
   Route::get('/notifikasi', 'App\Http\Livewire\Client\Notifications');
   Route::get('/profile', 'App\Http\Livewire\Client\Profile');
   Route::get('/portofolio', 'App\Http\Livewire\Client\Portofolio');
   Route::get('/transaksi', 'App\Http\Livewire\Client\Transactions');
 
-  Route::get('/markas', 'App\Http\Livewire\Admin\Dashboard');
-  Route::get('/markas/fund', 'App\Http\Livewire\Admin\FundProducts');
-  Route::get('/markas/fund/{id}', 'App\Http\Livewire\Admin\FundProduct');
-  Route::get('/markas/transaction', 'App\Http\Livewire\Admin\Transactions');
-  Route::get('/markas/user', 'App\Http\Livewire\Admin\Users');
-  Route::get('/markas/user/{id}', 'App\Http\Livewire\Admin\User');
-  Route::get('/markas/vendor', 'App\Http\Livewire\Admin\Vendors');
-  Route::get('/markas/vendor/{id}', 'App\Http\Livewire\Admin\Vendor');
+  Route::get('/markas', 'App\Http\Livewire\Admin\Dashboard')->middleware('admin');
+  Route::get('/markas/fund', 'App\Http\Livewire\Admin\FundProducts')->middleware('admin');
+  Route::get('/markas/fund/{id}', 'App\Http\Livewire\Admin\FundProduct')->middleware('admin');
+  Route::get('/markas/transaction', 'App\Http\Livewire\Admin\Transactions')->middleware('admin');
+  Route::get('/markas/user', 'App\Http\Livewire\Admin\Users')->middleware('admin');
+  Route::get('/markas/user/{id}', 'App\Http\Livewire\Admin\User')->middleware('admin');
+  Route::get('/markas/vendor', 'App\Http\Livewire\Admin\Vendors')->middleware('admin');
+  Route::get('/markas/vendor/{id}', 'App\Http\Livewire\Admin\Vendor')->middleware('admin');
 });

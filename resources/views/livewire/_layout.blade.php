@@ -7,32 +7,60 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{ $title }} | Makarya</title>
   <link rel="shortcut icon" type="image/jpg" href="/images/favicon.ico"/>
-  <style>
-    @media only screen and (min-width: 600px) {
-      html, body{
-        font-size: .9rem
-      }
-    }
-    th{
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-    a{
-      color: var(--bs-green-dark);
-      text-decoration:none;
-    }
-    a:hover{
-      color: var(--bs-green);
-    }
-  </style>
+  <link href="/styles/index.css" rel="stylesheet" crossorigin="anonymous">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script src="/vendors/OneSignal/popup.js"></script>
+  @if(Session::has('dark-mode'))
+    @if(Session::get('dark-mode') == true)
+    <style>
+      body, html{
+        background-color: #111!important;
+        color: #ccc!important
+      }
+      .nav-link{
+        color: #888!important
+      }
+      .bg-light{
+        background-color: #111!important
+      }
+      .dropdown-item{
+        color: #ccc!important
+      }
+      .dropdown-item:hover{
+        color: #333!important;
+        background-color: #ccc
+      }
+      .card-body{
+        background-color:#111!important
+      }
+      .list-group-item{
+        background-color: #222!important
+      }
+      small{
+        color: #ccc!important
+      }
+      td{
+        color: #ccc!important
+      }
+      .form-control{
+        background-color: #ccc
+      }
+    </style>
+    @endif
+  @endif
   @livewireStyles
 </head>
 <body class="bg-light">
   {{ $slot }}
   @livewireScripts
   <script src="/vendors/bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener('reload', event => {
+      location.reload();
+    })
+    </script>
 </body>
 </html>

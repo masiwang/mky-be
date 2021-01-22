@@ -26,11 +26,11 @@
           <td style="border: 1px solid black">Rp {{number_format($qty*$price, 0, ',', '.')}},-</td>
         </tr>
         <tr>
-          <td style="border: 1px solid black">ROI (%)</td>
+          <td style="border: 1px solid black">Bagi Hasil (%)</td>
           <td style="border: 1px solid black">{{$actual_return}}%</td>
         </tr>
         <tr>
-          <td style="border: 1px solid black">ROI (Rp.)</td>
+          <td style="border: 1px solid black">Bagi Hasil (Rp.)</td>
           <td style="border: 1px solid black">Rp {{number_format($qty * $price * ($actual_return/100), 2)}}</td>
         </tr>
         <tr>

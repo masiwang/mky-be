@@ -19,6 +19,7 @@ use Image;
 use Carbon\Carbon;
 use App\Exports\ProductInvestorsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Notifications\Invoice;
 
 class FundProduct extends Component
 {
@@ -89,6 +90,7 @@ class FundProduct extends Component
     $portofolio->save();
 
     $user = UserDB::find($portofolio->user_id);
+    
     // kirim transfer
     $trf_code = 'MKYTRFI'.$user->id.Carbon::now()->timestamp;
     $transfer = TransactionDB::create([
@@ -107,22 +109,46 @@ class FundProduct extends Component
     $notifikasi = NotificationDB::create([
       'user_id' => $portofolio->user_id,
       'title' => 'Invoice #'.$portofolio->invoice,
-      'body' => 'Hi, '.$portofolio->user->name.' 👋.<br/><br/>Terimakasih telah melakukan pendanaan pada Project Funding '.$portofolio->product->name.' oleh '.$portofolio->product->vendor->name.'. Pendanaan tersebut telah selesai. Return telah dikirim ke Akun Anda dengan kode transaksi '.$trf_code.'. Berikut ini adalah detail transaksi <em>return</em> pendanaan,<br/><br/>
+      'body' => 'Hi, '.$portofolio->user->name.' 👋.<br/><br/>Terimakasih telah melakukan pendanaan pada Project Funding '.$portofolio->product->name.' oleh '.$portofolio->product->vendor->name.'. Pendanaan tersebut telah selesai. Imbal hasil telah dikirim ke Akun Anda dengan kode transaksi '.$trf_code.'. Berikut ini adalah detail transaksi <em>return</em> pendanaan,<br/><br/>
       <table style="border: 1px solid black;border-collapse: collapse;width: 100%;">
       <tr><td style="border: 1px solid black;width: 30%;">Kode Pendanaan</td><td style="border: 1px solid black;width: 70%;">'.$portofolio->invoice.'</td></tr>
       <tr><td style="border: 1px solid black">Produk pendanaan</td><td style="border: 1px solid black">'.$portofolio->product->name.'</td></tr>
       <tr><td style="border: 1px solid black">Total Pendanaan</td><td style="border: 1px solid black">Rp '.number_format($portofolio->qty*$portofolio->product->price, 0, ',', '.').',-</td></tr>
-      <tr><td style="border: 1px solid black">ROI (%)</td><td style="border: 1px solid black">'.$portofolio->product->actual_return.'%</td></tr>
-      <tr><td style="border: 1px solid black">ROI (Rp.)</td><td style="border: 1px solid black">'.$portofolio->qty * $portofolio->product->price * ($portofolio->product->actual_return/100).'</td></tr>
+      <tr><td style="border: 1px solid black">Imbal hasil (%)</td><td style="border: 1px solid black">'.$portofolio->product->actual_return.'%</td></tr>
+      <tr><td style="border: 1px solid black">Imbal hasil (Rp.)</td><td style="border: 1px solid black">'.$portofolio->qty * $portofolio->product->price * ($portofolio->product->actual_return/100).'</td></tr>
       <tr><td style="border: 1px solid black">Total ditransfer</td><td style="border: 1px solid black">'.$portofolio->qty * $portofolio->product->price * (1+$portofolio->product->actual_return/100).'</td></tr>
       </table><br/>
       Apabila terdapat kesalahan atau pertanyaan terkait notifikasi ini, harap hubungi Support Makarya melalui WA (+62) 821 3000 4204 atau melalui Email support@makarya.in<br/><br/>
       Salam 💚,<br/>Tim Makarya'
     ]);
     // kirim email
-    // echo compact('user', 'portofolio', 'transfer');
+    // $user->notify(new Invoice($user, $portofolio, $transfer));
     Mail::to($user)->send(new BagiHasilMail($user, $portofolio, $transfer));
-    // return redirect('/markas/fund/'.$portofolio->product->id);
+
+    $user_phone = $user->phone;
+    if(Str::contains($user_phone, '+')){
+      $user_phone = Str::of($user_phone)->replace('+', '');
+    }
+    if(Str::contains($user_phone, '-')){
+      $user_phone = Str::of($user_phone)->replace('-', '');
+    }
+    if(Str::startsWith($user_phone, '0')){
+      $user_phone = '62'.Str::substr($user_phone, 1, Str::length($user_phone - 1));
+    }
+
+    $wa_message = 
+    'Hi, *'.$user->name.'*.
+    
+Pendanaan kamu pada produk *'.$portofolio->product->name.'* dengan kode invoice ```'.$portofolio->invoice.'``` telah selesai. Imbal hasil telah dikirim ke saldo Makarya kamu senilai Rp '.number_format($portofolio->product->price * $portofolio->qty * (1 + ($portofolio->product->actual_return/100)), 2, ',', '.').' (+'.number_format($portofolio->product->actual_return, 2, ',', '.').'%) dengan kode transaksi ```'.$trf_code.'```.
+
+Salam,
+    
+Tim Makarya
+
+Kunjungi platform kami di https://makarya.in/
+
+--pesan otomatis Admin Makarya, tidak perlu dibalas--';
+    return redirect('https://wa.me/'.$user_phone.'?text='.urlencode($wa_message));
   }
 
   public function addNewInvestor(){
